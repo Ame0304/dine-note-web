@@ -17,7 +17,7 @@ export default function Logo() {
         width="60"
         alt="DineNote logo"
       />
-      <span className={`${kablammo.className} text-4xl text-primary-100`}>
+      <span className={`${kablammo.className} text-4xl text-accent-500`}>
         DineNote
       </span>
     </Link>
