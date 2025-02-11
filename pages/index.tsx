@@ -1,3 +1,8 @@
 export default function Home() {
-  return <h1>Dine Note</h1>;
+  return (
+    <div>
+      <h1 className="text-2xl font-bold">Welcome to DineNote</h1>
+      <p className="text-gray-600 mt-2">Your personal kitchen diary.</p>
+    </div>
+  );
 }
