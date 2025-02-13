@@ -2,6 +2,8 @@ import Link from "next/link";
 import Button from "../components/Button";
 import Image from "next/image";
 import bg from "../public/bg.jpeg";
+import awardLeft from "../public/award-left.svg";
+import awardRight from "../public/award-right.svg";
 
 export default function Home() {
   return (
@@ -15,8 +17,15 @@ export default function Home() {
         Suspendisse eget egestas a elementum pulvinar et feugiat blandit at. In
         mi viverra elit nunc.
       </p>
+      <div className="flex lg:justify-center gap-2 mt-6">
+        <Image src={awardLeft} alt="award left icon" />
+        <span className="text-sm text-primary-700 font-semibold align-center lg:text-md">
+          Best App Gonna Be
+        </span>
+        <Image src={awardRight} alt="award right icon" />
+      </div>
       <div className="mt-6">
-        <Button size="large">Get Started Now</Button>
+        <Button size="large">Get started for free</Button>
       </div>
       <div className="mt-6">
         <Link href="/" className="text-lg text-primary-50 hover:underline">

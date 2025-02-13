@@ -38,7 +38,7 @@ export default function Navbar() {
           <Link href="/" className="text-lg font-regular text-accent-500">
             Log in
           </Link>
-          <Button>Get Started </Button>
+          <Button>Get started </Button>
         </div>
       </nav>
 
@@ -73,7 +73,7 @@ export default function Navbar() {
               </Link>
             </div>
             <div className="py-4">
-              <Button>Get Started </Button>
+              <Button>Get started </Button>
             </div>
           </div>
         </DialogPanel>
