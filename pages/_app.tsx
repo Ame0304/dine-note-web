@@ -2,6 +2,12 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { Lexend } from "next/font/google";
+
+const lexend = Lexend({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 import Layout from "@/components/Layout";
 
@@ -17,13 +23,17 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>DineNote</title>
         <link rel="icon" href="logo.png" />
       </Head>
-      {isAuthPage ? (
-        <Component {...pageProps} />
-      ) : (
-        <Layout>
+      <div
+        className={`${lexend.className}  bg-primary-950 text-primary-100 min-h-screen`}
+      >
+        {isAuthPage ? (
           <Component {...pageProps} />
-        </Layout>
-      )}
+        ) : (
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        )}
+      </div>
     </>
   );
 }

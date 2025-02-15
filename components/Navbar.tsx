@@ -37,7 +37,7 @@ export default function Navbar() {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-5 items-center">
           <Link
             href="/auth/login"
-            className="text-lg font-regular text-accent-500"
+            className="text-lg font-regular text-accent-500 hover:text-accent-400"
           >
             Log in
           </Link>
