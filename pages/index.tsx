@@ -59,7 +59,10 @@ export default function Home() {
           <Button size="large">Get started for free</Button>
         </div>
         <div className="mt-6">
-          <Link href="/" className="text-lg text-primary-50 hover:underline">
+          <Link
+            href="/auth/login"
+            className="text-lg text-primary-50 hover:underline"
+          >
             Already have an account?
             <span className="text-accent-500 "> Log in</span>
           </Link>
@@ -94,8 +97,6 @@ export default function Home() {
       <div className="mx-auto max-w-4xl mt-6">
         <Button size="large">Get started for free</Button>
       </div>
-
-      {/* TODO: Footer */}
     </div>
   );
 }

@@ -35,7 +35,10 @@ export default function Navbar() {
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-5 items-center">
-          <Link href="/" className="text-lg font-regular text-accent-500">
+          <Link
+            href="/auth/login"
+            className="text-lg font-regular text-accent-500"
+          >
             Log in
           </Link>
           <Button>Get started </Button>
@@ -66,7 +69,7 @@ export default function Navbar() {
           <div className="mx-3 divide-y divide-gray-500/10">
             <div className="py-4">
               <Link
-                href="/"
+                href="/auth/login"
                 className="text-lg text-accent-500  block rounded-lg px-3 py-2 hover:bg-accent-100"
               >
                 Log in
