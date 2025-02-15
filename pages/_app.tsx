@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { Lexend } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -33,6 +34,16 @@ export default function App({ Component, pageProps }: AppProps) {
             <Component {...pageProps} />
           </Layout>
         )}
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            duration: 3000,
+            style: {
+              background: "#b74735",
+              color: "#faf2ea",
+            },
+          }}
+        />
       </div>
     </>
   );
