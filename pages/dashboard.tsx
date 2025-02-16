@@ -1,3 +1,3 @@
 export default function Dashboard() {
-  return <div>Dashboard - Kitchen</div>;
+  return <h1>Welcome to your kitchen!</h1>;
 }

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import logo from "../../public/logo.png";
 import LoginForm from "@/components/LoginForm";
+import GoogleLoginButton from "@/components/GoogleLoginButton";
 
 export default function LoginPage() {
   return (
@@ -20,6 +21,8 @@ export default function LoginPage() {
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <LoginForm />
+        <hr className="my-5 mx-auto h-1 w-60 border-0 bg-accent-500" />
+        <GoogleLoginButton />
 
         <p className="mt-10 text-center text-sm/6 text-gray-500">
           Do not have an account?{" "}
