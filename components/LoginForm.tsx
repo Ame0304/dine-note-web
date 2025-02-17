@@ -7,13 +7,14 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/component";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
+  const supabase = createClient();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();

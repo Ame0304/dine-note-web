@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/component";
 
 export default function AuthCallbackPage() {
   const router = useRouter();
+  const supabase = createClient();
 
   useEffect(() => {
     // Listens for auth state changes
