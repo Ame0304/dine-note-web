@@ -1,100 +1,36 @@
-"use client";
-import { useState } from "react";
-import Link from "next/link";
-
+import { UserIcon, Bars3Icon } from "@heroicons/react/24/outline";
 import Logo from "./Logo";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Dialog, DialogPanel } from "@headlessui/react";
-import Button from "./Button";
 
-export default function PrivateNavbar() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+interface PrivateNavbarProps {
+  onToggleSidebar: () => void;
+}
 
+export default function PrivateNavbar({ onToggleSidebar }: PrivateNavbarProps) {
   return (
-    <header className="border-b border-primary-900 z-50 ">
-      <nav
-        aria-label="Global"
-        className="flex justify-between items-center max-w-7xl mx-auto p-3"
-      >
-        <div className="xl:-ml-5">
+    <header className="sticky top-0 z-40 shadow-sm bg-primary-950">
+      <nav className="flex h-16 items-center justify-between px-3 sm:px-4">
+        <div className="flex items-center gap-4">
           <Logo />
-        </div>
-
-        {/* Mobile Menu Icon */}
-
-        <div className="flex lg:hidden">
           <button
             type="button"
-            onClick={() => setMobileMenuOpen(true)}
-            className="m-2.5 inline-flex items-center justify-center rounded-md p-2 text-gray-700"
+            onClick={onToggleSidebar}
+            className="inline-flex items-center justify-center rounded-md p-2 text-accent-500 hover:bg-accent-300 hover:text-primary-950"
           >
-            <span className="sr-only">Open main menu</span>
-            <Bars3Icon aria-hidden="true" className="size-6" />
+            <span className="sr-only">Toggle sidebar</span>
+            <Bars3Icon className="size-6" aria-hidden="true" />
           </button>
         </div>
 
-        {/* Desktop Menu */}
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-5 items-center">
-          <Link
-            href="/dashboard"
-            className="text-lg font-regular text-accent-500 hover:text-accent-400"
+        <div className="flex items-center gap-4">
+          <button
+            type="button"
+            className="rounded-full bg-accent-200 p-2 text-accent-500 hover:text-primary-950"
           >
-            Dashboard
-          </Link>
-          <Link
-            href="/recipies"
-            className="text-lg font-regular text-accent-500 hover:text-accent-400"
-          >
-            Recipies
-          </Link>
-          <Button>Log out</Button>
+            <span className="sr-only">View profile</span>
+            <UserIcon className="size-6" aria-hidden="true" />
+          </button>
         </div>
       </nav>
-
-      {/* Mobile Menu */}
-
-      <Dialog
-        open={mobileMenuOpen}
-        onClose={setMobileMenuOpen}
-        className="lg:hidden"
-      >
-        <div className="fixed inset-0 z-50" />
-        <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-primary-950 p-3 sm:max-w-sm shadow-lg">
-          <div className="flex items-center justify-between">
-            <Logo />
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(false)}
-              className="-m-2.5 rounded-md p-2.5 text-gray-700"
-            >
-              <span className="sr-only">Close menu</span>
-              <XMarkIcon aria-hidden="true" className="size-7" />
-            </button>
-          </div>
-
-          <div className="mx-3 divide-y divide-gray-500/10">
-            <div className="py-4">
-              <Link
-                href="/dashboard"
-                className="text-lg text-accent-500  block rounded-lg px-3 py-2 hover:bg-accent-100"
-              >
-                Dashboard
-              </Link>
-            </div>
-            <div className="py-4">
-              <Link
-                href="/recipies"
-                className="text-lg text-accent-500  block rounded-lg px-3 py-2 hover:bg-accent-100"
-              >
-                Recipies
-              </Link>
-            </div>
-            <div className="py-4">
-              <Button>Log out </Button>
-            </div>
-          </div>
-        </DialogPanel>
-      </Dialog>
     </header>
   );
 }
