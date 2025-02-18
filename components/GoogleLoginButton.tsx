@@ -1,6 +1,7 @@
 "use client";
 
 import { createClient } from "@/lib/supabase/component";
+import { toast } from "react-hot-toast";
 
 export default function GoogleLoginButton() {
   const supabase = createClient();
@@ -17,6 +18,7 @@ export default function GoogleLoginButton() {
     });
 
     if (error) {
+      toast.error(error.message, { id: "login" });
       console.error("Error during sign in:", error.message);
     }
   };

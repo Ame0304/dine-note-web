@@ -9,7 +9,7 @@ export default function PrivateLayout({ children }: { children: ReactNode }) {
     <div className="min-h-screen bg-primary-950">
       <PrivateNavbar onToggleSidebar={() => setShowSidebar(!showSidebar)} />
 
-      <div className="flex h-[calc(100vh-4rem)]">
+      <div className="flex h-full">
         <Sidebar show={showSidebar} />
 
         <main className="relative flex-1 overflow-y-auto py-8 transition-[padding] duration-200 ease-in-out px-4 lg:px-8">

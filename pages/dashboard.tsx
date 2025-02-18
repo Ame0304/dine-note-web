@@ -26,5 +26,5 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 }
 
 export default function Dashboard({ user }: { user: User }) {
-  return <h1>Welcome to your kitchen, {user.email}!</h1>;
+  return <h1>Welcome to your kitchen, {user.user_metadata.full_name}!</h1>;
 }
