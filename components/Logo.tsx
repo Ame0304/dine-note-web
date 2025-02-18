@@ -12,7 +12,9 @@ export default function Logo() {
         width="60"
         alt="DineNote logo"
       />
-      <span className="text-4xl font-semibold text-accent-500">DineNote</span>
+      <span className="text-4xl font-semibold text-accent-500 hidden md:block">
+        DineNote
+      </span>
     </Link>
   );
 }

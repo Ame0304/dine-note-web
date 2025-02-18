@@ -12,19 +12,15 @@ export default function PrivateLayout({ children }: { children: ReactNode }) {
       <div className="flex h-[calc(100vh-4rem)]">
         <Sidebar show={showSidebar} />
 
-        <main
-          className={`relative flex-1 overflow-y-auto py-8 transition-[padding] duration-200 ease-in-out
-          ${showSidebar ? "px-4 lg:px-8" : "px-4 lg:px-8"}
-        `}
-        >
+        <main className="relative flex-1 overflow-y-auto py-8 transition-[padding] duration-200 ease-in-out px-4 lg:px-8">
           {/* Overlay for mobile */}
           {showSidebar && (
             <div
-              className="fixed inset-0 z-20 bg-black/50 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-20 bg-primary-900/50 backdrop-blur-sm lg:hidden"
               onClick={() => setShowSidebar(false)}
             />
           )}
-
+          {/* Main content */}
           <div className="mx-auto max-w-7xl">{children}</div>
         </main>
       </div>
