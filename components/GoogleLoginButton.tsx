@@ -46,7 +46,7 @@ export default function GoogleLoginButton() {
           fill="#EA4335"
         />
       </svg>
-      Sign in with Google
+      Continue with Google
     </button>
   );
 }
