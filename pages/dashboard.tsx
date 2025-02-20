@@ -7,15 +7,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const supabase = createClient(context);
 
   const { data, error } = await supabase.auth.getUser();
-  console.log(data);
 
-  if (error || !data) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
+  if (error) {
+    console.error(error);
   }
 
   return {
@@ -26,5 +20,5 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 }
 
 export default function Dashboard({ user }: { user: User }) {
-  return <h1>Welcome to your kitchen, {user.user_metadata.full_name}!</h1>;
+  return <h1>Welcome to your kitchen, {user?.user_metadata.full_name}!</h1>;
 }
