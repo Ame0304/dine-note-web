@@ -56,7 +56,9 @@ export default function Home() {
           <Image src={awardRight} alt="award right icon" />
         </div>
         <div className="mt-6">
-          <Button size="large">Get started for free</Button>
+          <Link href="/auth/signup">
+            <Button size="large">Get started for free</Button>
+          </Link>
         </div>
         <div className="mt-6">
           <Link
@@ -95,7 +97,9 @@ export default function Home() {
       <hr className="mx-auto h-1 w-60 border-0 bg-accent-500" />
 
       <div className="mx-auto max-w-4xl mt-6">
-        <Button size="large">Get started for free</Button>
+        <Link href="/auth/signup">
+          <Button size="large">Get started for free</Button>
+        </Link>
       </div>
     </div>
   );

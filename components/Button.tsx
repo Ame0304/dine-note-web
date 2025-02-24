@@ -21,13 +21,13 @@ export default function Button({
 
   const variantClasses = {
     primary: "bg-accent-500 hover:bg-accent-600 text-white",
-    secondary: "bg-gray-100 hover:bg-gray-200 text-gray-900",
+    secondary: "bg-white hover:bg-primary-900 text-accent-500",
   };
 
   return (
     <button
       {...props}
-      className={`rounded-md ${sizeClasses[size]} ${variantClasses[variant]} disabled:opacity-50 disabled:cursor-not-allowed`}
+      className={`rounded-md shadow-lg ${sizeClasses[size]} ${variantClasses[variant]} disabled:opacity-50 disabled:cursor-not-allowed`}
     >
       {isLoading ? (
         <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-r-transparent" />

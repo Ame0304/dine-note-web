@@ -49,7 +49,9 @@ export default function Navbar() {
           >
             Log in
           </Link>
-          <Button>Get started </Button>
+          <Link href="/auth/signup">
+            <Button size="regular">Get started</Button>
+          </Link>
         </div>
       </nav>
     </header>
