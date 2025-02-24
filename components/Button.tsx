@@ -27,7 +27,7 @@ export default function Button({
   return (
     <button
       {...props}
-      className={`flex justify-center items-center rounded-md ${sizeClasses[size]} ${variantClasses[variant]} disabled:opacity-50 disabled:cursor-not-allowed`}
+      className={`rounded-md ${sizeClasses[size]} ${variantClasses[variant]} disabled:opacity-50 disabled:cursor-not-allowed`}
     >
       {isLoading ? (
         <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-r-transparent" />

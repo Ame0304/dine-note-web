@@ -1,31 +1,35 @@
 "use client";
 import { AuthError } from "@supabase/supabase-js";
-import { FormEvent } from "react";
-import { useState } from "react";
 import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 import { createClient } from "@/lib/supabase/component";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 
+interface LoginFormData {
+  email: string;
+  password: string;
+}
+
 export default function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>();
 
-    setIsSubmitting(true);
+  const onSubmit = async (data: LoginFormData) => {
     toast.loading("Signing in...", { id: "login" });
 
     try {
       const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+        email: data.email,
+        password: data.password,
       });
 
       if (error) {
@@ -39,33 +43,33 @@ export default function LoginForm() {
       toast.error(authError.message || "An unexpected error occurred", {
         id: "login",
       });
-    } finally {
-      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
-    <form onSubmit={handleSubmit} method="POST" className="my-2">
+    <form onSubmit={handleSubmit(onSubmit)} method="POST" className="my-2">
       <Input
         id="email"
-        name="email"
         type="email"
         label="Email address"
-        value={email}
-        required
-        autoComplete="email"
-        onChange={(e) => setEmail(e.target.value)}
+        error={errors.email?.message}
+        {...register("email", {
+          required: "Email is required",
+          pattern: {
+            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+            message: "Invalid email address",
+          },
+        })}
       />
 
       <Input
         id="password"
-        name="password"
         type="password"
         label="Password"
-        value={password}
-        required
-        autoComplete="current-password"
-        onChange={(e) => setPassword(e.target.value)}
+        error={errors.password?.message}
+        {...register("password", {
+          required: "Password is required",
+        })}
       />
       <div className="mt-10">
         <Button

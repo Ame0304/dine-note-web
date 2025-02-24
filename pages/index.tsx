@@ -34,7 +34,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen pb-20 space-y-16">
       {/* Landing page header */}
-      <div className="mx-auto max-w-4xl lg:text-center">
+      <div className="mx-auto max-w-4xl lg:text-center ">
         <span className="text-md font-semibold text-primary-500">
           Make Every Meal Memorable
         </span>
