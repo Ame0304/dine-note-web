@@ -6,6 +6,7 @@ import { Lexend } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import Layout from "@/components/Layout";
 import PrivateLayout from "@/components/PrivateLayout";
+import { UserProvider } from "@/context/UserContext";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -18,22 +19,27 @@ const PRIVATE_PAGES = ["/dashboard", "/recipes", "/profile"];
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const getLayout = () => {
+    // Auth page layout
     if (AUTH_PAGES.includes(router.pathname)) {
       return <Component {...pageProps} />;
     }
-
+    // Private page layout
     if (PRIVATE_PAGES.includes(router.pathname)) {
       return (
-        <PrivateLayout>
-          <Component {...pageProps} />
-        </PrivateLayout>
+        <UserProvider>
+          <PrivateLayout>
+            <Component {...pageProps} />
+          </PrivateLayout>
+        </UserProvider>
       );
     }
-
+    // Public page layout
     return (
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <UserProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </UserProvider>
     );
   };
 

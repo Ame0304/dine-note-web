@@ -1,12 +1,15 @@
 import Link from "next/link";
-
-import Logo from "./Logo";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 
 import Button from "./Button";
+import Logo from "./Logo";
+
+import { useUser } from "@/context/UserContext";
 
 export default function Navbar() {
+  const { user } = useUser();
+
   return (
     <header className="z-50 shadow-sm ">
       <nav
@@ -31,7 +34,11 @@ export default function Navbar() {
             >
               <MenuItem>
                 <div className="text-lg text-primary-950 hover:bg-accent-400 py-1 px-3 rounded-lg w-full">
-                  <Link href="/auth/login">Log in</Link>
+                  {user ? (
+                    <Link href="dashboard">Dashboard</Link>
+                  ) : (
+                    <Link href="/auth/login">Log in</Link>
+                  )}
                 </div>
               </MenuItem>
               <div className="text-lg text-primary-950 hover:bg-accent-400 py-1 px-3 rounded-lg w-full">
@@ -43,12 +50,22 @@ export default function Navbar() {
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-5 items-center">
-          <Link
-            href="/auth/login"
-            className="text-lg font-regular text-accent-500 hover:text-accent-400"
-          >
-            Log in
-          </Link>
+          {user ? (
+            <Link
+              href="dashboard"
+              className="text-lg font-regular text-accent-500 hover:text-accent-400"
+            >
+              Dashboard
+            </Link>
+          ) : (
+            <Link
+              href="/auth/login"
+              className="text-lg font-regular text-accent-500 hover:text-accent-400"
+            >
+              Log in
+            </Link>
+          )}
+
           <Link href="/auth/signup">
             <Button size="regular">Get started</Button>
           </Link>
