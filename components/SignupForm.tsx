@@ -8,6 +8,9 @@ import toast from "react-hot-toast";
 
 import { createClient } from "@/lib/supabase/component";
 
+import Input from "@/components/Input";
+import Button from "@/components/Button";
+
 export default function SignupForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,71 +53,48 @@ export default function SignupForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} method="POST" className="space-y-4">
-      <div>
-        <label htmlFor="fullName" className="block text-sm/6 font-medium">
-          Full Name
-        </label>
+    <form onSubmit={handleSubmit} method="POST">
+      <Input
+        id="fullName"
+        name="fullName"
+        type="text"
+        label="Full Name"
+        value={fullName}
+        required
+        autoComplete="name"
+        onChange={(e) => setFullName(e.target.value)}
+      />
 
-        <div className="mt-2">
-          <input
-            id="fullName"
-            name="fullName"
-            type="text"
-            value={fullName}
-            required
-            autoComplete="name"
-            className="block w-full rounded-md bg-white px-3 py-1.5  placeholder:text-primary-100 focus:outline-2 focus:-outline-offset-2 focus:outline-primary-500 sm:text-sm/6"
-            onChange={(e) => setFullName(e.target.value)}
-          />
-        </div>
-      </div>
+      <Input
+        id="email"
+        name="email"
+        type="email"
+        label="Email address"
+        value={email}
+        required
+        autoComplete="email"
+        onChange={(e) => setEmail(e.target.value)}
+      />
 
-      <div>
-        <label htmlFor="email" className="block text-sm/6 font-medium">
-          Email address
-        </label>
-        <div className="mt-2">
-          <input
-            id="email"
-            name="email"
-            type="email"
-            value={email}
-            required
-            autoComplete="email"
-            className="block w-full rounded-md bg-white px-3 py-1.5  placeholder:text-primary-100 focus:outline-2 focus:-outline-offset-2 focus:outline-primary-500 sm:text-sm/6"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-      </div>
-
-      <div>
-        <label htmlFor="password" className="block text-sm/6 font-medium">
-          Password
-        </label>
-
-        <div className="mt-2">
-          <input
-            id="password"
-            name="password"
-            type="password"
-            value={password}
-            required
-            autoComplete="current-password"
-            className="block w-full rounded-md bg-white px-3 py-1.5  placeholder:text-primary-100 focus:outline-2 focus:-outline-offset-2 focus:outline-primary-500 sm:text-sm/6"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-      </div>
-
-      <div>
-        <button
+      <Input
+        id="password"
+        name="password"
+        type="password"
+        label="Password"
+        value={password}
+        required
+        autoComplete="current-password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <div className="mt-10">
+        <Button
           type="submit"
-          className="flex w-full justify-center rounded-md bg-accent-500 hover:bg-accent-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          size="full"
+          isLoading={isSubmitting}
           disabled={isSubmitting}
         >
           Sign up
-        </button>
+        </Button>
       </div>
     </form>
   );

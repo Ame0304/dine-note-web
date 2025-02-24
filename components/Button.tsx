@@ -1,13 +1,16 @@
-interface ButtonProps {
-  children: string;
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode;
   size?: "small" | "regular" | "large" | "full";
-  onClick?: () => void;
+  variant?: "primary" | "secondary";
+  isLoading?: boolean;
 }
 
 export default function Button({
   children,
   size = "regular",
-  onClick,
+  variant = "primary",
+  isLoading,
+  ...props
 }: ButtonProps) {
   const sizeClasses = {
     small: "px-2 py-1 text-sm",
@@ -16,12 +19,21 @@ export default function Button({
     full: "w-full py-1.5",
   };
 
+  const variantClasses = {
+    primary: "bg-accent-500 hover:bg-accent-600 text-white",
+    secondary: "bg-gray-100 hover:bg-gray-200 text-gray-900",
+  };
+
   return (
     <button
-      className={`bg-accent-500 hover:bg-accent-600 rounded-md text-accent-50 ${sizeClasses[size]}`}
-      onClick={onClick}
+      {...props}
+      className={`flex justify-center items-center rounded-md ${sizeClasses[size]} ${variantClasses[variant]} disabled:opacity-50 disabled:cursor-not-allowed`}
     >
-      {children}
+      {isLoading ? (
+        <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-r-transparent" />
+      ) : (
+        children
+      )}
     </button>
   );
 }

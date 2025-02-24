@@ -1,13 +1,13 @@
 "use client";
 import { AuthError } from "@supabase/supabase-js";
-
-import Link from "next/link";
 import { FormEvent } from "react";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 
 import { createClient } from "@/lib/supabase/component";
+import Input from "@/components/Input";
+import Button from "@/components/Button";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -45,61 +45,37 @@ export default function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} method="POST" className="space-y-6">
-      <div>
-        <label htmlFor="email" className="block text-sm/6 font-medium">
-          Email address
-        </label>
-        <div className="mt-2">
-          <input
-            id="email"
-            name="email"
-            type="email"
-            value={email}
-            required
-            autoComplete="email"
-            className="block w-full rounded-md bg-white px-3 py-1.5  placeholder:text-primary-100 focus:outline-2 focus:-outline-offset-2 focus:outline-primary-500 sm:text-sm/6"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-      </div>
+    <form onSubmit={handleSubmit} method="POST" className="my-2">
+      <Input
+        id="email"
+        name="email"
+        type="email"
+        label="Email address"
+        value={email}
+        required
+        autoComplete="email"
+        onChange={(e) => setEmail(e.target.value)}
+      />
 
-      <div>
-        <div className="flex items-center justify-between">
-          <label htmlFor="password" className="block text-sm/6 font-medium">
-            Password
-          </label>
-          <div className="text-sm">
-            <Link
-              href="#"
-              className="font-semibold text-accent-500 hover:text-accent-600"
-            >
-              Forgot password? {/*TODO:reset password */}
-            </Link>
-          </div>
-        </div>
-        <div className="mt-2">
-          <input
-            id="password"
-            name="password"
-            type="password"
-            value={password}
-            required
-            autoComplete="current-password"
-            className="block w-full rounded-md bg-white px-3 py-1.5  placeholder:text-primary-100 focus:outline-2 focus:-outline-offset-2 focus:outline-primary-500 sm:text-sm/6"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-      </div>
-
-      <div>
-        <button
+      <Input
+        id="password"
+        name="password"
+        type="password"
+        label="Password"
+        value={password}
+        required
+        autoComplete="current-password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <div className="mt-10">
+        <Button
           type="submit"
-          className="flex w-full justify-center rounded-md bg-accent-500 hover:bg-accent-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs"
+          size="full"
+          isLoading={isSubmitting}
           disabled={isSubmitting}
         >
           Sign in
-        </button>
+        </Button>
       </div>
     </form>
   );
