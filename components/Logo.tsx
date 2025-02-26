@@ -7,14 +7,12 @@ export default function Logo() {
     <Link href="/" className="flex items-center z-10">
       <Image
         src={logo}
-        height="60"
+        height="50"
         quality={100}
-        width="60"
+        width="50"
         alt="DineNote logo"
       />
-      <span className="text-4xl font-semibold text-accent-500 hidden md:block">
-        DineNote
-      </span>
+      <span className="text-4xl font-semibold text-accent-500">DineNote</span>
     </Link>
   );
 }

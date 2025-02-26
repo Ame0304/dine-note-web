@@ -1,12 +1,18 @@
 import Image from "next/image";
 
-export default function Avatar({ src }: { src: string }) {
+interface AvatarProps {
+  src: string;
+  size?: "regular" | "large";
+}
+
+export default function Avatar({ src, size = "regular" }: AvatarProps) {
+  const sizeNumber = size === "regular" ? 40 : 70;
   return (
     <Image
       className="rounded-full"
       src={src}
-      width={40}
-      height={40}
+      width={sizeNumber}
+      height={sizeNumber}
       alt="User Avatar"
     />
   );

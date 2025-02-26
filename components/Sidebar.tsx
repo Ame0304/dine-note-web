@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { HomeIcon, BookOpenIcon, UserIcon } from "@heroicons/react/24/outline";
+
 import Button from "./Button";
+import Logo from "./Logo";
 import { createClient } from "@/lib/supabase/component";
 import { toast } from "react-hot-toast";
+import ToggleSidebarButton from "./ToggleSidebarButton";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
@@ -12,10 +15,11 @@ const navigation = [
 ];
 
 interface SidebarProps {
-  show: boolean;
+  expanded: boolean;
+  onToggle: () => void;
 }
 
-export default function Sidebar({ show }: SidebarProps) {
+export default function Sidebar({ expanded, onToggle }: SidebarProps) {
   const router = useRouter();
   const supabase = createClient();
 
@@ -29,43 +33,59 @@ export default function Sidebar({ show }: SidebarProps) {
     }
   };
 
+  // Full sidebar when expanded
   return (
-    <div
-      className={`${
-        show
-          ? "w-72 translate-x-0"
-          : "w-0 -translate-x-full lg:w-0 lg:translate-x-0"
-      } fixed top-16 bottom-0 left-0 z-30 transform overflow-hidden bg-primary-950 transition-all duration-200 ease-in-out lg:static lg:h-[calc(100vh-4rem)] shadow-xl`}
+    <aside
+      className={` fixed top-0 bottom-0 left-0 z-30 transform overflow-hidden bg-primary-950/70 transition-all duration-300 ease-in-out lg:static lg:h-screen shadow-xl backdrop-blur-md backdrop-saturate-150 ${
+        expanded ? "w-72 translate-x-0" : "w-12 translate-x-0"
+      }`}
     >
-      <div className="flex flex-col h-full px-5">
-        <nav className="flex-1 py-6 ">
-          <ul className="space-y-3">
-            {navigation.map((item) => {
-              const isActive = router.pathname === item.href;
-              return (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-md font-medium ${
-                      isActive
-                        ? "bg-accent-400 text-primary-950"
-                        : "text-accent-500 hover:bg-accent-300 hover:text-primary-950"
-                    }`}
-                  >
-                    <item.icon className="size-5" aria-hidden="true" />
-                    {item.name}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-        <div className="border-t border-primary-900 py-6">
-          <Button size="full" onClick={handleSignout}>
-            Log out
-          </Button>
+      {expanded ? (
+        <div className="flex flex-col h-full px-2">
+          {/* Header with logo and toggle */}
+          <div className="py-6 border-b border-primary-900/50">
+            <div className="flex items-center justify-between mb-2">
+              <Logo />
+              <ToggleSidebarButton onClick={onToggle} isOpen={true} />
+            </div>
+          </div>
+          {/* Navigation links */}
+          <nav className="flex-1 py-6 px-2">
+            <ul className="space-y-3">
+              {navigation.map((item) => {
+                const isActive = router.pathname === item.href;
+                return (
+                  <li key={item.name}>
+                    <Link
+                      href={item.href}
+                      className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-md font-medium ${
+                        isActive
+                          ? "bg-accent-400 text-primary-950"
+                          : "text-accent-500 hover:bg-accent-300 hover:text-primary-950"
+                      }`}
+                    >
+                      <item.icon className="size-5" aria-hidden="true" />
+                      {item.name}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+
+          {/* Footer with logout button */}
+          <div className="border-t border-primary-900 py-6">
+            <Button size="full" onClick={handleSignout}>
+              Log out
+            </Button>
+          </div>
         </div>
-      </div>
-    </div>
+      ) : (
+        // Collapsed sidebar content
+        <div className="flex flex-col items-center pt-6">
+          <ToggleSidebarButton onClick={onToggle} isOpen={false} />
+        </div>
+      )}
+    </aside>
   );
 }
