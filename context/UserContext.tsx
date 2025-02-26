@@ -7,7 +7,7 @@ interface UserContextType {
   loading: boolean;
 }
 
-const UserContext = createContext<UserContextType | undefined>(undefined); // ??
+const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);

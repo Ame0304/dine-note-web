@@ -16,7 +16,7 @@ export default function PrivateLayout({ children }: { children: ReactNode }) {
           {/* Overlay for mobile */}
           {showSidebar && (
             <div
-              className="fixed inset-0 z-20 bg-primary-900/50 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-20 bg-primary-900/50 backdrop-blur-lg backdrop-saturate-150 lg:hidden"
               onClick={() => setShowSidebar(false)}
             />
           )}
