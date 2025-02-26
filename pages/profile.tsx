@@ -6,7 +6,7 @@ export default function Profile() {
   const { user } = useUser();
 
   return (
-    <div className="sm:mx-auto sm:w-full sm:max-w-xl">
+    <div className="sm:mx-auto sm:w-full sm:max-w-4xl">
       <h1 className="text-2xl font-bold text-primary-100 mb-6 text-center">
         My Profile
       </h1>

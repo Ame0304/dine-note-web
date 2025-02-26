@@ -13,7 +13,11 @@ export default function PrivateLayout({ children }: { children: ReactNode }) {
           onToggle={() => setShowSidebar(!showSidebar)}
         />
 
-        <main className="relative flex-1 overflow-y-auto py-8 transition-[padding] duration-300 ease-in-out px-14 lg:px-8">
+        <main
+          className={`relative flex-1 overflow-y-auto py-8 transition-[padding] duration-300 ease-in-out px-4 lg:px-8 ${
+            showSidebar ? "ml-0" : "ml-12 lg:ml-0"
+          }`}
+        >
           {/* Overlay for mobile */}
           {showSidebar && (
             <div
