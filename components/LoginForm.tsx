@@ -5,8 +5,9 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 import { createClient } from "@/lib/supabase/component";
-import Input from "@/components/Input";
+import FormRow from "@/components/FormRow";
 import Button from "@/components/Button";
+import Input from "./Input";
 
 interface LoginFormData {
   email: string;
@@ -48,29 +49,30 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} method="POST" className="my-2">
-      <Input
-        id="email"
-        type="email"
-        label="Email address"
-        error={errors.email?.message}
-        {...register("email", {
-          required: "Email is required",
-          pattern: {
-            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-            message: "Invalid email address",
-          },
-        })}
-      />
+      <FormRow label="Email address" error={errors.email?.message} id="email">
+        <Input
+          id="email"
+          type="email"
+          {...register("email", {
+            required: "Email is required",
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: "Invalid email address",
+            },
+          })}
+        />
+      </FormRow>
 
-      <Input
-        id="password"
-        type="password"
-        label="Password"
-        error={errors.password?.message}
-        {...register("password", {
-          required: "Password is required",
-        })}
-      />
+      <FormRow label="Password" error={errors.password?.message} id="password">
+        <Input
+          id="password"
+          type="password"
+          {...register("password", {
+            required: "Password is required",
+          })}
+        />
+      </FormRow>
+
       <div className="mt-10">
         <Button
           type="submit"

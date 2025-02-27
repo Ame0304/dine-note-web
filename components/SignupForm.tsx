@@ -7,8 +7,9 @@ import toast from "react-hot-toast";
 
 import { createClient } from "@/lib/supabase/component";
 
-import Input from "@/components/Input";
+import FormRow from "@/components/FormRow";
 import Button from "@/components/Button";
+import Input from "./Input";
 
 interface SignUpFormData {
   fullName: string;
@@ -59,63 +60,67 @@ export default function SignupForm() {
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} method="POST">
-      <Input
-        id="fullName"
-        label="Full Name"
-        error={errors.fullName?.message}
-        {...register("fullName", {
-          required: "Full name is required",
-          minLength: {
-            value: 2,
-            message: "Full name must be at least 2 characters",
-          },
-        })}
-      />
+      <FormRow label="Full Name" error={errors.fullName?.message} id="fullName">
+        <Input
+          id="fullName"
+          {...register("fullName", {
+            required: "Full name is required",
+            minLength: {
+              value: 2,
+              message: "Full name must be at least 2 characters",
+            },
+          })}
+        />
+      </FormRow>
 
-      <Input
-        id="email"
-        type="email"
-        label="Email address"
-        error={errors.email?.message}
-        {...register("email", {
-          required: "Email is required",
-          pattern: {
-            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-            message: "Invalid email address",
-          },
-        })}
-      />
+      <FormRow label="Email address" error={errors.email?.message} id="email">
+        <Input
+          id="email"
+          type="email"
+          {...register("email", {
+            required: "Email is required",
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: "Invalid email address",
+            },
+          })}
+        />
+      </FormRow>
 
-      <Input
-        id="password"
-        type="password"
-        label="Password"
-        error={errors.password?.message}
-        {...register("password", {
-          required: "Password is required",
-          minLength: {
-            value: 6,
-            message: "Password must be at least 6 characters",
-          },
-          pattern: {
-            value:
-              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
-            message:
-              "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
-          },
-        })}
-      />
+      <FormRow label="Password" error={errors.password?.message} id="password">
+        <Input
+          id="password"
+          type="password"
+          {...register("password", {
+            required: "Password is required",
+            minLength: {
+              value: 6,
+              message: "Password must be at least 6 characters",
+            },
+            pattern: {
+              value:
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
+              message:
+                "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
+            },
+          })}
+        />
+      </FormRow>
 
-      <Input
-        id="confirmPassword"
-        type="password"
+      <FormRow
         label="Confirm Password"
         error={errors.confirmPassword?.message}
-        {...register("confirmPassword", {
-          required: "Please confirm your password",
-          validate: (value) => value === password || "Passwords do not match",
-        })}
-      />
+        id="confirmPassword"
+      >
+        <Input
+          id="confirmPassword"
+          type="password"
+          {...register("confirmPassword", {
+            required: "Please confirm your password",
+            validate: (value) => value === password || "Passwords do not match",
+          })}
+        />
+      </FormRow>
 
       <div className="mt-10">
         <Button

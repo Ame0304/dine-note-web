@@ -1,41 +1,130 @@
 import Avatar from "@/components/Avatar";
+import Button from "@/components/Button";
+import FormRowHorizontal from "@/components/FormRowHorizontal";
+import Input from "@/components/Input";
 import { useUser } from "@/context/UserContext";
-import { PencilIcon } from "@heroicons/react/24/outline";
+import { format, parseISO } from "date-fns";
 
 export default function Profile() {
   const { user } = useUser();
 
-  return (
-    <div className="sm:mx-auto sm:w-full sm:max-w-4xl">
-      <h1 className="text-2xl font-bold text-primary-100 mb-6 text-center">
-        My Profile
-      </h1>
-      <div className="bg-white/40 backdrop-blur-md backdrop-saturate-150 p-6 rounded-xl border border-primary-800/30 shadow-xl">
-        {/* Profile header with avatar */}
-        <div className="flex flex-col items-center mb-8">
-          <div className="relative group">
-            <Avatar src={user?.user_metadata.avatar_url} size="large" />
-            <button className="absolute inset-0 rounded-full bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center text-primary-100 transition-opacity">
-              <PencilIcon className="w-6 h-6" />
-            </button>
-            <input type="file" accept="image/*" className="hidden" />
-          </div>
-          <h2 className="mt-4 text-xl font-semibold">
-            {user?.user_metadata?.full_name || "User"}
-          </h2>
-          <p className="text-primary-500 text-sm">Member since 2024/02/15</p>
-        </div>
+  const joinedDate = user
+    ? format(parseISO(user.created_at), "yyyy/MM/dd")
+    : "N/A";
 
-        <div className="space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-lg bg-primary-800/30">
-            <div>
-              <p className="text-sm text-primary-400">Email</p>
-              <p>{user?.email}</p>
+  return (
+    <div className="sm:mx-auto sm:w-full sm:max-w-5xl flex flex-col space-y-6">
+      <div className="bg-white/40 overflow-hidden backdrop-blur-md backdrop-saturate-150 rounded-xl shadow-xl">
+        {/* Profile header with avatar */}
+        <div className="relative h-64">
+          <svg
+            className="absolute inset-0 w-full h-full"
+            viewBox="0 0 400 400"
+            preserveAspectRatio="xMidYMid slice"
+          >
+            <defs>
+              <pattern
+                id="bg_pattern"
+                width="100"
+                height="100"
+                patternUnits="userSpaceOnUse"
+              >
+                <rect x="5" y="5" width="40" height="40" fill="#fff4e5"></rect>
+                <rect x="55" y="5" width="40" height="40" fill="#f9ddd8"></rect>
+                <rect x="5" y="55" width="40" height="40" fill="#f9ddd8"></rect>
+                <rect
+                  x="55"
+                  y="55"
+                  width="40"
+                  height="40"
+                  fill="#fff4e5"
+                ></rect>
+              </pattern>
+            </defs>
+            <rect x="0" y="0" width="100%" height="100%" fill="#fffefb"></rect>
+            <rect
+              x="0"
+              y="0"
+              width="100%"
+              height="100%"
+              fill="url(#bg_pattern)"
+              opacity={0.5}
+            ></rect>
+          </svg>
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            {/* Profile Image with Yellow Background */}
+            <div className="w-24 h-24 mb-4 relative">
+              <div className="absolute inset-0 bg-primary-900 rounded-full"></div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-white">
+                  <Avatar src={user?.user_metadata.avatar_url} size="large" />
+                </div>
+              </div>
             </div>
-            <div className="text-xs text-primary-400 mt-2 sm:mt-0">
-              Cannot be changed
-            </div>
+
+            <h2 className="text-2xl font-bold text-primary-100">
+              {user?.user_metadata?.full_name || "User"} 🍳
+            </h2>
+            {/* Joined Date */}
+            <p className="text-accent-500">Joined on {joinedDate}</p>
           </div>
+        </div>
+      </div>
+      <div className="sm:mx-auto w-full">
+        {/* User profile form */}
+        <div className="space-y-2 flex flex-col justify-between p-10 rounded-xl bg-white ">
+          <h1>Updating user information</h1>
+          <form>
+            <FormRowHorizontal label="Full Name">
+              <Input value={user?.user_metadata.full_name} id="fullName" />
+            </FormRowHorizontal>
+            <FormRowHorizontal
+              label="Email"
+              error="Full name cannot be changed"
+            >
+              <Input placeholder={user?.email} id="email" disabled />
+            </FormRowHorizontal>
+
+            <FormRowHorizontal label="Avatar" error="">
+              <div className="w-40">
+                <Button size="regular">Change Avatar</Button>
+              </div>
+            </FormRowHorizontal>
+            {/* Save button and cancel button */}
+            <div className="mt-10 flex justify-end space-x-5">
+              <Button size="regular" type="submit">
+                Save Changes
+              </Button>
+              <Button size="regular" type="submit">
+                Cancel
+              </Button>
+            </div>
+          </form>
+        </div>
+        {/* Reset Passowrd form */}
+        <div className="mt-5 space-y-2 flex flex-col justify-between p-10 rounded-xl bg-white ">
+          <h1>Reset Password</h1>
+          <form>
+            <FormRowHorizontal label="Password" error="">
+              <Input
+                placeholder="Reset password"
+                id="password"
+                type="password"
+              />
+            </FormRowHorizontal>
+            <FormRowHorizontal label="Confirm Password" error="">
+              <Input
+                placeholder="Confirm Password"
+                id="confirmPassword"
+                type="password"
+              />
+            </FormRowHorizontal>
+            <div className="mt-10 flex justify-end space-x-5">
+              <Button size="regular" type="submit">
+                Reset
+              </Button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

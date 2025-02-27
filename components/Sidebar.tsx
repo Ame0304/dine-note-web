@@ -36,7 +36,7 @@ export default function Sidebar({ expanded, onToggle }: SidebarProps) {
   // Full sidebar when expanded
   return (
     <aside
-      className={` fixed top-0 bottom-0 left-0 z-30 transform overflow-hidden bg-primary-950/70 transition-all duration-300 ease-in-out lg:static lg:h-screen shadow-xl backdrop-blur-md backdrop-saturate-150 ${
+      className={` fixed top-0 bottom-0 left-0 z-30 transform overflow-hidden bg-white/80 transition-all duration-300 ease-in-out lg:static lg:h-screen shadow-xl backdrop-blur-md backdrop-saturate-150 ${
         expanded ? "w-72 translate-x-0" : "w-12 translate-x-0"
       }`}
     >

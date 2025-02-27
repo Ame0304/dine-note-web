@@ -6,7 +6,7 @@ interface AvatarProps {
 }
 
 export default function Avatar({ src, size = "regular" }: AvatarProps) {
-  const sizeNumber = size === "regular" ? 40 : 70;
+  const sizeNumber = size === "regular" ? 40 : 100;
   return (
     <Image
       className="rounded-full"
