@@ -12,7 +12,7 @@ export default function UserMenu() {
       ) : (
         <button
           type="button"
-          className="rounded-full bg-accent-200 p-2 text-accent-500 hover:text-primary-950"
+          className="rounded-full bg-accent-300 p-2 text-accent-500 hover:text-primary-950"
         >
           <span className="sr-only">View profile</span>
           <UserIcon className="size-6" aria-hidden="true" />

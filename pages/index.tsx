@@ -77,7 +77,7 @@ export default function Home() {
             alt="Product Overview"
             width={1280}
             height={720}
-            className="w-full rounded-xl ring-1 shadow-2xl ring-accent-100"
+            className="w-full rounded-xl ring-1 shadow-2xl ring-accent-300"
           />
         </div>
 

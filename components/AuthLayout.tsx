@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../public/logo.png";
+import Heading from "./Heading";
 
 interface AuthLayoutProps {
   children: React.ReactNode;
@@ -30,13 +31,14 @@ export default function AuthLayout({
             className="drop-shadow-glow"
           />
         </Link>
-        <h2 className="mt-3 text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-pretty text-primary-100">
+
+        <Heading level="h2" className="mt-3 tracking-tight text-pretty">
           {title}
-        </h2>
+        </Heading>
       </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <div className="bg-white/40 backdrop-blur-md backdrop-saturate-150 p-6 rounded-xl border border-primary-800/30 shadow-xl">
+      <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="bg-white/40 backdrop-blur-md backdrop-saturate-150 p-6 rounded-xl border border-primary-700/30 shadow-xl">
           {children}
         </div>
 

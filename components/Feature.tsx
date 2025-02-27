@@ -38,7 +38,7 @@ export default function Feature({
           src={imageUrl}
           width={1280}
           height={853}
-          className="w-full h-auto aspect-[3/2] object-cover rounded-xl ring-1 shadow-2xl ring-accent-100"
+          className="w-full h-auto aspect-[3/2] object-cover rounded-xl ring-1 shadow-2xl ring-accent-300"
           sizes="(max-width: 768px) 100vw, 50vw"
         />
       </div>

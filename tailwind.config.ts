@@ -10,29 +10,18 @@ export default {
     extend: {
       colors: {
         primary: {
-          50: "#8a8181",
-          100: "#5c5858",
-          200: "#4b0706",
-          300: "#7d140c",
-          400: "#b02813",
-          500: "#e2421b",
-          600: "#fb672c",
-          700: "#fc9257",
-          800: "#fcba88",
-          900: "#fcdab8",
-          950: "#fff4e5",
+          50: "#8a8181", // Light text
+          100: "#5c5858", // Primary text
+          300: "#7d140c", // Dark accent
+          500: "#e2421b", // Alert accent
+          700: "#fc9257", // Decoration accent
+          900: "#fcdab8", // Very light background
+          950: "#fff4e5", // Page background
         },
         accent: {
-          50: "#faf2ea",
-          100: "#edd6c6",
-          200: "#e3b69e",
-          300: "#d99276",
-          400: "#d0694e",
-          500: "#b74735",
-          600: "#8e312a",
-          700: "#651e1e",
-          800: "#3c1215",
-          900: "#150508",
+          300: "#d99276", // Light accent
+          400: "#d0694e", // Medium accent
+          500: "#b74735", // Main accent color (used in toast)
         },
       },
       spacing: {

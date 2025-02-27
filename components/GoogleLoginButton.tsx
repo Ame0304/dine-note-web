@@ -26,7 +26,7 @@ export default function GoogleLoginButton() {
   return (
     <button
       onClick={handleGoogleSignIn}
-      className="flex w-full justify-center items-center gap-2 rounded-md bg-white px-3 py-1.5 text-sm/6 font-semibold text-primary-100 shadow-sm  hover:bg-accent-50"
+      className="flex w-full justify-center items-center gap-2 rounded-md bg-white px-3 py-1.5 text-sm/6 font-semibold text-primary-100 shadow-sm  hover:bg-white/50"
     >
       <svg className="h-5 w-5" viewBox="0 0 24 24">
         <path
