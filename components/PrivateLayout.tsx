@@ -7,7 +7,7 @@ export default function PrivateLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen bg-primary-950">
-      <div className="flex h-full">
+      <div className="flex h-screen overflow-hidden flex-1">
         <Sidebar
           expanded={showSidebar}
           onToggle={() => setShowSidebar(!showSidebar)}

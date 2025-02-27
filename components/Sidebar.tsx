@@ -36,8 +36,8 @@ export default function Sidebar({ expanded, onToggle }: SidebarProps) {
   // Full sidebar when expanded
   return (
     <aside
-      className={` fixed top-0 bottom-0 left-0 z-30 transform overflow-hidden bg-white/80 transition-all duration-300 ease-in-out lg:static lg:h-screen shadow-xl backdrop-blur-md backdrop-saturate-150 ${
-        expanded ? "w-72 translate-x-0" : "w-12 translate-x-0"
+      className={`fixed top-0 bottom-0 left-0 z-30 transform overflow-hidden bg-white/70 transition-all duration-300 ease-in-out lg:static lg:h-screen shadow-xl backdrop-blur-md backdrop-saturate-150 ${
+        expanded ? "w-72" : "w-12"
       }`}
     >
       {expanded ? (
@@ -64,7 +64,10 @@ export default function Sidebar({ expanded, onToggle }: SidebarProps) {
                           : "text-accent-500 hover:bg-accent-300 hover:text-primary-950"
                       }`}
                     >
-                      <item.icon className="size-5" aria-hidden="true" />
+                      <item.icon
+                        className="size-6 stroke-2"
+                        aria-hidden="true"
+                      />
                       {item.name}
                     </Link>
                   </li>
