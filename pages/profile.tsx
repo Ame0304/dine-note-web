@@ -2,6 +2,7 @@ import Avatar from "@/components/Avatar";
 import Button from "@/components/Button";
 import FormRowHorizontal from "@/components/FormRowHorizontal";
 import Input from "@/components/Input";
+import Heading from "@/components/Heading";
 import { useUser } from "@/context/UserContext";
 import { format, parseISO } from "date-fns";
 
@@ -16,7 +17,7 @@ export default function Profile() {
     <div className="sm:mx-auto sm:w-full sm:max-w-5xl flex flex-col space-y-6">
       <div className="bg-white/40 overflow-hidden backdrop-blur-md backdrop-saturate-150 rounded-xl shadow-xl">
         {/* Profile header with avatar */}
-        <div className="relative h-64">
+        <div className="relative h-72">
           <svg
             className="absolute inset-0 w-full h-full"
             viewBox="0 0 400 400"
@@ -62,9 +63,9 @@ export default function Profile() {
               </div>
             </div>
 
-            <h2 className="text-2xl font-bold text-primary-100">
+            <Heading level="h2">
               {user?.user_metadata?.full_name || "User"} 🍳
-            </h2>
+            </Heading>
             {/* Joined Date */}
             <p className="text-accent-500">Joined on {joinedDate}</p>
           </div>
@@ -73,7 +74,7 @@ export default function Profile() {
       <div className="sm:mx-auto w-full">
         {/* User profile form */}
         <div className="space-y-2 flex flex-col justify-between p-10 rounded-xl bg-white ">
-          <h1>Updating user information</h1>
+          <Heading level="h3">Updating user information</Heading>
           <form>
             <FormRowHorizontal label="Full Name">
               <Input value={user?.user_metadata.full_name} id="fullName" />
@@ -103,7 +104,7 @@ export default function Profile() {
         </div>
         {/* Reset Passowrd form */}
         <div className="mt-5 space-y-2 flex flex-col justify-between p-10 rounded-xl bg-white ">
-          <h1>Reset Password</h1>
+          <Heading level="h3">Reset Password</Heading>
           <form>
             <FormRowHorizontal label="Password" error="">
               <Input

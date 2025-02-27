@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Heading from "./Heading";
 
 interface FeatureProps {
   title: string;
@@ -16,16 +17,19 @@ export default function Feature({
   const imageFirst = reverse ? "lg:order-last" : "";
   return (
     <div
-      className="grid grid-cols-1 gap-8 lg:gap-24 lg:grid-cols-2 lg:items-center
+      className="grid grid-cols-1 gap-8 lg:gap-24 lg:grid-cols-2
       "
     >
       <div className={`lg:max-w-lg ${imageFirst}`}>
-        <h2 className="text-md font-semibold text-primary-500">
+        <p className="text-md font-semibold text-primary-500">
           Cook, Record, Share
-        </h2>
-        <p className="mt-2 text-4xl font-semibold tracking-tight text-pretty text-primary-100 sm:text-5xl">
-          {title}
         </p>
+        {/* <p className="mt-2 text-4xl font-semibold tracking-tight text-pretty text-primary-100 sm:text-5xl">
+          {title}
+        </p> */}
+        <Heading level="h1" className="tracking-tight text-pretty mt-2">
+          {title}
+        </Heading>
         <p className="mt-6 text-lg/8 text-primary-100">{description}</p>
       </div>
       <div className="relative">

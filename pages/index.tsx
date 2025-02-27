@@ -5,6 +5,7 @@ import bg from "../public/bg.jpg";
 import awardLeft from "../public/award-left.svg";
 import awardRight from "../public/award-right.svg";
 import Feature from "@/components/Feature";
+import Heading from "@/components/Heading";
 
 const features = [
   {
@@ -38,10 +39,11 @@ export default function Home() {
         <span className="text-md font-semibold text-primary-500">
           Make Every Meal Memorable
         </span>
-        <h1 className="mt-6 text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-pretty text-primay-100">
+        <Heading level="h0" className="tracking-tight text-pretty mt-6">
+          {" "}
           Welcome to <span className="text-accent-500">DineNote</span>
-        </h1>
-        <p className="mt-6 text-lg text-primary-100">
+        </Heading>
+        <p className="mt-6 text-lg">
           DineNote is a cozy and intuitive app designed to help you document
           your favorite recipes, plan your meals effortlessly, and even let
           friends “order” from your kitchen. Whether you&apos;re a passionate
