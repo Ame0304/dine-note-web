@@ -11,7 +11,7 @@ export default function FormRowHorizontal({
   ...props
 }: FormRowProps) {
   return (
-    <div className="py-3 border-b border-primary-500/30 last:border-b-0">
+    <div className="py-3 border-b border-accent-500/50 last:border-b-0">
       <div
         className="grid gap-3
         grid-cols-1 sm:grid-cols-[auto_1fr_auto]

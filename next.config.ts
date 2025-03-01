@@ -9,6 +9,13 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "lh3.googleusercontent.com",
       },
+      {
+        protocol: "https",
+        hostname: "atvmwhvffrkirifledfx.supabase.co",
+        port: "",
+        pathname: "/storage/v1/object/public/avatars/**",
+        search: "",
+      },
     ],
   },
 };

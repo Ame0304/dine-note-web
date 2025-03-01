@@ -5,13 +5,18 @@ import Input from "@/components/Input";
 import Heading from "@/components/Heading";
 import { useUser } from "@/context/UserContext";
 import { format, parseISO } from "date-fns";
+import UpdateUserDataForm from "@/components/UpdateUserDataForm";
 
 export default function Profile() {
   const { user } = useUser();
+  if (!user) return null;
+  const {
+    email,
+    created_at,
+    user_metadata: { full_name, avatar_url },
+  } = user;
 
-  const joinedDate = user
-    ? format(parseISO(user.created_at), "yyyy/MM/dd")
-    : "N/A";
+  const joinedDate = format(parseISO(created_at), "yyyy/MM/dd");
 
   return (
     <div className="sm:mx-auto sm:w-full sm:max-w-5xl flex flex-col space-y-6">
@@ -58,14 +63,12 @@ export default function Profile() {
               <div className="absolute inset-0 bg-primary-900 rounded-full"></div>
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-white">
-                  <Avatar src={user?.user_metadata.avatar_url} size="large" />
+                  <Avatar src={avatar_url} size="large" />
                 </div>
               </div>
             </div>
 
-            <Heading level="h2">
-              {user?.user_metadata?.full_name || "User"} 🍳
-            </Heading>
+            <Heading level="h2">{full_name || "User"} 🍳</Heading>
             {/* Joined Date */}
             <p className="text-accent-500">Joined on {joinedDate}</p>
           </div>
@@ -73,35 +76,7 @@ export default function Profile() {
       </div>
       <div className="sm:mx-auto w-full">
         {/* User profile form */}
-        <div className="space-y-2 flex flex-col justify-between p-10 rounded-xl bg-white ">
-          <Heading level="h3">Updating user information</Heading>
-          <form>
-            <FormRowHorizontal label="Full Name">
-              <Input value={user?.user_metadata.full_name} id="fullName" />
-            </FormRowHorizontal>
-            <FormRowHorizontal
-              label="Email"
-              error="Full name cannot be changed"
-            >
-              <Input placeholder={user?.email} id="email" disabled />
-            </FormRowHorizontal>
-
-            <FormRowHorizontal label="Avatar" error="">
-              <div className="w-40">
-                <Button size="regular">Change Avatar</Button>
-              </div>
-            </FormRowHorizontal>
-            {/* Save button and cancel button */}
-            <div className="mt-10 flex justify-end space-x-5">
-              <Button size="regular" type="submit">
-                Save Changes
-              </Button>
-              <Button size="regular" type="submit">
-                Cancel
-              </Button>
-            </div>
-          </form>
-        </div>
+        <UpdateUserDataForm full_name={full_name} email={email} />
         {/* Reset Passowrd form */}
         <div className="mt-5 space-y-2 flex flex-col justify-between p-10 rounded-xl bg-white ">
           <Heading level="h3">Reset Password</Heading>
