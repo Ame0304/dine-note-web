@@ -36,7 +36,7 @@ export default function Sidebar({ expanded, onToggle }: SidebarProps) {
   // Full sidebar when expanded
   return (
     <aside
-      className={`fixed top-0 bottom-0 left-0 z-30 transform overflow-hidden bg-white/70 transition-all duration-300 ease-in-out lg:static lg:h-screen shadow-xl backdrop-blur-md backdrop-saturate-150 ${
+      className={`rounded-xl fixed top-0 bottom-0 left-0 z-30 transform overflow-hidden bg-white transition-all duration-300 ease-in-out lg:static lg:h-screen shadow-xl backdrop-blur-md backdrop-saturate-150 ${
         expanded ? "w-72" : "w-12"
       }`}
     >
@@ -61,7 +61,7 @@ export default function Sidebar({ expanded, onToggle }: SidebarProps) {
                       className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-md font-medium ${
                         isActive
                           ? "bg-accent-400 text-primary-950"
-                          : "text-accent-500 hover:bg-accent-300 hover:text-primary-950"
+                          : "text-accent-500 hover:bg-accent-500 hover:text-primary-950"
                       }`}
                     >
                       <item.icon

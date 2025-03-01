@@ -21,7 +21,7 @@ export default function Feature({
       "
     >
       <div className={`lg:max-w-lg ${imageFirst}`}>
-        <p className="text-md font-semibold text-primary-500">
+        <p className="text-md font-semibold text-accent-500">
           Cook, Record, Share
         </p>
         {/* <p className="mt-2 text-4xl font-semibold tracking-tight text-pretty text-primary-100 sm:text-5xl">

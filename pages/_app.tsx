@@ -58,8 +58,8 @@ export default function App({ Component, pageProps }: AppProps) {
           toastOptions={{
             duration: 3000,
             style: {
-              background: "#b74735",
-              color: "#faf2ea",
+              background: "#98D8EF",
+              color: "#fff4e5",
             },
           }}
         />

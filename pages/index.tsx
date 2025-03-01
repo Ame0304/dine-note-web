@@ -52,7 +52,7 @@ export default function Home() {
         </p>
         <div className="flex lg:justify-center items-center gap-2 mt-6">
           <Image src={awardLeft} alt="award left icon" />
-          <span className="text-sm text-primary-700 font-semibold lg:text-md">
+          <span className="text-sm text-primary-500 font-semibold lg:text-md">
             Best App Gonna Be
           </span>
           <Image src={awardRight} alt="award right icon" />
@@ -68,10 +68,13 @@ export default function Home() {
             className="text-lg text-primary-50 hover:underline"
           >
             Already have an account?
-            <span className="text-accent-500 "> Log in</span>
+            <span className="text-accent-500 hover:text-accent-400 ">
+              {" "}
+              Log in
+            </span>
           </Link>
         </div>
-        <div className="mx-auto mt-14 sm:mt-12 lg:mt-18 lg:max-w-4xl outline outline-primary-700/50 outline-offset-4 rounded-xl">
+        <div className="mx-auto mt-14 sm:mt-12 lg:mt-18 lg:max-w-4xl outline outline-accent-500/50 outline-offset-4 rounded-xl">
           <Image
             src={bg}
             alt="Product Overview"

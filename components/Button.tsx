@@ -20,7 +20,7 @@ export default function Button({
   };
 
   const variantClasses = {
-    primary: "bg-accent-500 hover:bg-accent-400 text-white",
+    primary: "bg-accent-500 text-white hover:bg-accent-400",
     secondary: "bg-white hover:bg-primary-900 text-accent-500",
   };
 

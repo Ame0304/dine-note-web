@@ -28,7 +28,7 @@ export default function AuthCallbackPage() {
         <h2 className="text-xl font-semibold text-primary-100">
           Logging you in...
         </h2>
-        <p className="mt-2 text-sm text-primary-300">
+        <p className="mt-2 text-sm text-accent-500">
           Please wait while we redirect you
         </p>
       </div>
