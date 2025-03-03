@@ -61,7 +61,10 @@ export default function Profile() {
               <div className="absolute inset-0 bg-primary-900 rounded-full"></div>
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-white">
-                  <Avatar src={avatar_url} size="large" />
+                  <Avatar
+                    src={avatar_url ?? "public/default-avatar.png"}
+                    size="large"
+                  />
                 </div>
               </div>
             </div>
