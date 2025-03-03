@@ -30,7 +30,7 @@ export default function Button({
       className={`rounded-md shadow-lg ${sizeClasses[size]} ${variantClasses[variant]} disabled:opacity-50 disabled:cursor-not-allowed`}
     >
       {isLoading ? (
-        <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-r-transparent" />
+        <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-accent-500 border-r-transparent" />
       ) : (
         children
       )}

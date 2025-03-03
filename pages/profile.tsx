@@ -1,11 +1,9 @@
 import Avatar from "@/components/Avatar";
-import Button from "@/components/Button";
-import FormRowHorizontal from "@/components/FormRowHorizontal";
-import Input from "@/components/Input";
 import Heading from "@/components/Heading";
 import { useUser } from "@/context/UserContext";
 import { format, parseISO } from "date-fns";
 import UpdateUserDataForm from "@/components/UpdateUserDataForm";
+import ResetPasswordForm from "@/components/ResetPasswordForm";
 
 export default function Profile() {
   const { user } = useUser();
@@ -75,33 +73,9 @@ export default function Profile() {
         </div>
       </div>
       <div className="sm:mx-auto w-full">
-        {/* User profile form */}
         <UpdateUserDataForm full_name={full_name} email={email} />
-        {/* Reset Passowrd form */}
-        <div className="mt-5 space-y-2 flex flex-col justify-between p-10 rounded-xl bg-white ">
-          <Heading level="h3">Reset Password</Heading>
-          <form>
-            <FormRowHorizontal label="Password" error="">
-              <Input
-                placeholder="Reset password"
-                id="password"
-                type="password"
-              />
-            </FormRowHorizontal>
-            <FormRowHorizontal label="Confirm Password" error="">
-              <Input
-                placeholder="Confirm Password"
-                id="confirmPassword"
-                type="password"
-              />
-            </FormRowHorizontal>
-            <div className="mt-10 flex justify-end space-x-5">
-              <Button size="regular" type="submit">
-                Reset
-              </Button>
-            </div>
-          </form>
-        </div>
+
+        <ResetPasswordForm />
       </div>
     </div>
   );

@@ -29,6 +29,7 @@ export default function SignupForm() {
     formState: { errors, isSubmitting },
   } = useForm<SignUpFormData>();
 
+  // Make sure the password and confirmPassword fields match in real-time
   const password = watch("password");
 
   const onSubmit = async (data: SignUpFormData) => {
