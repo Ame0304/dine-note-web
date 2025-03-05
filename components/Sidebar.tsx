@@ -60,7 +60,7 @@ export default function Sidebar({ expanded, onToggle }: SidebarProps) {
                       href={item.href}
                       className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-md font-medium ${
                         isActive
-                          ? "bg-accent-400 text-primary-950"
+                          ? "bg-accent-500 text-primary-950"
                           : "text-accent-500 hover:bg-accent-500 hover:text-primary-950"
                       }`}
                     >

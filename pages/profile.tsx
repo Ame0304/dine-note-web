@@ -1,11 +1,11 @@
 import Avatar from "@/components/Avatar";
 import Heading from "@/components/Heading";
-import { useUser } from "@/context/UserContext";
-import { format, parseISO } from "date-fns";
 import UpdateUserDataForm from "@/components/UpdateUserDataForm";
 import ResetPasswordForm from "@/components/ResetPasswordForm";
+import { useUser } from "@/context/UserContext";
+import { format, parseISO } from "date-fns";
 
-export default function Profile() {
+export default function ProfilePage() {
   const { user } = useUser();
   if (!user) return null;
   const {

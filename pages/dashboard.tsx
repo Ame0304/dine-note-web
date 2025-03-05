@@ -1,7 +1,7 @@
 import { useUser } from "@/context/UserContext";
 import Heading from "@/components/Heading";
 
-export default function Dashboard() {
+export default function DashboardPage() {
   const { user } = useUser();
   return (
     <Heading level="h1">
