@@ -23,11 +23,11 @@ export default function RecipeCard({
     <div className="bg-primary-950/80 rounded-xl shadow-xl flex flex-col items-center overflow-hidden transform transition-all hover:scale-105 hover:shadow-lg">
       <div className="relative w-full pb-[75%]">
         <Image
-          src={imageUrl}
+          src={imageUrl || "/default-recipe.png"}
           alt={title}
           fill
           className="object-cover absolute top-0 left-0"
-          sizes="50vw, 100vw"
+          sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 50vw"
         />
         <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white/30 to-transparent pointer-events-none"></div>
         {/* "Tried" indicator badge */}
@@ -44,13 +44,13 @@ export default function RecipeCard({
 
       {/* divider */}
       <div className="w-1/2 mt-5 h-1 bg-accent-500"></div>
-      {/* Recipe Info */}
 
-      <div className="w-full flex flex-col p-4">
+      {/* Recipe Info */}
+      <div className="w-full flex flex-col p-4 h-full justify-between">
         <Heading level="h4">{title}</Heading>
-        <p className="text-primary-50">{description}</p>
+        <p className="text-primary-50 text-md">{description}</p>
         {/* Tags */}
-        <div className="w-full flex flex-wrap mt-2 justify-start gap-2">
+        <div className="mt-4 w-full flex flex-wrap justify-start gap-2">
           {categories.map((category, i) => (
             <Tag key={i}>{category}</Tag>
           ))}
