@@ -1,4 +1,5 @@
 import Heading from "@/components/Heading";
+import Loading from "@/components/Loading";
 import RecipeCard from "@/components/RecipeCard";
 import { useUser } from "@/context/UserContext";
 import { useRecipes } from "@/hooks/useRecipes";
@@ -25,9 +26,8 @@ export default function RecipesPage() {
   const userId = user?.id;
   const { isLoading, recipes } = useRecipes(userId);
 
-  // TODO:Creatin a loading component
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading message="Loading Recipes..." size="large" />;
   }
 
   return (
@@ -43,6 +43,7 @@ export default function RecipesPage() {
         <div className="z-2 absolute left-0 right-0 top-1/2 h-2 bg-accent-500 rounded-full"></div>
       </div>
       {/* TODO:Search & Filter & Sort Bar */}
+
       {/* Recipe Grid View */}
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {/* Recipe Card */}

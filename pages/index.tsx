@@ -41,7 +41,10 @@ export default function Home() {
         </span>
         <Heading level="h0" className="tracking-tight text-pretty mt-6">
           {" "}
-          Welcome to <span className="text-accent-500">DineNote</span>
+          Welcome to{" "}
+          <span className="text-primary-900">
+            Dine<span className="text-accent-500">Note</span>
+          </span>
         </Heading>
         <p className="mt-6 text-lg">
           DineNote is a cozy and intuitive app designed to help you document

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { createClient } from "@/lib/supabase/component";
+import Loading from "@/components/Loading";
 
 export default function AuthCallbackPage() {
   const router = useRouter();
@@ -24,14 +25,7 @@ export default function AuthCallbackPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <div className="text-center">
-        <h2 className="text-xl font-semibold text-primary-100">
-          Logging you in...
-        </h2>
-        <p className="mt-2 text-sm text-accent-500">
-          Please wait while we redirect you
-        </p>
-      </div>
+      <Loading message="Logging you in..." size="large" fullPage={true} />
     </div>
   );
 }

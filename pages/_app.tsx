@@ -56,7 +56,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <Toaster
           position="top-center"
           toastOptions={{
-            duration: 3000,
+            duration: 2000,
             style: {
               background: "#98D8EF",
               color: "#fff4e5",
