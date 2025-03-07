@@ -1,7 +1,7 @@
 import React from "react";
 import Heading from "@/components/Heading";
 import Image from "next/image";
-import { CheckBadgeIcon } from "@heroicons/react/24/solid";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import Tag from "./Tag";
 
 interface RecipeCardProps {
@@ -31,8 +31,14 @@ export default function RecipeCard({
         />
         <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white/30 to-transparent pointer-events-none"></div>
         {/* "Tried" indicator badge */}
-        <div className="absolute top-3 right-3 bg-green-200/90 rounded-full p-0.5 shadow-md">
-          {tried && <CheckBadgeIcon className="fill-green-300 size-6" />}
+        <div className="absolute top-3 right-3 bg-white/60 rounded-full p-0.5 shadow-md">
+          <CheckCircleIcon
+            className={
+              tried
+                ? "size-6 stroke-primary-950 fill-accent-500"
+                : "size-6 stroke-accent-500 fill-white"
+            }
+          />
         </div>
       </div>
 
