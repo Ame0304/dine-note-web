@@ -1,5 +1,7 @@
 import Heading from "@/components/Heading";
 import RecipeCard from "@/components/RecipeCard";
+import { useUser } from "@/context/UserContext";
+import { useRecipes } from "@/hooks/useRecipes";
 /*
 2. Recipe Detail View
       * Large featured image at the top.
@@ -18,6 +20,16 @@ import RecipeCard from "@/components/RecipeCard";
       * Intuitive navigation (easy access to editing, meal planning, and sharing).
 */
 export default function RecipesPage() {
+  // TODO:extract user Id directly from useUser hook
+  const { user } = useUser();
+  const userId = user?.id;
+  const { isLoading, recipes } = useRecipes(userId);
+
+  // TODO:Creatin a loading component
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       {/* Recipe Page Header */}
@@ -26,43 +38,24 @@ export default function RecipesPage() {
           level="h2"
           className="relative z-10 text-primary-100 font-bold p-1"
         >
-          Recipes
+          Recipe
         </Heading>
         <div className="z-2 absolute left-0 right-0 top-1/2 h-2 bg-accent-500 rounded-full"></div>
       </div>
-      {/* TODO:Search & Filter Bar */}
+      {/* TODO:Search & Filter & Sort Bar */}
       {/* Recipe Grid View */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         {/* Recipe Card */}
-        <RecipeCard
-          title={"Spaghetti Carbonara"}
-          description={
-            "A classic Italian pasta dish with eggs, cheese, pancetta, and black pepper."
-          }
-          tags={["Italian", "Pasta", "Quick"]}
-          imageUrl={"/feature-1.png"}
-          tried={true}
-        />
-
-        <RecipeCard
-          title={"Spaghetti Carbonara"}
-          description={
-            "A classic Italian pasta dish with eggs, cheese, pancetta, and black pepper."
-          }
-          tags={["Italian", "Pasta", "Lunch"]}
-          imageUrl={"/feature-2.jpg"}
-          tried={true}
-        />
-
-        <RecipeCard
-          title={"Spaghetti Carbonara"}
-          description={
-            "A classic Italian pasta dish with eggs, cheese, pancetta, and black pepper."
-          }
-          tags={["Italian", "Pasta", "Lunch"]}
-          imageUrl={"/feature-4.jpg"}
-          tried={false}
-        />
+        {recipes?.map((recipe) => (
+          <RecipeCard
+            title={recipe.title}
+            description={recipe.description}
+            categories={recipe.categories}
+            imageUrl={recipe.imageUrl}
+            tried={recipe.tried}
+            key={recipe.id}
+          />
+        ))}
       </div>
     </div>
   );

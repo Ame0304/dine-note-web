@@ -16,6 +16,10 @@ const nextConfig: NextConfig = {
         pathname: "/storage/v1/object/public/avatars/**",
         search: "",
       },
+      {
+        protocol: "https",
+        hostname: "atvmwhvffrkirifledfx.supabase.co",
+      },
     ],
   },
 };
