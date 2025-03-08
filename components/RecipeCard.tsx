@@ -1,8 +1,11 @@
-import React from "react";
+import { useState } from "react";
+import { useDeleteRecipe } from "@/hooks/recipes/useDeleteRecipe";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import Tag from "./Tag";
 import Heading from "@/components/Heading";
 import Image from "next/image";
-import { CheckCircleIcon } from "@heroicons/react/24/solid";
-import Tag from "./Tag";
+import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
 
 interface RecipeCardProps {
   title: string;
@@ -10,6 +13,7 @@ interface RecipeCardProps {
   categories: string[];
   imageUrl: string;
   tried: boolean;
+  id: string;
 }
 
 export default function RecipeCard({
@@ -18,10 +22,20 @@ export default function RecipeCard({
   categories,
   imageUrl,
   tried,
+  id,
 }: RecipeCardProps) {
+  const { isDeleting, deleteRecipe } = useDeleteRecipe();
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
+
+  const handleDeleteConfirm = () => {
+    deleteRecipe(id);
+    setIsOpenDelete(false);
+  };
+
   return (
-    <div className="bg-primary-950/80 rounded-xl shadow-xl flex flex-col items-center overflow-hidden transform transition-all hover:scale-105 hover:shadow-lg">
+    <div className="bg-primary-950/80 rounded-xl shadow-xl flex flex-col items-center overflow-hidden  hover:shadow-primary-900">
       <div className="relative w-full pb-[75%]">
+        {/* Feathered Recipe Image  */}
         <Image
           src={imageUrl || "/default-recipe.png"}
           alt={title}
@@ -30,20 +44,38 @@ export default function RecipeCard({
           sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 50vw"
         />
         <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white/30 to-transparent pointer-events-none"></div>
-        {/* "Tried" indicator badge */}
-        <div className="absolute top-3 right-3 bg-white/60 rounded-full p-0.5 shadow-md">
+
+        {/* Delete Recipe */}
+
+        <div
+          className="absolute top-3 right-3 bg-white rounded-full p-1 shadow-md transform transition-all hover:scale-105 hover:shadow-primary-900"
+          onClick={() => setIsOpenDelete(true)}
+        >
+          <TrashIcon className="size-7 stroke-accent-500 cursor-pointer" />
+        </div>
+
+        <ConfirmDeleteDialog
+          isOpen={isOpenDelete}
+          onClose={() => setIsOpenDelete(false)}
+          onConfirm={handleDeleteConfirm}
+          title="Recipe"
+          itemName={title}
+          isDeleting={isDeleting}
+        />
+      </div>
+
+      {/* Tried badge instead of divider */}
+      <div className="relative w-full flex justify-center mb-4">
+        <div className="absolute -top-6 bg-primary-950 rounded-full p-1 transform transition-all hover:scale-105 hover:shadow-primary-900 hover:shadow-md">
           <CheckCircleIcon
-            className={
+            className={`size-10 ${
               tried
-                ? "size-6 stroke-primary-950 fill-accent-500"
-                : "size-6 stroke-accent-500 fill-white"
-            }
+                ? "stroke-primary-950 fill-accent-500"
+                : "stroke-accent-500 fill-white"
+            }`}
           />
         </div>
       </div>
-
-      {/* divider */}
-      <div className="w-1/2 mt-5 h-1 bg-accent-500"></div>
 
       {/* Recipe Info */}
       <div className="w-full flex flex-col p-4 h-full justify-between">

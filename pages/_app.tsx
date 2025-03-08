@@ -47,7 +47,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>DineNote</title>
-        <link rel="icon" href="logo.png" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
       <div
         className={`${lexend.className}  bg-primary-950 text-primary-100 min-h-screen`}

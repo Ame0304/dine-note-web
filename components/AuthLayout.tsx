@@ -38,7 +38,7 @@ export default function AuthLayout({
       </div>
 
       <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
-        <div className="bg-white/40 backdrop-blur-md backdrop-saturate-150 p-6 rounded-xl border border-accent-500/30 shadow-xl">
+        <div className="bg-white/90 backdrop-blur-md backdrop-saturate-150 p-6 rounded-xl shadow-xl shadow-primary-900/50">
           {children}
         </div>
 

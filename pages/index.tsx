@@ -36,7 +36,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen pb-20 space-y-16">
       {/* Landing page header */}
       <div className="mx-auto max-w-4xl lg:text-center ">
-        <span className="text-md font-semibold text-primary-500">
+        <span className="text-md font-semibold text-accent-500">
           Make Every Meal Memorable
         </span>
         <Heading level="h0" className="tracking-tight text-pretty mt-6">
@@ -55,7 +55,7 @@ export default function Home() {
         </p>
         <div className="flex lg:justify-center items-center gap-2 mt-6">
           <Image src={awardLeft} alt="award left icon" />
-          <span className="text-sm text-primary-500 font-semibold lg:text-md">
+          <span className="text-sm text-accent-400 font-semibold lg:text-md">
             Best App Gonna Be
           </span>
           <Image src={awardRight} alt="award right icon" />

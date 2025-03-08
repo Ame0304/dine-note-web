@@ -73,3 +73,12 @@ export async function getRecipes({
     ),
   }));
 }
+
+export async function deleteRecipe(recipeId: string) {
+  const supabase = createClient();
+  const { error } = await supabase.from("recipes").delete().eq("id", recipeId);
+  if (error) {
+    throw new Error(error.message);
+  }
+  return;
+}

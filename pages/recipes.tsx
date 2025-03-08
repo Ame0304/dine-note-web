@@ -2,7 +2,7 @@ import Heading from "@/components/Heading";
 import Loading from "@/components/Loading";
 import RecipeCard from "@/components/RecipeCard";
 import { useUser } from "@/context/UserContext";
-import { useRecipes } from "@/hooks/useRecipes";
+import { useRecipes } from "@/hooks/recipes/useRecipes";
 /*
 2. Recipe Detail View
       * Large featured image at the top.
@@ -55,6 +55,7 @@ export default function RecipesPage() {
             imageUrl={recipe.imageUrl}
             tried={recipe.tried}
             key={recipe.id}
+            id={recipe.id}
           />
         ))}
       </div>

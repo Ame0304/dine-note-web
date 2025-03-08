@@ -76,7 +76,12 @@ export default function UpdateUserDataForm({
           <Button size="regular" type="submit">
             Save Changes
           </Button>
-          <Button size="regular" type="button" onClick={handleCancel}>
+          <Button
+            size="regular"
+            type="button"
+            onClick={handleCancel}
+            variant="secondary"
+          >
             Cancel
           </Button>
         </div>

@@ -11,7 +11,7 @@ export default function Navbar() {
   const { user } = useUser();
 
   return (
-    <header className="fixed z-1 top-0 left-0 right-0 border-b border-accent-500/50 bg-white/80 backdrop-blur-lg backdrop-saturate-150 supports-[backdrop-filter]:bg-white/60">
+    <header className="fixed z-20 top-0 left-0 right-0 border-b border-primary-900/50 bg-white/80 backdrop-blur-lg backdrop-saturate-150 supports-[backdrop-filter]:bg-white/60">
       <nav
         aria-label="Global"
         className="flex justify-between items-center max-w-7xl mx-auto p-3 h-16"
@@ -42,7 +42,7 @@ export default function Navbar() {
                 </div>
               </MenuItem>
               <div className="text-lg text-primary-950 hover:bg-accent-400 py-1 px-3 rounded-lg w-full">
-                <Link href="#">Sign up</Link>
+                <Link href="/auth/signup">Sign up</Link>
               </div>
             </MenuItems>
           </Menu>
