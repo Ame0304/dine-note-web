@@ -49,7 +49,7 @@ export default function RecipeCard({
 
           {/* Tried badge */}
           <div className="relative w-full flex justify-center">
-            <div className="absolute -top-6 bg-primary-950 rounded-full p-1 shadow-primary-900  shadow-md transform transition-all hover:scale-105">
+            <div className="absolute -top-6 bg-accent-500/80 rounded-full p-1 shadow-primary-900  shadow-md transform transition-all hover:scale-105">
               <CheckCircleIcon
                 className={`size-10 cursor-pointer ${
                   tried
@@ -60,15 +60,6 @@ export default function RecipeCard({
               />
             </div>
           </div>
-
-          <ConfirmDeleteDialog
-            isOpen={isOpenDelete}
-            onClose={() => setIsOpenDelete(false)}
-            onConfirm={handleDeleteConfirm}
-            title="Recipe"
-            itemName={title}
-            isDeleting={isDeleting}
-          />
         </div>
 
         {/* Recipe Info */}
@@ -108,6 +99,15 @@ export default function RecipeCard({
             </Button>
           </div>
         </div>
+
+        <ConfirmDeleteDialog
+          isOpen={isOpenDelete}
+          onClose={() => setIsOpenDelete(false)}
+          onConfirm={handleDeleteConfirm}
+          title="Recipe"
+          itemName={title}
+          isDeleting={isDeleting}
+        />
       </div>
     </div>
   );

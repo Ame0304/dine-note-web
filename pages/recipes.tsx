@@ -14,11 +14,6 @@ import { useRecipes } from "@/hooks/recipes/useRecipes";
       * Edit / Delete Recipe (for the owner).
       * "Cook This" Button – Adds the recipe to Meal Plan.
       * "Share" Button – Allows sharing via link or social media.
-   4. Visual & UI Style
-      * Warm, cozy, and minimalistic design (think "handwritten recipe journal" meets modern app).
-      * Soft rounded cards, clean typography, warm color tones.
-      * Recipe images should stand out but not overpower the page.
-      * Intuitive navigation (easy access to editing, meal planning, and sharing).
 */
 export default function RecipesPage() {
   // TODO:extract user Id directly from useUser hook
@@ -45,7 +40,7 @@ export default function RecipesPage() {
       {/* TODO:Search & Filter & Sort Bar */}
 
       {/* Recipe Grid View */}
-      <div className="grid grid-cols-1 gap-14 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {/* Recipe Card */}
         {recipes?.map((recipe) => (
           <RecipeCard
