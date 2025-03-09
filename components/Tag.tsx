@@ -6,7 +6,7 @@ interface TagProps {
 
 export default function Tag({ children }: TagProps) {
   return (
-    <span className="bg-accent-500 text-white py-1 px-2 rounded-2xl text-xs shadow-md">
+    <span className="bg-accent-500 text-white py-1 px-2 rounded-2xl text-xs shadow-sm">
       {children}
     </span>
   );

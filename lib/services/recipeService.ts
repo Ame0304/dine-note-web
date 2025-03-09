@@ -18,6 +18,8 @@ interface FetchRecipesParams {
   pageSize?: number;
 }
 
+const supabase = createClient();
+
 export async function getRecipes({
   userId,
   page = 1,
@@ -28,7 +30,6 @@ export async function getRecipes({
   const endIndex = page * pageSize;
 
   // Fetch recipes from Supabase
-  const supabase = createClient();
   const { data, error } = await supabase
     .from("recipes")
     .select(
@@ -36,13 +37,12 @@ export async function getRecipes({
     )
     .eq("userId", userId)
     .order("created_at", { ascending: false })
+    .order("id", { ascending: true })
     .range(startIndex, endIndex);
 
   if (error) {
     throw new Error(error.message);
   }
-
-  console.log(data);
 
   if (!data || data.length === 0) {
     return [];
@@ -75,10 +75,36 @@ export async function getRecipes({
 }
 
 export async function deleteRecipe(recipeId: string) {
-  const supabase = createClient();
   const { error } = await supabase.from("recipes").delete().eq("id", recipeId);
   if (error) {
     throw new Error(error.message);
   }
+  return;
+}
+
+export async function updateRecipe(tried: boolean, recipeId: string) {
+  // const { data, error } = await supabase
+  //   .from("recipes")
+  //   .update({
+  //     title: recipe.title,
+  //     description: recipe.description,
+  //     imageUrl: recipe.imageUrl,
+  //     tried: recipe.tried,
+  //     note: recipe.note,
+  //     steps: recipe.steps,
+  //   })
+  //   .eq("id", recipe.id);
+  const { error } = await supabase
+    .from("recipes")
+    .update({
+      tried: tried,
+    })
+    .eq("id", recipeId);
+
+  if (error) {
+    console.error("Update error:", error);
+    throw new Error(error.message);
+  }
+
   return;
 }

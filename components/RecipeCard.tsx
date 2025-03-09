@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useDeleteRecipe } from "@/hooks/recipes/useDeleteRecipe";
+import useDeleteRecipe from "@/hooks/recipes/useDeleteRecipe";
+import useUpdateRecipe from "@/hooks/recipes/useUpdateRecipe";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import Tag from "./Tag";
@@ -26,6 +27,7 @@ export default function RecipeCard({
 }: RecipeCardProps) {
   const { isDeleting, deleteRecipe } = useDeleteRecipe();
   const [isOpenDelete, setIsOpenDelete] = useState(false);
+  const { updateRecipe } = useUpdateRecipe();
 
   const handleDeleteConfirm = () => {
     deleteRecipe(id);
@@ -33,7 +35,7 @@ export default function RecipeCard({
   };
 
   return (
-    <div className="bg-primary-950/80 rounded-xl shadow-xl flex flex-col items-center overflow-hidden  hover:shadow-primary-900">
+    <div className="bg-white/70 rounded-xl shadow-xl flex flex-col items-center overflow-hidden  hover:shadow-primary-900">
       <div className="relative w-full pb-[75%]">
         {/* Feathered Recipe Image  */}
         <Image
@@ -65,14 +67,15 @@ export default function RecipeCard({
       </div>
 
       {/* Tried badge instead of divider */}
-      <div className="relative w-full flex justify-center mb-4">
-        <div className="absolute -top-6 bg-primary-950 rounded-full p-1 transform transition-all hover:scale-105 hover:shadow-primary-900 hover:shadow-md">
+      <div className="relative w-full flex justify-center mb-2">
+        <div className="absolute -top-6 bg-primary-950 rounded-full p-1 shadow-primary-900  shadow-md transform transition-all hover:scale-105">
           <CheckCircleIcon
-            className={`size-10 ${
+            className={`size-10 cursor-pointer ${
               tried
                 ? "stroke-primary-950 fill-accent-500"
                 : "stroke-accent-500 fill-white"
             }`}
+            onClick={() => updateRecipe({ tried: !tried, recipeId: id })}
           />
         </div>
       </div>
@@ -80,13 +83,17 @@ export default function RecipeCard({
       {/* Recipe Info */}
       <div className="w-full flex flex-col p-4 h-full justify-between">
         <Heading level="h4">{title}</Heading>
-        <p className="text-primary-50 text-md">{description}</p>
+        {description && (
+          <p className="text-primary-50 text-md">{description}</p>
+        )}
         {/* Tags */}
-        <div className="mt-4 w-full flex flex-wrap justify-start gap-2">
-          {categories.map((category, i) => (
-            <Tag key={i}>{category}</Tag>
-          ))}
-        </div>
+        {categories.length > 0 && (
+          <div className="mt-2 w-full flex flex-wrap justify-start gap-2">
+            {categories.map((category, i) => (
+              <Tag key={i}>{category}</Tag>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
