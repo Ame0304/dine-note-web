@@ -1,8 +1,9 @@
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   size?: "small" | "regular" | "large" | "full";
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "link";
   isLoading?: boolean;
+  icon?: React.ReactNode;
 }
 
 export default function Button({
@@ -10,6 +11,7 @@ export default function Button({
   size = "regular",
   variant = "primary",
   isLoading,
+  icon,
   ...props
 }: ButtonProps) {
   const sizeClasses = {
@@ -22,7 +24,25 @@ export default function Button({
   const variantClasses = {
     primary: "bg-accent-500 text-white hover:bg-accent-400",
     secondary: "bg-white text-accent-500 hover:text-accent-400",
+    link: "text-accent-500 hover:text-accent-400 transition-colors bg-transparent shadow-none",
   };
+
+  // Link variant with icon has different styling
+  if (variant === "link" && icon) {
+    return (
+      <button
+        {...props}
+        className={`flex items-center gap-2 text-sm text-accent-500 hover:text-accent-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+          props.className || ""
+        }`}
+      >
+        <>
+          <span>{children}</span>
+          {icon}
+        </>
+      </button>
+    );
+  }
 
   return (
     <button
