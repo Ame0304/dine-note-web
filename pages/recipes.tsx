@@ -50,7 +50,6 @@ export default function RecipesPage() {
         {recipes?.map((recipe) => (
           <RecipeCard
             title={recipe.title}
-            description={recipe.description}
             categories={recipe.categories}
             imageUrl={recipe.imageUrl}
             tried={recipe.tried}

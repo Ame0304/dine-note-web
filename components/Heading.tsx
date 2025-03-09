@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-type HeadingLevel = "h0" | "h1" | "h2" | "h3" | "h4";
+type HeadingLevel = "h0" | "h1" | "h2" | "h3" | "h4" | "h5";
 
 interface HeadingProps {
   level: HeadingLevel;
@@ -15,6 +15,7 @@ export default function Heading({
 }: HeadingProps) {
   // Map sizes to appropriate Tailwind classes
   const sizeClasses = {
+    h5: "text-md md:text-lg",
     h4: "text-lg md:text-xl",
     h3: "text-xl md:text-2xl",
     h2: "text-2xl md:text-3xl",

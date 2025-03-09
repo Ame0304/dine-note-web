@@ -2,7 +2,7 @@ import { useState } from "react";
 import useDeleteRecipe from "@/hooks/recipes/useDeleteRecipe";
 import useUpdateRecipe from "@/hooks/recipes/useUpdateRecipe";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
-import { TrashIcon } from "@heroicons/react/24/outline";
+import { TrashIcon, EyeIcon } from "@heroicons/react/24/outline";
 import Tag from "./Tag";
 import Heading from "@/components/Heading";
 import Image from "next/image";
@@ -10,7 +10,6 @@ import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
 
 interface RecipeCardProps {
   title: string;
-  description: string;
   categories: string[];
   imageUrl: string;
   tried: boolean;
@@ -19,7 +18,6 @@ interface RecipeCardProps {
 
 export default function RecipeCard({
   title,
-  description,
   categories,
   imageUrl,
   tried,
@@ -35,7 +33,7 @@ export default function RecipeCard({
   };
 
   return (
-    <div className="bg-white/70 rounded-xl shadow-xl flex flex-col items-center overflow-hidden  hover:shadow-primary-900">
+    <div className="bg-white/70 rounded-xl shadow-xl flex flex-col items-center transform transition-all hover:scale-105 overflow-hidden  hover:shadow-primary-900">
       <div className="relative w-full pb-[75%]">
         {/* Feathered Recipe Image  */}
         <Image
@@ -81,19 +79,28 @@ export default function RecipeCard({
       </div>
 
       {/* Recipe Info */}
-      <div className="w-full flex flex-col p-4 h-full justify-between">
-        <Heading level="h4">{title}</Heading>
-        {description && (
-          <p className="text-primary-50 text-md">{description}</p>
-        )}
-        {/* Tags */}
-        {categories.length > 0 && (
-          <div className="mt-2 w-full flex flex-wrap justify-start gap-2">
-            {categories.map((category, i) => (
-              <Tag key={i}>{category}</Tag>
-            ))}
+      <div className="grid grid-rows-[auto_auto_auto] h-full p-4 w-full">
+        <div className="mb-2">
+          <Heading level="h5">{title}</Heading>
+          {/* Tags */}
+          <div className="w-full mb-2">
+            {categories.length > 0 && (
+              <div className="mt-2 w-full flex flex-wrap justify-start gap-2">
+                {categories.map((category, i) => (
+                  <Tag key={i}>{category}</Tag>
+                ))}
+              </div>
+            )}
           </div>
-        )}
+        </div>
+
+        {/* See Details Button */}
+        <div className="mt-auto pt-2 w-full flex justify-end border-t border-primary-200/30">
+          <button className="flex items-center gap-2 text-sm text-accent-500 hover:text-accent-400 transition-colors">
+            <span>Details</span>
+            <EyeIcon className="size-5" />
+          </button>
+        </div>
       </div>
     </div>
   );
