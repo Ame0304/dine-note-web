@@ -1,6 +1,7 @@
 import Heading from "@/components/Heading";
 import Loading from "@/components/Loading";
 import Pagination from "@/components/Pagination";
+import RecipeControls from "@/components/RecipeControls";
 import RecipesList from "@/components/RecipesList";
 import { useUser } from "@/context/UserContext";
 import { useRecipes } from "@/hooks/recipes/useRecipes";
@@ -35,6 +36,7 @@ export default function RecipesPage() {
         All Recipes
       </Heading>
       {/* TODO:Search & Filter & Sort Bar */}
+      <RecipeControls />
 
       {/* Recipe Grid View */}
       <RecipesList recipes={recipes} />
