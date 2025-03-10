@@ -1,8 +1,10 @@
 import Heading from "@/components/Heading";
 import Loading from "@/components/Loading";
-import RecipeCard from "@/components/RecipeCard";
+import Pagination from "@/components/Pagination";
+import RecipesList from "@/components/RecipesList";
 import { useUser } from "@/context/UserContext";
 import { useRecipes } from "@/hooks/recipes/useRecipes";
+import { useRouter } from "next/router";
 /*
 2. Recipe Detail View
       * Large featured image at the top.
@@ -16,10 +18,11 @@ import { useRecipes } from "@/hooks/recipes/useRecipes";
       * "Share" Button – Allows sharing via link or social media.
 */
 export default function RecipesPage() {
-  // TODO:extract user Id directly from useUser hook
   const { user } = useUser();
   const userId = user?.id;
-  const { isLoading, recipes } = useRecipes(userId);
+  const router = useRouter();
+  const currentPage = Number(router.query.page) || 1;
+  const { isLoading, recipes, count } = useRecipes(userId, currentPage);
 
   if (isLoading) {
     return <Loading message="Loading Recipes..." size="large" />;
@@ -28,31 +31,16 @@ export default function RecipesPage() {
   return (
     <div>
       {/* Recipe Page Header */}
-      <div className="inline-block relative">
-        <Heading
-          level="h2"
-          className="relative z-10 text-primary-100 font-bold p-1"
-        >
-          Recipe
-        </Heading>
-        <div className="z-2 absolute left-0 right-0 top-1/2 h-2 bg-accent-500 rounded-full"></div>
-      </div>
+      <Heading level="h2" styled={true}>
+        All Recipes
+      </Heading>
       {/* TODO:Search & Filter & Sort Bar */}
 
       {/* Recipe Grid View */}
-      <div className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {/* Recipe Card */}
-        {recipes?.map((recipe) => (
-          <RecipeCard
-            title={recipe.title}
-            categories={recipe.categories}
-            imageUrl={recipe.imageUrl}
-            tried={recipe.tried}
-            key={recipe.id}
-            id={recipe.id}
-          />
-        ))}
-      </div>
+      <RecipesList recipes={recipes} />
+
+      {/* Pagination */}
+      {count > 0 && <Pagination totalItems={count} />}
     </div>
   );
 }

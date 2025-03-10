@@ -32,7 +32,7 @@ export default function Button({
     return (
       <button
         {...props}
-        className={`flex items-center gap-2 text-sm text-accent-500 hover:text-accent-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
+        className={`flex items-center gap-2 text-sm text-accent-500 hover:text-accent-400 transition-colors disabled:opacity-60 disabled:cursor-not-allowed ${
           props.className || ""
         }`}
       >

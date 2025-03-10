@@ -48,12 +48,12 @@ export default function RecipeCard({
           <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white/30 to-transparent pointer-events-none"></div>
 
           {/* Tried badge */}
-          <div className="relative w-full flex justify-center">
-            <div className="absolute -top-6 bg-accent-500/80 rounded-full p-1 shadow-primary-900  shadow-md transform transition-all hover:scale-105">
+          <div className="relative flex justify-center">
+            <div className="absolute -top-6 bg-white rounded-full p-1 shadow-primary-900  shadow-md transform transition-all hover:scale-105">
               <CheckCircleIcon
                 className={`size-10 cursor-pointer ${
                   tried
-                    ? "stroke-primary-950 fill-accent-500"
+                    ? "stroke-white fill-accent-500"
                     : "stroke-accent-500 fill-white"
                 }`}
                 onClick={() => updateRecipe({ tried: !tried, recipeId: id })}

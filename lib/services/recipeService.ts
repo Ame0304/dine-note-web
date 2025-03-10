@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/component";
+import { PAGE_SIZE } from "../constants";
 
 export interface Recipe {
   id: string;
@@ -15,40 +16,42 @@ export interface Recipe {
 interface FetchRecipesParams {
   userId: string | undefined;
   page?: number;
-  pageSize?: number;
 }
 
 const supabase = createClient();
 
-export async function getRecipes({
-  userId,
-  page = 1,
-  pageSize = 12,
-}: FetchRecipesParams) {
-  // Pagination
-  const startIndex = (page - 1) * pageSize;
-  const endIndex = page * pageSize;
+export async function getRecipes({ userId, page = 1 }: FetchRecipesParams) {
+  if (!userId) {
+    return { recipes: [], count: 0 };
+  }
 
-  // Fetch recipes from Supabase
-  const { data, error } = await supabase
+  let query = supabase
     .from("recipes")
     .select(
-      `*,recipe_ingredients(ingredients(name),quantity),recipe_categories(category:categories(name))`
+      `*,recipe_ingredients(ingredients(name),quantity),recipe_categories(category:categories(name))`,
+      { count: "exact" }
     )
-    .eq("userId", userId)
-    .order("created_at", { ascending: false })
-    .order("id", { ascending: true })
-    .range(startIndex, endIndex);
+    .eq("userId", userId);
+
+  // Pagination
+  if (page) {
+    const startIndex = (page - 1) * PAGE_SIZE;
+    const endIndex = startIndex + PAGE_SIZE - 1;
+    query = query.range(startIndex, endIndex);
+  }
+
+  const { data, error, count } = await query;
 
   if (error) {
     throw new Error(error.message);
   }
 
   if (!data || data.length === 0) {
-    return [];
+    return { recipes: [], count: count || 0 }; // Return count even with empty results
   }
 
-  return data.map((recipe) => ({
+  // format the data
+  const recipes = data.map((recipe) => ({
     id: recipe.id.toString(),
     title: recipe.title,
     description: recipe.description,
@@ -72,6 +75,8 @@ export async function getRecipes({
       (item: { category: { name: string } }) => item.category.name
     ),
   }));
+
+  return { recipes, count };
 }
 
 export async function deleteRecipe(recipeId: string) {
