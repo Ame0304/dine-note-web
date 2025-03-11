@@ -22,7 +22,7 @@ export default function RecipeControls() {
   const categories = ["All", "Main Course", "Appetizer", "Dessert", "Beverage"];
 
   return (
-    <div className="flex flex-col gap-4 mb-6 md:flex-row md:items-center md:justify-between">
+    <div className="flex flex-col gap-4 mt-4 mb-8 md:flex-row md:items-center md:justify-between">
       {/* Search Bar */}
       <div className="relative flex-1 max-w-md">
         <input
@@ -44,7 +44,7 @@ export default function RecipeControls() {
       <div className="flex flex-wrap gap-3">
         {/* Category Filter */}
         <select
-          className="px-3 py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500 shadow-md shadow-accent-300 text-accent-300"
+          className="px-3 py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-400 shadow-md shadow-accent-400 text-accent-400"
           //   onChange={(e) => onFilterCategory(e.target.value)}
         >
           {categories.map((category) => (
@@ -56,7 +56,7 @@ export default function RecipeControls() {
 
         {/* Sort Dropdown */}
         <select
-          className="px-3 py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500  shadow-md shadow-accent-400 text-accent-400"
+          className="px-3 py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-400  shadow-md shadow-accent-400 text-accent-400"
           // onChange={(e) => onSort(e.target.value as SortOption)}
         >
           <option value="newest">Newest First</option>

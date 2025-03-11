@@ -49,7 +49,7 @@ export default function RecipeCard({
 
           {/* Tried badge */}
           <div className="relative flex justify-center">
-            <div className="absolute -top-6 bg-white rounded-full p-1 shadow-primary-900  shadow-md transform transition-all hover:scale-105">
+            <div className="absolute -top-6 bg-white rounded-full p-0.5 transform transition-all hover:scale-105">
               <CheckCircleIcon
                 className={`size-10 cursor-pointer ${
                   tried
@@ -63,11 +63,11 @@ export default function RecipeCard({
         </div>
 
         {/* Recipe Info */}
-        <div className="flex flex-col flex-1 w-full p-2">
+        <div className="flex flex-col flex-1 w-full px-0.5">
           <div>
             <Heading level="h5">{title}</Heading>
             {/* Tags - Horizontally scrollable */}
-            <div className="w-full mb-2">
+            <div className="w-full mb-1">
               {categories.length > 0 && (
                 <div
                   className="mt-2 overflow-x-auto pb-2"
@@ -83,7 +83,7 @@ export default function RecipeCard({
             </div>
           </div>
 
-          <div className="mt-auto pt-2 -mb-4 w-full flex justify-between border-t border-primary-900/40 gap-5">
+          <div className="mt-auto pt-2 -mb-2 w-full flex justify-between border-t border-primary-900/40 gap-5">
             {/* Delete recipe */}
             <Button
               variant="link"

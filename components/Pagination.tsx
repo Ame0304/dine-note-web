@@ -56,7 +56,7 @@ export default function Pagination({ totalItems }: PaginationProps) {
     <div className="flex flex-col sm:flex-row justify-between items-center my-8 px-2">
       <p className="mb-4 sm:mb-0">
         Showing{" "}
-        <span className="text-accent-500">
+        <span className="text-accent-500 border border-accent-500 rounded-xl px-3 py-1 shadow-md">
           {startIndex} - {endIndex}
         </span>{" "}
         of {totalItems} results
@@ -67,12 +67,13 @@ export default function Pagination({ totalItems }: PaginationProps) {
           onClick={goToPreviousPage}
           disabled={currentPage === 1}
           aria-label="Previous page"
+          variant="outline"
         >
-          <ChevronLeftIcon className="size-4" />
+          <ChevronLeftIcon className="size-4 stroke-2" />
         </Button>
 
-        <span>
-          Page <span className="text-accent-500">{currentPage}</span> of{" "}
+        <span className="border border-accent-500 rounded-xl px-3 py-1 shadow-md">
+          Page <span className="text-accent-500">{currentPage}</span> /{" "}
           {totalPages}
         </span>
 
@@ -80,8 +81,9 @@ export default function Pagination({ totalItems }: PaginationProps) {
           onClick={goToNextPage}
           disabled={currentPage === totalPages}
           aria-label="Next page"
+          variant="outline"
         >
-          <ChevronRightIcon className="size-4" />
+          <ChevronRightIcon className="size-4 stroke-2" />
         </Button>
       </div>
     </div>

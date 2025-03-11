@@ -5,7 +5,6 @@ import RecipeControls from "@/components/RecipeControls";
 import RecipesList from "@/components/RecipesList";
 import { useUser } from "@/context/UserContext";
 import { useRecipes } from "@/hooks/recipes/useRecipes";
-import { useRouter } from "next/router";
 /*
 2. Recipe Detail View
       * Large featured image at the top.
@@ -21,9 +20,8 @@ import { useRouter } from "next/router";
 export default function RecipesPage() {
   const { user } = useUser();
   const userId = user?.id;
-  const router = useRouter();
-  const currentPage = Number(router.query.page) || 1;
-  const { isLoading, recipes, count } = useRecipes(userId, currentPage);
+
+  const { isLoading, recipes, count } = useRecipes(userId);
 
   if (isLoading) {
     return <Loading message="Loading Recipes..." size="large" />;

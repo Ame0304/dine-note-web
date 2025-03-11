@@ -1,7 +1,7 @@
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   size?: "small" | "regular" | "large" | "full";
-  variant?: "primary" | "secondary" | "link";
+  variant?: "primary" | "secondary" | "link" | "outline";
   isLoading?: boolean;
   icon?: React.ReactNode;
 }
@@ -25,6 +25,8 @@ export default function Button({
     primary: "bg-accent-500 text-white hover:bg-accent-400",
     secondary: "bg-white text-accent-500 hover:text-accent-400",
     link: "text-accent-500 hover:text-accent-400 transition-colors bg-transparent shadow-none",
+    outline:
+      "border-2 border-accent-500 text-accent-500 hover:bg-accent-500 hover:text-white",
   };
 
   // Link variant with icon has different styling
@@ -47,7 +49,7 @@ export default function Button({
   return (
     <button
       {...props}
-      className={`rounded-md shadow-lg ${sizeClasses[size]} ${variantClasses[variant]} disabled:opacity-50 disabled:cursor-not-allowed`}
+      className={`rounded-xl shadow-lg ${sizeClasses[size]} ${variantClasses[variant]} disabled:opacity-50 disabled:cursor-not-allowed`}
     >
       {isLoading ? (
         <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-accent-500 border-r-transparent" />
