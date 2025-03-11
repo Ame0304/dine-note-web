@@ -1,30 +1,53 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-
-// type SortOption = "newest" | "oldest" | "name-asc" | "name-desc";
-
-// interface RecipeControlsProps {
-//     onSearch: (term: string) => void;
-//     onSort: (option: SortOption) => void;
-//   onFilterCategory: (category: string) => void;
-// }
-
-/*
-    onSearch,
-    onSort,
-  onFilterCategory,}: RecipeControlsProps
-
-  */
+import { useRouter } from "next/router";
 
 export default function RecipeControls() {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
 
-  const categories = ["All", "Main Course", "Appetizer", "Dessert", "Beverage"];
+  const handleSearch = (e?: FormEvent) => {
+    e?.preventDefault();
+
+    // keep the current query params and update the search term
+    const query = { ...router.query };
+    if (searchTerm.trim() === "") {
+      delete query.search;
+    } else {
+      query.search = searchTerm;
+    }
+
+    // reset to page 1 when search changes
+    delete query.page;
+
+    router.push({
+      pathname: router.pathname,
+      query,
+    });
+  };
+
+  const handleSort = (value: string) => {
+    const query = { ...router.query };
+    query.sortBy = value;
+
+    router.push({
+      pathname: router.pathname,
+      query,
+    });
+  };
+
+  const categories = [
+    "All categories",
+    "Main Course",
+    "Appetizer",
+    "Dessert",
+    "Beverage",
+  ];
 
   return (
     <div className="flex flex-col gap-4 mt-4 mb-8 md:flex-row md:items-center md:justify-between">
       {/* Search Bar */}
-      <div className="relative flex-1 max-w-md">
+      <form onSubmit={handleSearch} className="relative flex-1 max-w-md">
         <input
           id="search"
           placeholder="Search recipes..."
@@ -32,13 +55,12 @@ export default function RecipeControls() {
           className="w-full px-3 py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500  shadow-md shadow-accent-500 placeholder:text-primary-50/70 placeholder:text-sm"
           onChange={(e) => {
             setSearchTerm(e.target.value);
-            // onSearch(e.target.value);
           }}
         />
         <span className="absolute right-3 top-2.5">
           <MagnifyingGlassIcon className="size-5 stroke-2 text-accent-500" />
         </span>
-      </div>
+      </form>
 
       {/* Controls Group */}
       <div className="flex flex-wrap gap-3">
@@ -47,8 +69,8 @@ export default function RecipeControls() {
           className="px-3 py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-400 shadow-md shadow-accent-400 text-accent-400"
           //   onChange={(e) => onFilterCategory(e.target.value)}
         >
-          {categories.map((category) => (
-            <option key={category} value={category.toLowerCase()}>
+          {categories.map((category, index) => (
+            <option key={category} value={index}>
               {category}
             </option>
           ))}
@@ -57,12 +79,13 @@ export default function RecipeControls() {
         {/* Sort Dropdown */}
         <select
           className="px-3 py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-400  shadow-md shadow-accent-400 text-accent-400"
-          // onChange={(e) => onSort(e.target.value as SortOption)}
+          onChange={(e) => handleSort(e.target.value)}
+          value={String(router.query.sortBy || "date-desc")}
         >
-          <option value="newest">Newest First</option>
-          <option value="oldest">Oldest First</option>
-          <option value="name-asc">Name (A-Z)</option>
-          <option value="name-desc">Name (Z-A)</option>
+          <option value="date-desc">Newest First</option>
+          <option value="date-asc">Oldest First</option>
+          <option value="title-asc">Title (A-Z)</option>
+          <option value="title-desc">Title (Z-A)</option>
         </select>
       </div>
     </div>

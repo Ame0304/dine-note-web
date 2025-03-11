@@ -16,11 +16,20 @@ export interface Recipe {
 interface FetchRecipesParams {
   userId: string | undefined;
   page?: number;
+  sort?: { field: string; direction: string };
+  filter?: string;
+  searchTerm?: string;
 }
 
 const supabase = createClient();
 
-export async function getRecipes({ userId, page = 1 }: FetchRecipesParams) {
+export async function getRecipes({
+  userId,
+  page,
+  sort,
+  filter,
+  searchTerm,
+}: FetchRecipesParams) {
   if (!userId) {
     return { recipes: [], count: 0 };
   }
@@ -29,9 +38,37 @@ export async function getRecipes({ userId, page = 1 }: FetchRecipesParams) {
     .from("recipes")
     .select(
       `*,recipe_ingredients(ingredients(name),quantity),recipe_categories(category:categories(name))`,
-      { count: "exact" }
+      { count: "exact" } // Get the total count of recipes
     )
     .eq("userId", userId);
+
+  // Search
+  if (searchTerm?.trim()) {
+    const term = `%${searchTerm.trim().toLowerCase()}%`;
+    query = query.or(`title.ilike.${term},description.ilike.${term}`);
+  }
+
+  // Filter
+  if (filter && filter !== "0") {
+    const filterId = parseInt(filter);
+    if (!isNaN(filterId)) {
+      query = query.filter("recipe_categories.categoryId", "eq", filterId);
+    }
+  }
+
+  // Sort
+  if (sort?.field && sort?.direction) {
+    if (sort.field === "date") {
+      query = query.order("created_at", {
+        ascending: sort.direction === "asc",
+      });
+    } else if (sort.field === "title") {
+      query = query.order("title", { ascending: sort.direction === "asc" });
+    }
+  } else {
+    // Default sorting
+    query = query.order("created_at", { ascending: false });
+  }
 
   // Pagination
   if (page) {
@@ -39,6 +76,8 @@ export async function getRecipes({ userId, page = 1 }: FetchRecipesParams) {
     const endIndex = startIndex + PAGE_SIZE - 1;
     query = query.range(startIndex, endIndex);
   }
+
+  console.log(query.toString());
 
   const { data, error, count } = await query;
 
