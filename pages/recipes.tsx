@@ -29,12 +29,15 @@ export default function RecipesPage() {
 
   return (
     <div>
-      {/* Recipe Page Header */}
-      <Heading level="h2" styled={true}>
-        All Recipes
-      </Heading>
-      {/* TODO:Search & Filter & Sort Bar */}
-      <RecipeControls userId={userId} />
+      <div className="flex justify-between items-center mb-4">
+        {/* Recipe Page Header */}
+        <Heading level="h2" styled={true}>
+          Recipes
+        </Heading>
+
+        {/* Recipe Controls:Search, Filter, Sort */}
+        <RecipeControls userId={userId} />
+      </div>
 
       {/* Recipe Grid View */}
       <RecipesList recipes={recipes} />

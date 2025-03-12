@@ -10,7 +10,8 @@ export default function useUpdateRecipe() {
     },
     onSuccess: (data, variables) => {
       toast.success(
-        `Recipe marked as ${variables.tried ? "tried" : "not tried yet"}`
+        `Recipe marked as ${variables.tried ? "tried" : "not tried yet"}`,
+        { duration: 4000 }
       );
       queryClient.invalidateQueries({ queryKey: ["recipes"] });
     },

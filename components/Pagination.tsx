@@ -53,14 +53,17 @@ export default function Pagination({ totalItems }: PaginationProps) {
   }
 
   return (
-    <div className="flex flex-col sm:flex-row justify-between items-center my-8 px-2">
-      <p className="mb-4 sm:mb-0 border border-accent-500 rounded-xl px-3 py-1 shadow-md text-primary-50 shadow-accent-500">
+    <div className="flex flex-col sm:flex-row justify-between items-center my-8">
+      {/* Pagination Info */}
+      <p className="rounded-xl  py-1 text-primary-50">
         Showing{" "}
-        <span className="bg-white text-accent-500 rounded-xl px-3 py-1">
+        <span className="bg-accent-200 text-accent-500 rounded-xl px-3 py-1">
           {startIndex} - {endIndex}
         </span>{" "}
         of {totalItems} results
       </p>
+
+      {/* Pagination Controls */}
 
       <div className="flex items-center space-x-4 text-primary-50 ">
         <Button
@@ -72,7 +75,7 @@ export default function Pagination({ totalItems }: PaginationProps) {
           <ChevronLeftIcon className="size-4 stroke-2" />
         </Button>
 
-        <span className="bg-white rounded-xl px-3 py-1 shadow-md shadow-accent-500">
+        <span className="bg-accent-200 text-accent-500 rounded-xl px-3 py-1 shadow-lg shadow-accent-500">
           Page <span className="text-accent-500">{currentPage}</span> /{" "}
           {totalPages}
         </span>

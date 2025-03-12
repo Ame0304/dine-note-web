@@ -22,11 +22,11 @@ export default function Button({
   };
 
   const variantClasses = {
-    primary: "bg-accent-500 text-white hover:bg-accent-400",
+    primary: "text-accent-500 bg-accent-500 text-white hover:bg-accent-400",
     secondary: "bg-white text-accent-500 hover:text-accent-400",
-    link: "text-accent-500 hover:text-accent-400 transition-colors bg-transparent shadow-none",
+    link: "text-accent-200 hover:text-accent-400 transition-colors bg-transparent shadow-none",
     outline:
-      "border border-accent-500 text-accent-500 shadow-accent-500 hover:bg-accent-500 hover:text-white",
+      "border-2 border-accent-200 text-accent-200 shadow-accent-500 hover:bg-accent-500 hover:text-accent-200",
   };
 
   // Link variant with icon has different styling
@@ -34,9 +34,9 @@ export default function Button({
     return (
       <button
         {...props}
-        className={`flex items-center gap-2 text-sm text-accent-500 hover:text-accent-400 transition-colors disabled:opacity-60 disabled:cursor-not-allowed ${
-          props.className || ""
-        }`}
+        className={`flex items-center gap-2 text-sm   disabled:opacity-60 disabled:cursor-not-allowed ${
+          variantClasses[variant]
+        } ${props.className || ""}  `}
       >
         <>
           <span>{children}</span>

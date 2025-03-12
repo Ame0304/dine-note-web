@@ -1,13 +1,12 @@
 import { useState } from "react";
 import useDeleteRecipe from "@/hooks/recipes/useDeleteRecipe";
-import useUpdateRecipe from "@/hooks/recipes/useUpdateRecipe";
-import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { TrashIcon, EyeIcon } from "@heroicons/react/24/outline";
 import Tag from "./Tag";
 import Heading from "@/components/Heading";
 import Image from "next/image";
 import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
 import Button from "./Button";
+import TriedBadge from "./TriedBadge";
 
 interface RecipeCardProps {
   title: string;
@@ -26,7 +25,6 @@ export default function RecipeCard({
 }: RecipeCardProps) {
   const { isDeleting, deleteRecipe } = useDeleteRecipe();
   const [isOpenDelete, setIsOpenDelete] = useState(false);
-  const { updateRecipe } = useUpdateRecipe();
 
   const handleDeleteConfirm = () => {
     deleteRecipe(id);
@@ -48,18 +46,7 @@ export default function RecipeCard({
           <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white/30 to-transparent pointer-events-none"></div>
 
           {/* Tried badge */}
-          <div className="relative flex justify-center">
-            <div className="absolute -top-12 bg-accent-200 rounded-full p-0.5 transform transition-all hover:scale-105">
-              <CheckCircleIcon
-                className={`size-10 cursor-pointer ${
-                  tried
-                    ? "stroke-accent-200 fill-accent-500"
-                    : "stroke-accent-500 fill-accent-200"
-                }`}
-                onClick={() => updateRecipe({ tried: !tried, recipeId: id })}
-              />
-            </div>
-          </div>
+          <TriedBadge tried={tried} id={id} />
         </div>
 
         {/* Recipe Info */}
@@ -85,7 +72,7 @@ export default function RecipeCard({
             </div>
           </div>
 
-          <div className="mt-auto pt-2 -mb-2 w-full flex justify-between border-t border-accent-200/40 gap-5">
+          <div className="mt-auto pt-2 -mb-2 w-full flex justify-between border-t border-accent-200 gap-5">
             {/* Delete recipe */}
             <Button
               variant="link"
@@ -96,7 +83,11 @@ export default function RecipeCard({
             </Button>
 
             {/* See details */}
-            <Button variant="link" icon={<EyeIcon className="size-5" />}>
+            <Button
+              className="hover:text-accent-500"
+              variant="link"
+              icon={<EyeIcon className="size-5" />}
+            >
               Details
             </Button>
           </div>
