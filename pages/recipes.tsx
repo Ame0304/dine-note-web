@@ -34,7 +34,7 @@ export default function RecipesPage() {
         All Recipes
       </Heading>
       {/* TODO:Search & Filter & Sort Bar */}
-      <RecipeControls />
+      <RecipeControls userId={userId} />
 
       {/* Recipe Grid View */}
       <RecipesList recipes={recipes} />

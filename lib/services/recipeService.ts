@@ -37,7 +37,7 @@ export async function getRecipes({
   let query = supabase
     .from("recipes")
     .select(
-      `*,recipe_ingredients(ingredients(name),quantity),recipe_categories(category:categories(name))`,
+      `*,recipe_ingredients(ingredients(name),quantity),recipe_categories!inner(category:categories(name,id))`,
       { count: "exact" } // Get the total count of recipes
     )
     .eq("userId", userId);
@@ -77,8 +77,6 @@ export async function getRecipes({
     query = query.range(startIndex, endIndex);
   }
 
-  console.log(query.toString());
-
   const { data, error, count } = await query;
 
   if (error) {
@@ -88,7 +86,7 @@ export async function getRecipes({
   if (!data || data.length === 0) {
     return { recipes: [], count: count || 0 }; // Return count even with empty results
   }
-
+  console.log("data", data);
   // format the data
   const recipes = data.map((recipe) => ({
     id: recipe.id.toString(),

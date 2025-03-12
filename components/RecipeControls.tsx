@@ -1,10 +1,16 @@
 import { FormEvent, useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
+import { useCategories } from "@/hooks/categories/useCategories";
 
-export default function RecipeControls() {
+interface RecipeControlsProps {
+  userId?: string | undefined;
+}
+
+export default function RecipeControls({ userId }: RecipeControlsProps) {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
+  const { categories } = useCategories(userId);
 
   const handleSearch = (e?: FormEvent) => {
     e?.preventDefault();
@@ -20,29 +26,51 @@ export default function RecipeControls() {
     // reset to page 1 when search changes
     delete query.page;
 
-    router.push({
-      pathname: router.pathname,
-      query,
-    });
+    router.push(
+      {
+        pathname: router.pathname,
+        query,
+      },
+      undefined,
+      { shallow: true }
+    );
   };
 
   const handleSort = (value: string) => {
     const query = { ...router.query };
     query.sortBy = value;
 
-    router.push({
-      pathname: router.pathname,
-      query,
-    });
+    router.push(
+      {
+        pathname: router.pathname,
+        query,
+      },
+      undefined,
+      { shallow: true }
+    );
   };
 
-  const categories = [
-    "All categories",
-    "Main Course",
-    "Appetizer",
-    "Dessert",
-    "Beverage",
-  ];
+  const handleFilterCategory = (value: string) => {
+    const query = { ...router.query };
+
+    if (value === "0") {
+      delete query.filter;
+    } else {
+      query.filter = value;
+    }
+
+    // Reset pagination when filter changes
+    delete query.page;
+
+    router.push(
+      {
+        pathname: router.pathname,
+        query,
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
 
   return (
     <div className="flex flex-col gap-4 mt-4 mb-8 md:flex-row md:items-center md:justify-between">
@@ -67,11 +95,13 @@ export default function RecipeControls() {
         {/* Category Filter */}
         <select
           className="px-3 py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-400 shadow-md shadow-accent-400 text-accent-400"
-          //   onChange={(e) => onFilterCategory(e.target.value)}
+          onChange={(e) => handleFilterCategory(e.target.value)}
+          value={String(router.query.filter || "0")}
         >
-          {categories.map((category, index) => (
-            <option key={category} value={index}>
-              {category}
+          <option value="0"> All Categories </option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
             </option>
           ))}
         </select>

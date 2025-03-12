@@ -34,7 +34,7 @@ export default function RecipeCard({
   };
 
   return (
-    <div className="bg-white/70 rounded-xl shadow-xl transform transition-all hover:scale-105 hover:shadow-primary-900 flex flex-col h-full p-8 md:p-6">
+    <div className="bg-white/30 border-2 border-accent-200 rounded-xl shadow-lg transform transition-all hover:scale-105 hover:shadow-accent-500 flex flex-col h-full p-8 md:p-6">
       <div className="flex flex-col h-full">
         {/* Feathered Recipe Image  */}
         <div className="relative aspect-square w-full mb-2">
@@ -49,12 +49,12 @@ export default function RecipeCard({
 
           {/* Tried badge */}
           <div className="relative flex justify-center">
-            <div className="absolute -top-6 bg-white rounded-full p-0.5 transform transition-all hover:scale-105">
+            <div className="absolute -top-12 bg-accent-200 rounded-full p-0.5 transform transition-all hover:scale-105">
               <CheckCircleIcon
                 className={`size-10 cursor-pointer ${
                   tried
-                    ? "stroke-white fill-accent-500"
-                    : "stroke-accent-500 fill-white"
+                    ? "stroke-accent-200 fill-accent-500"
+                    : "stroke-accent-500 fill-accent-200"
                 }`}
                 onClick={() => updateRecipe({ tried: !tried, recipeId: id })}
               />
@@ -65,7 +65,9 @@ export default function RecipeCard({
         {/* Recipe Info */}
         <div className="flex flex-col flex-1 w-full px-0.5">
           <div>
-            <Heading level="h5">{title}</Heading>
+            <Heading level="h5" className="text-accent-200">
+              {title}
+            </Heading>
             {/* Tags - Horizontally scrollable */}
             <div className="w-full mb-1">
               {categories.length > 0 && (
@@ -83,7 +85,7 @@ export default function RecipeCard({
             </div>
           </div>
 
-          <div className="mt-auto pt-2 -mb-2 w-full flex justify-between border-t border-primary-900/40 gap-5">
+          <div className="mt-auto pt-2 -mb-2 w-full flex justify-between border-t border-accent-200/40 gap-5">
             {/* Delete recipe */}
             <Button
               variant="link"
