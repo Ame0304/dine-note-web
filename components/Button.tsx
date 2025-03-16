@@ -24,9 +24,9 @@ export default function Button({
   const variantClasses = {
     primary: "text-accent-500 bg-accent-500 text-white hover:bg-accent-400",
     secondary: "bg-white text-accent-500 hover:text-accent-400",
-    link: "text-accent-200 hover:text-accent-400 transition-colors bg-transparent shadow-none",
+    link: "text-primary-100 hover:text-accent-400 transition-colors bg-transparent shadow-none",
     outline:
-      "border-2 border-accent-200 text-accent-200 shadow-accent-500 hover:bg-accent-500 hover:text-accent-200",
+      "border-2 border-accent-200 text-accent-200 shadow-accent-500 hover:bg-accent-500 hover:text-white hover:border-none",
   };
 
   // Link variant with icon has different styling

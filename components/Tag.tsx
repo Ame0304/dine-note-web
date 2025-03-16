@@ -2,11 +2,28 @@ import React from "react";
 
 interface TagProps {
   children: string;
+  color: string;
 }
 
-export default function Tag({ children }: TagProps) {
+const categoryColorMap = {
+  red: "bg-red-100 text-red-700",
+  orange: "bg-orange-100 text-orange-700",
+  yellow: "bg-yellow-100 text-yellow-700",
+  green: "bg-green-100 text-green-700",
+  teal: "bg-teal-100 text-teal-700",
+  blue: "bg-sky-100 text-blue-700",
+  purple: "bg-purple-100 text-purple-700",
+  pink: "bg-pink-100 text-pink-700",
+};
+
+export default function Tag({ children, color = "blue" }: TagProps) {
   return (
-    <span className="border-accent-500/50 border-2 text-accent-500 py-0.5 px-2 rounded-2xl text-xs shadow-sm">
+    <span
+      className={`py-0.5 px-2 rounded-2xl text-sm shadow-sm ${
+        categoryColorMap[color as keyof typeof categoryColorMap]
+      }`}
+    >
+      {/* ` */}
       {children}
     </span>
   );

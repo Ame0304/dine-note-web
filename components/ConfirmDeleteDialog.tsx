@@ -32,7 +32,7 @@ export default function ConfirmDeleteDialog({
         aria-hidden="true"
       />
       <div className="fixed inset-0 flex w-screen items-center justify-center text-primary-100">
-        <DialogPanel className="max-w-lg space-y-5 border bg-white px-10 py-8 rounded-xl shadow-xl shadow-accent-400 transform transition-all">
+        <DialogPanel className="max-w-lg space-y-5 border bg-white px-10 py-8 rounded-xl shadow-xl shadow-primary-900 transform transition-all">
           <div className="flex items-center gap-4">
             <div className="bg-accent-400/30 rounded-full p-2">
               <TrashIcon className="size-6 stroke-accent-400" />
@@ -43,7 +43,7 @@ export default function ConfirmDeleteDialog({
           </div>
           <Description className="text-primary-50 text-lg">
             Are you sure you want to delete{" "}
-            <span className="font-medium text-accent-500">{itemName}</span> ?
+            <span className="font-bold text-accent-400">{itemName}</span> ?
           </Description>
           <div className="pt-2 flex gap-4 justify-end">
             <Button onClick={onClose} variant="secondary">

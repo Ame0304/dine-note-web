@@ -1,12 +1,12 @@
-import { useState } from "react";
-import useDeleteRecipe from "@/hooks/recipes/useDeleteRecipe";
-import { TrashIcon, EyeIcon } from "@heroicons/react/24/outline";
+import { EyeIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Tag from "./Tag";
 import Heading from "@/components/Heading";
 import Image from "next/image";
-import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
+
 import Button from "./Button";
 import TriedBadge from "./TriedBadge";
+import { useRouter } from "next/router";
+import DeleteRecipe from "./DeleteRecipe";
 
 interface RecipeCardProps {
   title: string;
@@ -23,14 +23,7 @@ export default function RecipeCard({
   tried,
   id,
 }: RecipeCardProps) {
-  const { isDeleting, deleteRecipe } = useDeleteRecipe();
-  const [isOpenDelete, setIsOpenDelete] = useState(false);
-
-  const handleDeleteConfirm = () => {
-    deleteRecipe(id);
-    setIsOpenDelete(false);
-  };
-
+  const router = useRouter();
   return (
     <div className="bg-white/30 border-2 border-accent-200 rounded-xl shadow-lg transform transition-all hover:scale-105 hover:shadow-accent-500 flex flex-col h-full p-8 md:p-6">
       <div className="flex flex-col h-full">
@@ -64,7 +57,9 @@ export default function RecipeCard({
                 >
                   <div className="flex gap-2 flex-nowrap">
                     {categories.map((category, i) => (
-                      <Tag key={i}>{category}</Tag>
+                      <Tag key={i} color="blue">
+                        {category}
+                      </Tag>
                     ))}
                   </div>
                 </div>
@@ -72,35 +67,27 @@ export default function RecipeCard({
             </div>
           </div>
 
+          {/* Recipe Actions */}
           <div className="mt-auto pt-2 -mb-2 w-full flex justify-between border-t border-accent-200 gap-5">
             {/* Delete recipe */}
-            <Button
-              variant="link"
+            <DeleteRecipe
+              id={id}
+              title={title}
               icon={<TrashIcon className="size-5" />}
-              onClick={() => setIsOpenDelete(true)}
-            >
-              Delete
-            </Button>
+              buttonVariant="link"
+            />
 
             {/* See details */}
             <Button
               className="hover:text-accent-500"
               variant="link"
               icon={<EyeIcon className="size-5" />}
+              onClick={() => router.push(`/recipes/${id}`)}
             >
               Details
             </Button>
           </div>
         </div>
-
-        <ConfirmDeleteDialog
-          isOpen={isOpenDelete}
-          onClose={() => setIsOpenDelete(false)}
-          onConfirm={handleDeleteConfirm}
-          title="Recipe"
-          itemName={title}
-          isDeleting={isDeleting}
-        />
       </div>
     </div>
   );

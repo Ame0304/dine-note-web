@@ -25,7 +25,7 @@ export default function Heading({
     h0: "text-4xl sm:text-5xl md:text-6xl",
   };
 
-  const classes = `font-semibold mb-2 ${sizeClasses[level]} ${className}`;
+  const classes = `font-semibold ${sizeClasses[level]} ${className}`;
 
   if (styled) {
     return (

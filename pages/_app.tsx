@@ -14,7 +14,12 @@ const lexend = Lexend({
 });
 
 const AUTH_PAGES = ["/auth/login", "/auth/signup", "/auth/callback"];
-const PRIVATE_PAGES = ["/dashboard", "/recipes", "/profile"];
+const PRIVATE_PAGES = [
+  "/dashboard",
+  "/recipes",
+  "/profile",
+  "/recipes/[recipeId]",
+];
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
