@@ -5,23 +5,14 @@ import RecipeControls from "@/components/RecipeControls";
 import RecipesList from "@/components/RecipesList";
 import { useUser } from "@/context/UserContext";
 import { useRecipes } from "@/hooks/recipes/useRecipes";
-/*
-2. Recipe Detail View
-      * Large featured image at the top.
-      * Recipe info (title, category, tag).
-      * Ingredients list (clean, readable format).
-      * Step-by-step instructions (numbered or in collapsible sections).
-      * Optional personal notes section.
-   3. User Actions / Features
-      * Edit / Delete Recipe (for the owner).
-      * "Cook This" Button – Adds the recipe to Meal Plan.
-      * "Share" Button – Allows sharing via link or social media.
-*/
+
 export default function RecipesPage() {
   const { user } = useUser();
   const userId = user?.id;
 
   const { isLoading, recipes, count } = useRecipes(userId);
+
+  console.log(recipes);
 
   if (isLoading) {
     return <Loading message="Loading Recipes..." size="large" />;

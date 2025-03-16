@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/component";
 import { PAGE_SIZE } from "../constants";
+import { format, parseISO } from "date-fns";
 
 export interface Recipe {
   id: string;
@@ -7,10 +8,11 @@ export interface Recipe {
   description: string;
   imageUrl: string;
   tried: boolean;
-  categories: string[];
-  ingredients: string[];
+  categories: Array<{ name: string; id: string; color: string }>;
+  ingredients: Array<{ name: string; quantity: string }>;
   note: string;
-  steps: Array<{ step: number; text: string }>;
+  steps: Array<{ step: number; instruction: string }>;
+  created_at: string;
 }
 
 interface FetchRecipesParams {
@@ -37,7 +39,7 @@ export async function getRecipes({
   let query = supabase
     .from("recipes")
     .select(
-      `*,recipe_ingredients(ingredients(name),quantity),recipe_categories!inner(category:categories(name,id))`,
+      `*,recipe_ingredients(ingredients(name),quantity),recipe_categories!inner(category:categories(name,id,color))`,
       { count: "exact" } // Get the total count of recipes
     )
     .eq("userId", userId);
@@ -86,10 +88,10 @@ export async function getRecipes({
   if (!data || data.length === 0) {
     return { recipes: [], count: count || 0 }; // Return count even with empty results
   }
-  console.log("data", data);
   // format the data
   const recipes = data.map((recipe) => ({
     id: recipe.id.toString(),
+    created_at: format(parseISO(recipe.created_at), "yyyy/MM/dd"),
     title: recipe.title,
     description: recipe.description,
     imageUrl: recipe.imageUrl,
@@ -109,11 +111,60 @@ export async function getRecipes({
       })
     ),
     categories: recipe.recipe_categories.map(
-      (item: { category: { name: string } }) => item.category.name
+      (item: { category: { name: string; id: string; color: string } }) => ({
+        name: item.category.name,
+        id: item.category.id,
+        color: item.category.color || "blue",
+      })
     ),
   }));
 
   return { recipes, count };
+}
+
+export async function getRecipeById(recipeId: string) {
+  const { data, error } = await supabase
+    .from("recipes")
+    .select(
+      `*,recipe_ingredients(ingredients(name),quantity),recipe_categories!inner(category:categories(name,id,color))`
+    )
+    .eq("id", recipeId);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  const formattedRecipe = {
+    id: data[0].id.toString(),
+    created_at: format(parseISO(data[0].created_at), "yyyy/MM/dd"),
+    title: data[0].title,
+    description: data[0].description,
+    imageUrl: data[0].imageUrl,
+    tried: data[0].tried,
+    note: data[0].note,
+    steps: data[0].steps,
+    ingredients: data[0].recipe_ingredients.map(
+      ({
+        quantity,
+        ingredients,
+      }: {
+        quantity: string;
+        ingredients: { name: string };
+      }) => ({
+        name: ingredients.name,
+        quantity: quantity,
+      })
+    ),
+    categories: data[0].recipe_categories.map(
+      (item: { category: { id: string; name: string; color: string } }) => ({
+        name: item.category.name,
+        id: item.category.id,
+        color: item.category.color || "blue",
+      })
+    ),
+  };
+
+  return formattedRecipe;
 }
 
 export async function deleteRecipe(recipeId: string) {

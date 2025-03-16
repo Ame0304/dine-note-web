@@ -10,7 +10,7 @@ import DeleteRecipe from "./DeleteRecipe";
 
 interface RecipeCardProps {
   title: string;
-  categories: string[];
+  categories: Array<{ name: string; id: string; color: string }>;
   imageUrl: string;
   tried: boolean;
   id: string;
@@ -24,6 +24,7 @@ export default function RecipeCard({
   id,
 }: RecipeCardProps) {
   const router = useRouter();
+
   return (
     <div className="bg-white/30 border-2 border-accent-200 rounded-xl shadow-lg transform transition-all hover:scale-105 hover:shadow-accent-500 flex flex-col h-full p-8 md:p-6">
       <div className="flex flex-col h-full">
@@ -56,9 +57,9 @@ export default function RecipeCard({
                   style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                 >
                   <div className="flex gap-2 flex-nowrap">
-                    {categories.map((category, i) => (
-                      <Tag key={i} color="blue">
-                        {category}
+                    {categories.map((category) => (
+                      <Tag key={category.id} color={category.color}>
+                        {category.name}
                       </Tag>
                     ))}
                   </div>

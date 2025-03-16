@@ -3,48 +3,20 @@ import DeleteRecipe from "@/components/DeleteRecipe";
 import ExpandableSection from "@/components/ExpandableSection";
 import Heading from "@/components/Heading";
 import IngredientRow from "@/components/IngredientRow";
+import Loading from "@/components/Loading";
 import Tag from "@/components/Tag";
 import TriedBadge from "@/components/TriedBadge";
+import { useRecipe } from "@/hooks/recipes/useRecipe";
 import Image from "next/image";
 
 import { useRouter } from "next/router";
 
 function RecipeDetail() {
   const router = useRouter();
-  const recipe = {
-    id: String(router.query.recipeId),
-    title: "Delicious Pasta Carbonara",
-    image: "/default-recipe.png",
-    tried: true,
-    description:
-      "A delicious and creamy pasta dish that is ready in 30 minutes. Perfect for a quick weeknight dinner.",
-    categories: [
-      { name: "Italian", color: "purple" },
-      { name: "Pasta", color: "green" },
-      { name: "Quick", color: "red" },
-      { name: "30 min", color: "orange" },
-    ],
-    ingredients: [
-      { name: "spagetti", quantity: "400g" },
-      { name: "pancetta", quantity: "200g" },
-      { name: "eggs", quantity: "4" },
-      { name: "Parmesan cheese", quantity: "100g" },
-      { name: "garlic", quantity: "2 cloves" },
-      { name: "fresh parsley", quantity: "1 bunch" },
-      { name: "olive oil", quantity: "300 ml" },
-    ],
-    steps: [
-      {
-        step: 1,
-        text: "Boil water and cook pasta according to package instructions.",
-      },
-      { step: 2, text: "Cook pancetta in a pan until crispy." },
-      { step: 3, text: "Whisk eggs and cheese in a bowl." },
-      { step: 4, text: "Drain pasta and add to the pancetta." },
-      { step: 5, text: "Stir in egg mixture and cook until creamy." },
-      { step: 6, text: "Season with salt and pepper. Serve with parsley." },
-    ],
-  };
+  const { recipe, isLoading } = useRecipe(router.query.recipeId as string);
+
+  if (isLoading) return <Loading />;
+  if (!recipe) return <div>Recipe not found</div>;
 
   return (
     <div className="container mx-auto sm:max-w-6xl">
@@ -71,7 +43,7 @@ function RecipeDetail() {
               <div className="absolute -top-24 left-1/2 transform -translate-x-1/2">
                 <div className="w-48 h-48 rounded-full overflow-hidden border-2 border-accent-200 shadow-xl shadow-primary-900">
                   <Image
-                    src={recipe.image}
+                    src={recipe.imageUrl || "/default-recipe.png"}
                     alt={recipe.title}
                     width={300}
                     height={300}
@@ -96,7 +68,7 @@ function RecipeDetail() {
                   </div>
 
                   {/* Description */}
-                  <div className="bg-primary-950 p-4 rounded-xl">
+                  <div className="bg-primary-950 p-4 rounded-xl w-full">
                     <Heading level="h5" className="text-accent-200">
                       📝 Description
                     </Heading>
@@ -104,7 +76,8 @@ function RecipeDetail() {
                   </div>
 
                   {/* Recipe Actions */}
-                  <div className="flex justify-center items-center gap-3">
+                  <div className="flex justify-between items-center gap-3 w-full">
+                    <Button variant="outline">Cook this</Button>
                     <Button variant="outline">Share</Button>
                     <Button variant="outline">Edit</Button>
                     <DeleteRecipe
@@ -143,18 +116,18 @@ function RecipeDetail() {
           <ExpandableSection icon="🥘" title="Steps">
             {/* Steps with number markers */}
 
-            {recipe.steps.map((step) => (
+            {recipe.steps.map((item) => (
               <div
-                key={step.step}
+                key={item.step}
                 className="flex justify-start items-center mb-6 last:mb-0"
               >
                 {/* Circle marker */}
                 <div className="w-7 h-7 border-2 border-accent-200 rounded-full shadow-md shadow-accent-500 shrink-0">
-                  <div className="text-md text-center">{step.step}</div>
+                  <div className="text-md text-center">{item.step}</div>
                 </div>
 
                 {/* Step content */}
-                <p className="text-gray-700 ml-2 lg:ml-5">{step.text}</p>
+                <p className="text-gray-700 ml-2 lg:ml-5">{item.instruction}</p>
               </div>
             ))}
           </ExpandableSection>
