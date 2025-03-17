@@ -1,0 +1,46 @@
+import IngredientRow from "./IngredientRow";
+import ExpandableSection from "./ExpandableSection";
+import Heading from "./Heading";
+import TriedBadge from "./TriedBadge";
+import { Recipe } from "../lib/services/recipeService";
+import StepRow from "./StepRow";
+
+export default function RecipeDetails({ recipe }: { recipe: Recipe }) {
+  return (
+    <div className="bg-white/30 rounded-2xl md:w-2/3 shadow-lg p-6 mx-auto w-full border-2 border-accent-200">
+      <TriedBadge tried={recipe.tried} id={recipe.id} />
+      <div className="text-center">
+        <Heading level="h3" styled={true} className="text-accent-200">
+          Recipe Details
+        </Heading>
+      </div>
+
+      {/* Ingredients */}
+      <ExpandableSection icon="🥔" title="Ingredients">
+        <div className="flex flex-col gap-3 w-full">
+          {recipe.ingredients.map((ingredient) => (
+            <IngredientRow
+              key={ingredient.name}
+              name={ingredient.name}
+              quantity={ingredient.quantity}
+            />
+          ))}
+        </div>
+      </ExpandableSection>
+      {/* Steps */}
+      <ExpandableSection icon="🥘" title="Steps">
+        {/* Steps with number markers */}
+
+        {recipe.steps &&
+          recipe.steps.map((item) => <StepRow key={item.step} item={item} />)}
+      </ExpandableSection>
+      {/* Note */}
+      <ExpandableSection icon="✨" title="Note">
+        <p>
+          This recipe is a family favorite and can be easily customized with
+          your favorite ingredients.
+        </p>
+      </ExpandableSection>
+    </div>
+  );
+}

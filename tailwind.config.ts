@@ -10,7 +10,7 @@ export default {
     extend: {
       colors: {
         primary: {
-          50: "#8a8181", // Light text
+          50: "#a39b9b", // Light text
           100: "#5c5858", // Primary text
           500: "#e2421b", // Alert accent
           900: "#fcdab8", // Light background
