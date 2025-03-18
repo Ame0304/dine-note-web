@@ -25,6 +25,7 @@ export default function DeleteRecipe({
   return (
     <div>
       <Button
+        className="hover:text-accent-400"
         variant={buttonVariant}
         icon={icon || null}
         onClick={() => setIsOpenDelete(true)}

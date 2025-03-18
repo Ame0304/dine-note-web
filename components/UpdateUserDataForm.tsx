@@ -80,7 +80,7 @@ export default function UpdateUserDataForm({
             size="regular"
             type="button"
             onClick={handleCancel}
-            variant="secondary"
+            variant="outline"
           >
             Cancel
           </Button>

@@ -3,10 +3,14 @@ import Loading from "@/components/Loading";
 import RecipeOverview from "@/components/RecipeOverview";
 import RecipeDetails from "@/components/RecipeDetails";
 
+import { useState } from "react";
+
 import { useRecipe } from "@/hooks/recipes/useRecipe";
 import { useRouter } from "next/router";
+import RecipeForm from "@/components/RecipeForm";
 
 function RecipeDetail() {
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
   const router = useRouter();
   const { recipe, isLoading } = useRecipe(router.query.recipeId as string);
 
@@ -22,10 +26,15 @@ function RecipeDetail() {
       <Button onClick={() => router.push("/recipes")}>Back</Button>
       <div className="mt-6 flex flex-col md:flex-row gap-6 justify-center">
         {/* Overview card*/}
-        <RecipeOverview recipe={recipe} />
+        <RecipeOverview recipe={recipe} onEdit={() => setIsOpenEdit(true)} />
         {/* Recipe detailt: Ingredients,steps & note */}
         <RecipeDetails recipe={recipe} />
       </div>
+      <RecipeForm
+        isOpen={isOpenEdit}
+        onClose={() => setIsOpenEdit(false)}
+        recipe={recipe}
+      />
     </div>
   );
 }

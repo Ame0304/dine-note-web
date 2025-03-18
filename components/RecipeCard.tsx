@@ -26,7 +26,7 @@ export default function RecipeCard({
   const router = useRouter();
 
   return (
-    <div className="bg-white/30 border-2 border-accent-200 rounded-xl shadow-lg transform transition-all hover:scale-105 hover:shadow-accent-500 flex flex-col h-full p-8 md:p-6">
+    <div className="bg-white/50 border-4 border-accent-200 rounded-xl shadow-lg transform transition-all hover:scale-105 hover:shadow-accent-500 flex flex-col h-full p-8 md:p-6">
       <div className="flex flex-col h-full">
         {/* Feathered Recipe Image  */}
         <div className="relative aspect-square w-full mb-2">
@@ -69,7 +69,7 @@ export default function RecipeCard({
           </div>
 
           {/* Recipe Actions */}
-          <div className="mt-auto pt-2 -mb-2 w-full flex justify-between border-t border-accent-200 gap-5">
+          <div className="mt-auto pt-2 -mb-2 w-full flex justify-between border-t  border-accent-200/20 gap-5">
             {/* Delete recipe */}
             <DeleteRecipe
               id={id}
@@ -80,10 +80,10 @@ export default function RecipeCard({
 
             {/* See details */}
             <Button
-              className="hover:text-accent-500"
               variant="link"
               icon={<EyeIcon className="size-5" />}
               onClick={() => router.push(`/recipes/${id}`)}
+              className="hover:text-accent-500"
             >
               Details
             </Button>

@@ -1,7 +1,7 @@
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   size?: "small" | "regular" | "large" | "full";
-  variant?: "primary" | "secondary" | "link" | "outline";
+  variant?: "primary" | "alert" | "link" | "outline";
   isLoading?: boolean;
   icon?: React.ReactNode;
 }
@@ -23,10 +23,11 @@ export default function Button({
 
   const variantClasses = {
     primary: "text-accent-500 bg-accent-500 text-white hover:bg-accent-400",
-    secondary: "bg-white text-accent-500 hover:text-accent-400",
-    link: "text-primary-100 hover:text-accent-400 transition-colors bg-transparent shadow-none",
+    alert:
+      "border-2 border-accent-400 text-accent-400 hover:bg-accent-400 hover:text-white",
+    link: " transition-colors bg-transparent shadow-none",
     outline:
-      "border-2 border-accent-200 text-accent-200 shadow-accent-500 hover:bg-accent-500 hover:text-white hover:border-accent-500",
+      "border-2 border-accent-200 text-accent-200 hover:bg-accent-500 hover:text-white hover:border-accent-500",
   };
 
   // Link variant with icon has different styling

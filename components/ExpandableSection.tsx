@@ -8,16 +8,18 @@ import {
 export default function ExpandableSection({
   icon,
   title,
+  isEdit = false,
   children,
 }: {
   icon: string;
   title: string;
   children: React.ReactNode;
+  isEdit?: boolean;
 }) {
   const [isExpanded, setIsExpanded] = useState(true);
 
   return (
-    <div className="mt-4 p-4 rounded-2xl border-2 border-accent-200 bg-white/80 ">
+    <div className="mt-4 p-4 rounded-2xl border-4 border-accent-200 bg-white/80">
       <div
         className="flex items-center justify-between cursor-pointer"
         onClick={() => setIsExpanded(!isExpanded)}
@@ -37,7 +39,11 @@ export default function ExpandableSection({
         </span>
       </div>
 
-      {isExpanded && <div className="my-4 px-2 lg:px-8">{children}</div>}
+      {isExpanded && (
+        <div className={`${isEdit ? "px-0" : "lg:px-8"} my-4 px-2`}>
+          {children}
+        </div>
+      )}
     </div>
   );
 }

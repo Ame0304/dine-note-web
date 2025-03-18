@@ -7,6 +7,12 @@ import {
 } from "@headlessui/react";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import Button from "./Button";
+import { Lexend } from "next/font/google";
+
+const lexend = Lexend({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 interface ConfirmDeleteDialogProps {
   isOpen: boolean;
@@ -26,13 +32,17 @@ export default function ConfirmDeleteDialog({
   isDeleting,
 }: ConfirmDeleteDialogProps) {
   return (
-    <Dialog open={isOpen} onClose={onClose} className="relative z-50">
+    <Dialog
+      open={isOpen}
+      onClose={onClose}
+      className={`relative z-50 ${lexend.className}`}
+    >
       <div
         className="fixed inset-0 bg-black/10 backdrop-blur-sm"
         aria-hidden="true"
       />
       <div className="fixed inset-0 flex w-screen items-center justify-center text-primary-100">
-        <DialogPanel className="max-w-lg space-y-5 bg-white px-10 py-8 rounded-xl shadow-xl shadow-primary-900 transform transition-all ">
+        <DialogPanel className="max-w-lg space-y-5 px-10 py-8 bg-primary-950 rounded-2xl shadow-lg border-4 border-accent-200 transform transition-all ">
           <div className="flex items-center gap-4">
             <div className="bg-accent-400/30 rounded-full p-2">
               <TrashIcon className="size-6 stroke-accent-400" />
@@ -41,15 +51,15 @@ export default function ConfirmDeleteDialog({
               Delete {title}
             </DialogTitle>
           </div>
-          <Description className="text-primary-50 text-lg">
+          <Description className="text-lg">
             Are you sure you want to delete{" "}
             <span className="font-bold text-accent-400">{itemName}</span> ?
           </Description>
           <div className="pt-2 flex gap-4 justify-end">
-            <Button onClick={onClose} variant="secondary">
+            <Button onClick={onClose} variant="outline">
               Cancel
             </Button>
-            <Button onClick={onConfirm} disabled={isDeleting}>
+            <Button onClick={onConfirm} disabled={isDeleting} variant="alert">
               Delete
             </Button>
           </div>

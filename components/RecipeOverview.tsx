@@ -5,7 +5,13 @@ import Tag from "./Tag";
 import DeleteRecipe from "./DeleteRecipe";
 import { Recipe } from "../lib/services/recipeService";
 
-export default function RecipeOverview({ recipe }: { recipe: Recipe }) {
+export default function RecipeOverview({
+  recipe,
+  onEdit,
+}: {
+  recipe: Recipe;
+  onEdit: () => void;
+}) {
   return (
     <div className="mx-auto md:w-1/3 w-full">
       <div className="relative">
@@ -21,16 +27,16 @@ export default function RecipeOverview({ recipe }: { recipe: Recipe }) {
         </div>
 
         {/* Recipe Overview Card */}
-        <div className="bg-white shadow-lg p-6 relative -mt-12 border-2 border-accent-200 rounded-2xl">
+        <div className="bg-white shadow-lg p-6 relative -mt-12 border-4 border-accent-200 rounded-2xl">
           {/* Round Recipe Image */}
           <div className="absolute -top-24 left-1/2 transform -translate-x-1/2">
-            <div className="w-48 h-48 rounded-full overflow-hidden border-2 border-accent-200 shadow-xl shadow-primary-900">
+            <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-accent-200 shadow-xl shadow-primary-900">
               <Image
                 src={recipe.imageUrl || "/default-recipe.png"}
                 alt={recipe.title}
                 width={300}
                 height={300}
-                className="object-cover"
+                className="object-cover w-full h-full"
               />
             </div>
           </div>
@@ -63,7 +69,9 @@ export default function RecipeOverview({ recipe }: { recipe: Recipe }) {
                 <Button variant="primary">🍳 Cook this</Button>
                 <div className="flex gap-3">
                   <Button variant="outline">Share</Button>
-                  <Button variant="outline">Edit</Button>
+                  <Button variant="outline" onClick={onEdit}>
+                    Edit
+                  </Button>
                   <DeleteRecipe
                     id={recipe.id}
                     title={recipe.title}

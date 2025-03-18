@@ -16,7 +16,11 @@ export default function IngredientRow({
   };
 
   return (
-    <div className="flex justify-between items-center border-2 border-accent-200 rounded-3xl px-5 py-0.5 shadow-md shadow-accent-500 text-sm lg:text-base">
+    <div
+      className={`flex justify-between items-center rounded-2xl px-5 py-0.5 shadow-md shadow-primary-900 text-sm lg:text-base ${
+        isChecked ? "bg-accent-200" : "bg-white/50"
+      }`}
+    >
       <span
         className={`font-semibold ${
           isChecked ? "text-primary-50 line-through" : ""
