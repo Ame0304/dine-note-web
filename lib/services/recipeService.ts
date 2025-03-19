@@ -13,6 +13,7 @@ export interface Recipe {
   note: string;
   steps: Array<{ step: number; instruction: string }>;
   created_at: string;
+  userId: string;
 }
 
 interface FetchRecipesParams {
@@ -21,6 +22,15 @@ interface FetchRecipesParams {
   sort?: { field: string; direction: string };
   filter?: string;
   searchTerm?: string;
+}
+
+interface UpdateRecipeParams {
+  id: string;
+  title?: string;
+  description?: string;
+  imageFile?: File | null;
+  note?: string;
+  userId?: string;
 }
 
 const supabase = createClient();
@@ -69,7 +79,9 @@ export async function getRecipes({
     }
   } else {
     // Default sorting
-    query = query.order("created_at", { ascending: false });
+    query = query
+      .order("created_at", { ascending: false })
+      .order("id", { ascending: false });
   }
 
   // Pagination
@@ -91,6 +103,7 @@ export async function getRecipes({
   // format the data
   const recipes = data.map((recipe) => ({
     id: recipe.id.toString(),
+    userId: recipe.userId,
     created_at: format(parseISO(recipe.created_at), "yyyy/MM/dd"),
     title: recipe.title,
     description: recipe.description,
@@ -136,6 +149,7 @@ export async function getRecipeById(recipeId: string) {
 
   const formattedRecipe = {
     id: data[0].id.toString(),
+    userId: data[0].userId,
     created_at: format(parseISO(data[0].created_at), "yyyy/MM/dd"),
     title: data[0].title,
     description: data[0].description,
@@ -175,29 +189,72 @@ export async function deleteRecipe(recipeId: string) {
   return;
 }
 
-export async function updateRecipe(tried: boolean, recipeId: string) {
-  // const { data, error } = await supabase
-  //   .from("recipes")
-  //   .update({
-  //     title: recipe.title,
-  //     description: recipe.description,
-  //     imageUrl: recipe.imageUrl,
-  //     tried: recipe.tried,
-  //     note: recipe.note,
-  //     steps: recipe.steps,
-  //   })
-  //   .eq("id", recipe.id);
+export async function updateRecipe({
+  id,
+  title,
+  description,
+  imageFile,
+  note,
+  userId,
+}: UpdateRecipeParams) {
+  // 1. update the recipe text data without image
+  const recipeTextData = {
+    title,
+    description,
+    note,
+  };
+
   const { error } = await supabase
     .from("recipes")
-    .update({
-      tried: tried,
-    })
-    .eq("id", recipeId);
+    .update(recipeTextData)
+    .eq("id", id);
 
   if (error) {
     console.error("Update error:", error);
     throw new Error(error.message);
   }
 
+  if (!imageFile) return;
+
+  // 2. upload the image
+  const fileName = `recipe-${userId}-${Date.now()}`;
+
+  const { error: storageError } = await supabase.storage
+    .from("recipe_images")
+    .upload(fileName, imageFile);
+
+  if (storageError) throw new Error(storageError.message);
+
+  // 3. update the image url in the recipe
+  const { error: imageError } = await supabase
+    .from("recipes")
+    .update({ imageUrl: fileName })
+    .eq("id", id);
+
+  if (imageError) {
+    console.error("Update Image error:", imageError);
+    throw new Error(imageError.message);
+  }
+
   return;
+}
+
+export async function toggleTried({
+  tried,
+  id,
+}: {
+  tried: boolean;
+  id: string;
+}) {
+  const { data, error } = await supabase
+    .from("recipes")
+    .update({ tried })
+    .eq("id", id)
+    .select()
+    .single();
+  if (error) {
+    console.error("Update tried status error:", error);
+    throw new Error(error.message);
+  }
+  return data;
 }

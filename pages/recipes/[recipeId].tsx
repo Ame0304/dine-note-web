@@ -7,7 +7,7 @@ import { useState } from "react";
 
 import { useRecipe } from "@/hooks/recipes/useRecipe";
 import { useRouter } from "next/router";
-import RecipeForm from "@/components/RecipeForm";
+import RecipeFormModal from "@/components/RecipeFormModal";
 
 function RecipeDetail() {
   const [isOpenEdit, setIsOpenEdit] = useState(false);
@@ -30,7 +30,7 @@ function RecipeDetail() {
         {/* Recipe detailt: Ingredients,steps & note */}
         <RecipeDetails recipe={recipe} />
       </div>
-      <RecipeForm
+      <RecipeFormModal
         isOpen={isOpenEdit}
         onClose={() => setIsOpenEdit(false)}
         recipe={recipe}

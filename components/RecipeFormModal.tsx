@@ -18,7 +18,7 @@ const lexend = Lexend({
   display: "swap",
 });
 
-interface RecipeFormLayoutProps {
+interface RecipeFormModalProps {
   isOpen: boolean;
   onClose: () => void;
   recipe: Recipe | null;
@@ -32,13 +32,14 @@ interface RecipeFormValues {
   ingredients: Array<{ name: string; quantity: string }>;
   steps: Array<{ step: number; instruction: string }>;
   note: string;
+  userId: string;
 }
 
-export default function RecipeForm({
+export default function RecipeFormModal({
   isOpen,
   onClose,
   recipe,
-}: RecipeFormLayoutProps) {
+}: RecipeFormModalProps) {
   const {
     register,
     handleSubmit,
@@ -57,7 +58,7 @@ export default function RecipeForm({
     },
   });
 
-  const imageUrl = watch("imageUrl");
+  const imageUrl = watch("imageUrl"); // watch to show preview
 
   // Initialize form with recipe data if provided
   useEffect(() => {
@@ -70,6 +71,7 @@ export default function RecipeForm({
         ingredients: recipe.ingredients || [],
         steps: recipe.steps || [],
         note: recipe.note || "",
+        userId: recipe.userId,
       });
     } else {
       // Reset to default values
@@ -103,6 +105,8 @@ export default function RecipeForm({
       />
       <div className="fixed inset-0 flex w-screen items-center justify-center text-primary-100">
         <DialogPanel className="w-full md:w-1/2 bg-primary-950 rounded-2xl shadow-lg shadow-primary-900 p-6 mx-auto  border-4 border-accent-200 transform transition-all max-h-[90vh] overflow-y-auto scrollbar-hide">
+          {/* Hidden userId field */}
+          <input type="hidden" {...register("userId")} />
           {/*Title */}
           <div className="text-center">
             <Heading level="h3" styled={true} className="text-accent-200">

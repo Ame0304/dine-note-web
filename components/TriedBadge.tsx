@@ -1,5 +1,5 @@
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
-import useUpdateRecipe from "@/hooks/recipes/useUpdateRecipe";
+import useToggleRecipeTried from "@/hooks/recipes/useToggleRecipeTried";
 
 interface TriedBadgeParams {
   tried: boolean;
@@ -7,7 +7,7 @@ interface TriedBadgeParams {
 }
 
 export default function TriedBadge({ tried, id }: TriedBadgeParams) {
-  const { updateRecipe } = useUpdateRecipe();
+  const { toggleRecipeTried } = useToggleRecipeTried();
 
   return (
     <div className="relative flex justify-center">
@@ -23,7 +23,7 @@ export default function TriedBadge({ tried, id }: TriedBadgeParams) {
                 ? "stroke-accent-200 fill-accent-500"
                 : "stroke-accent-200/20 fill-primary-950 "
             }`}
-            onClick={() => updateRecipe({ tried: !tried, recipeId: id })}
+            onClick={() => toggleRecipeTried({ tried: !tried, id })}
           />
         </div>
       </div>

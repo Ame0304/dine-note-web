@@ -33,12 +33,14 @@ export function useRecipes(userId: string | undefined) {
   const { isLoading, data, error } = useQuery<RecipesResponse>({
     queryKey: [
       "recipes",
-      userId,
-      currentPage,
-      PAGE_SIZE,
-      sort,
-      filter,
-      searchTerm,
+      {
+        userId,
+        page: currentPage,
+        pageSize: PAGE_SIZE,
+        sort: sort ? `${sort.field}-${sort.direction}` : undefined,
+        filter,
+        search: searchTerm,
+      },
     ],
     queryFn: () =>
       getRecipes({ userId, page: currentPage, sort, filter, searchTerm }),
