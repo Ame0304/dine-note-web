@@ -225,10 +225,13 @@ export async function updateRecipe({
 
   if (storageError) throw new Error(storageError.message);
 
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const image_url = `${supabaseUrl}/storage/v1/object/public/recipe_images/${fileName}`;
+
   // 3. update the image url in the recipe
   const { error: imageError } = await supabase
     .from("recipes")
-    .update({ imageUrl: fileName })
+    .update({ imageUrl: image_url })
     .eq("id", id);
 
   if (imageError) {

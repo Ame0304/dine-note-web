@@ -6,8 +6,15 @@ import { toast } from "react-hot-toast";
 export default function useUpdateRecipeDetails() {
   const queryClient = useQueryClient();
   const { mutate: updateRecipeDetails, isPending: isUpdating } = useMutation({
-    mutationFn: ({ id, title, description, note }: UpdateRecipeParams) =>
-      updateRecipe({ id, title, description, note }),
+    mutationFn: ({
+      id,
+      title,
+      description,
+      note,
+      imageFile,
+      userId,
+    }: UpdateRecipeParams) =>
+      updateRecipe({ id, title, description, note, imageFile, userId }),
     onSuccess: (data, variables) => {
       toast.success(`Updated recipe "${variables.title}" successfully!`, {
         duration: 3000,
