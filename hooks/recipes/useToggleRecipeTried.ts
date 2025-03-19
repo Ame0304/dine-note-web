@@ -15,8 +15,8 @@ export default function useToggleRecipeTried() {
         { duration: 4000 }
       );
 
-      const currentCache = queryClient.getQueryData(["recipes"]);
-      console.log("Current recipes cache:", currentCache);
+      // const currentCache = queryClient.getQueryData(["recipes"]);
+      // console.log("Current recipes cache:", currentCache);
 
       // update the status in recipe detail page
       queryClient.invalidateQueries({

@@ -24,7 +24,7 @@ interface FetchRecipesParams {
   searchTerm?: string;
 }
 
-interface UpdateRecipeParams {
+export interface UpdateRecipeParams {
   id: string;
   title?: string;
   description?: string;

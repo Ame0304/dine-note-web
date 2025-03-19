@@ -12,6 +12,7 @@ import FileInput from "./FileInput";
 import { Recipe } from "../lib/services/recipeService";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useEffect } from "react";
+import useUpdateRecipeDetails from "@/hooks/recipes/useUpdateRecipeDetails";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -25,6 +26,7 @@ interface RecipeFormModalProps {
 }
 
 interface RecipeFormValues {
+  id: string;
   title: string;
   description: string;
   imageFile?: File | null;
@@ -58,6 +60,8 @@ export default function RecipeFormModal({
     },
   });
 
+  const { updateRecipeDetails, isUpdating } = useUpdateRecipeDetails();
+
   const imageUrl = watch("imageUrl"); // watch to show preview
 
   // Initialize form with recipe data if provided
@@ -65,6 +69,7 @@ export default function RecipeFormModal({
     if (recipe) {
       // Reset form with recipe data
       reset({
+        id: recipe.id,
         title: recipe.title,
         description: recipe.description || "",
         imageUrl: recipe.imageUrl || "/default-recipe.png",
@@ -88,8 +93,10 @@ export default function RecipeFormModal({
 
   const onSubmit: SubmitHandler<RecipeFormValues> = (data) => {
     console.log(data);
-    // Call API here
-    // Then close the modal on success
+
+    // Update recipe details
+    updateRecipeDetails(data);
+
     onClose();
   };
 
@@ -226,10 +233,10 @@ export default function RecipeFormModal({
             </div>
           </form>
           <div className="pt-4 flex gap-4 justify-end">
-            <Button onClick={onClose} variant="outline">
+            <Button onClick={onClose} variant="outline" disabled={isUpdating}>
               Cancel
             </Button>
-            <Button type="submit" form="recipe-form">
+            <Button type="submit" form="recipe-form" disabled={isUpdating}>
               Save
             </Button>
           </div>
