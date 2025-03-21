@@ -9,7 +9,7 @@ export interface Recipe {
   imageUrl: string;
   tried: boolean;
   categories: Array<{ name: string; id: string; color: string }>;
-  ingredients: Array<{ name: string; quantity: string }>;
+  ingredients: Array<{ id: string; name: string; quantity: string }>;
   note: string;
   steps: Array<{ step: number; instruction: string }>;
   created_at: string;
@@ -49,7 +49,7 @@ export async function getRecipes({
   let query = supabase
     .from("recipes")
     .select(
-      `*,recipe_ingredients(ingredients(name),quantity),recipe_categories!inner(category:categories(name,id,color))`,
+      `*,recipe_ingredients(ingredients(name,id),quantity),recipe_categories!inner(category:categories(name,id,color))`,
       { count: "exact" } // Get the total count of recipes
     )
     .eq("userId", userId);
@@ -117,8 +117,9 @@ export async function getRecipes({
         ingredients,
       }: {
         quantity: string;
-        ingredients: { name: string };
+        ingredients: { name: string; id: string };
       }) => ({
+        id: ingredients.id,
         name: ingredients.name,
         quantity: quantity,
       })
@@ -139,7 +140,7 @@ export async function getRecipeById(recipeId: string) {
   const { data, error } = await supabase
     .from("recipes")
     .select(
-      `*,recipe_ingredients(ingredients(name),quantity),recipe_categories!inner(category:categories(name,id,color))`
+      `*,recipe_ingredients(ingredients(name,id),quantity),recipe_categories!inner(category:categories(name,id,color))`
     )
     .eq("id", recipeId);
 
@@ -163,8 +164,9 @@ export async function getRecipeById(recipeId: string) {
         ingredients,
       }: {
         quantity: string;
-        ingredients: { name: string };
+        ingredients: { name: string; id: string };
       }) => ({
+        id: ingredients.id,
         name: ingredients.name,
         quantity: quantity,
       })

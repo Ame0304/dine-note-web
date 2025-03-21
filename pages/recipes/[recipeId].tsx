@@ -14,6 +14,8 @@ function RecipeDetail() {
   const router = useRouter();
   const { recipe, isLoading } = useRecipe(router.query.recipeId as string);
 
+  console.log(recipe);
+
   if (isLoading) return <Loading />;
   {
     /* TODO: If recipe is not found, show a message */
