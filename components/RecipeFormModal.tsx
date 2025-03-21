@@ -13,6 +13,7 @@ import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { useEffect } from "react";
 // import useUpdateRecipeDetails from "@/hooks/recipes/useUpdateRecipeDetails";
 import IngredientsManager from "./IngredientsManager";
+import StepsManager from "./StepsManager";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -182,11 +183,9 @@ export default function RecipeFormModal({
                 </ExpandableSection>
 
                 {/* Steps */}
-                {/* <ExpandableSection
-                  icon="🔪"
-                  title="Steps"
-                  isEdit={true}
-                ></ExpandableSection> */}
+                <ExpandableSection icon="🔪" title="Steps" isEdit={true}>
+                  <StepsManager name="steps" />
+                </ExpandableSection>
 
                 <RecipeFormRow label="Note">
                   <RecipeFormTextarea

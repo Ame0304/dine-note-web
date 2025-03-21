@@ -31,8 +31,9 @@ export default function StepsManager({ name }: StepsManagerProps) {
             index={index}
             fieldId={field.id}
             register={register}
-            append={() => append({ step: fields.length + 1, instruction: "" })}
+            append={append}
             remove={remove}
+            type="step"
           />
         ))
       )}
