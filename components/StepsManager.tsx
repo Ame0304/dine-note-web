@@ -8,7 +8,7 @@ interface StepsManagerProps {
 
 export default function StepsManager({ name }: StepsManagerProps) {
   const { control, register } = useFormContext(); // Access the parent form context
-  const { fields, append, remove } = useFieldArray({
+  const { fields, insert, remove, append } = useFieldArray({
     control,
     name,
   });
@@ -27,7 +27,7 @@ export default function StepsManager({ name }: StepsManagerProps) {
             index={index}
             fieldId={field.id}
             register={register}
-            append={append}
+            insert={insert}
             remove={remove}
             type="step"
           />

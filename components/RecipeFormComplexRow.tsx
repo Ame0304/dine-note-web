@@ -8,7 +8,10 @@ interface RecipeFormComplexRowProps {
   register: UseFormRegister<{
     [key: string]: { name?: string; quantity?: string }[];
   }>;
-  append: (value: { name: string; quantity: string } | string) => void;
+  insert: (
+    index: number,
+    value: { name: string; quantity: string } | string
+  ) => void;
   remove: (index: number) => void;
   type?: "ingredient" | "step";
 }
@@ -20,7 +23,7 @@ export default function RecipeFormComplexRow({
   index,
   fieldId,
   register,
-  append,
+  insert,
   remove,
   type = "ingredient",
 }: RecipeFormComplexRowProps) {
@@ -77,7 +80,10 @@ export default function RecipeFormComplexRow({
         <PlusCircleIcon
           className="size-8 stroke-accent-200 stroke-2 cursor-pointer hover:stroke-accent-500 shrink-0"
           onClick={() =>
-            append(type === "ingredient" ? { name: "", quantity: "" } : "")
+            insert(
+              index + 1,
+              type === "ingredient" ? { name: "", quantity: "" } : ""
+            )
           }
         />
         <MinusCircleIcon
