@@ -7,12 +7,12 @@ import RecipeFormInput from "./RecipeFormInput";
 import Image from "next/image";
 import RecipeFormTextarea from "./RecipeFormTextarea";
 import FileInput from "./FileInput";
-// import ExpandableSection from "./ExpandableSection";
+import ExpandableSection from "./ExpandableSection";
 import { Recipe } from "../lib/services/recipeService";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useEffect } from "react";
 import useUpdateRecipeBasics from "@/hooks/recipes/useUpdateRecipeBasics";
-// import IngredientsManager from "./IngredientsManager";
+import IngredientsManager from "./IngredientsManager";
 // import StepsManager from "./StepsManager";
 
 const lexend = Lexend({
@@ -92,6 +92,7 @@ export default function RecipeFormModal({
       onClose={onClose}
       className={`relative z-50 ${lexend.className}`}
     >
+      {/* Background overlay */}
       <div
         className="fixed inset-0 bg-black/10 backdrop-blur-sm"
         aria-hidden="true"
@@ -100,13 +101,13 @@ export default function RecipeFormModal({
         <DialogPanel className="w-full md:w-1/2 bg-primary-950 rounded-2xl shadow-lg shadow-primary-900 p-6 mx-auto  border-4 border-accent-200 transform transition-all max-h-[90vh] overflow-y-auto scrollbar-hide">
           {/* Hidden userId field */}
           <input type="hidden" {...register("userId")} />
-          {/*Title */}
+          {/* Title */}
           <div className="text-center">
             <Heading level="h3" styled={true} className="text-accent-200">
               {recipe ? "Update Recipe" : "Create Recipe"}
             </Heading>
           </div>
-          {/* Form */}
+          {/* Basic info form */}
           <form onSubmit={handleSubmit(onSubmit)} id="recipe-form">
             <div className="mt-4 px-4 py-5 rounded-2xl border-4 border-accent-200 bg-white/80 flex flex-col gap-3">
               {/* Image */}
@@ -180,6 +181,14 @@ export default function RecipeFormModal({
               </div>
             </div>
           </form>
+          {/* Ingredients Form */}
+          <ExpandableSection icon="🥔" title="Ingredients" isEdit={true}>
+            <IngredientsManager
+              name="ingredients"
+              recipeId={recipe?.id || ""}
+              initialIngredients={recipe?.ingredients || []}
+            />
+          </ExpandableSection>
         </DialogPanel>
       </div>
     </Dialog>
@@ -187,10 +196,8 @@ export default function RecipeFormModal({
 }
 
 // /*
-//           {/* Ingredients */}
-//           <ExpandableSection icon="🥔" title="Ingredients" isEdit={true}>
-//             <IngredientsManager name="ingredients" />
-//           </ExpandableSection>
+
+//
 
 //           {/* Steps */}
 //           <ExpandableSection icon="🔪" title="Steps" isEdit={true}>

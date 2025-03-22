@@ -1,6 +1,6 @@
 import { useFieldArray, useFormContext } from "react-hook-form";
 import Button from "./Button";
-import RecipeFormComplexRow from "./RecipeFormComplexRow";
+import RecipeFormComplexRow from "./IngredientFormRow";
 
 interface StepsManagerProps {
   name: string; // Field name for steps in the parent form

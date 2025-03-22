@@ -34,6 +34,11 @@ export interface RecipeBasics {
   imageUrl?: string;
 }
 
+// interface UpdateIngredientsData {
+//   id: string;
+//   ingredients: { name: string; quantity: string }[];
+// }
+
 const supabase = createClient();
 
 export async function getRecipes({
@@ -192,7 +197,7 @@ export async function deleteRecipe(recipeId: string) {
   return;
 }
 
-export async function updateRecipe(data: RecipeBasics) {
+export async function updateRecipeBasics(data: RecipeBasics) {
   const { id, imageFile, userId, ...updateData } = data;
   // 1.check if image is updated
   if (imageFile) {
@@ -225,6 +230,10 @@ export async function updateRecipe(data: RecipeBasics) {
   return;
 }
 
+// export async function updateRecipeIngredients({
+//   recipeId,
+//   ingredients,
+// }: UpdateIngredientsData) {}
 export async function toggleTried({
   tried,
   id,
