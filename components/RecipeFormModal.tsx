@@ -33,7 +33,7 @@ interface RecipeFormValues {
   imageFile?: File | null;
   imageUrl: string;
   ingredients: Array<{ name: string; quantity: string }>;
-  steps: Array<{ step: number; instruction: string }>;
+  steps: string[];
   note: string;
   userId: string;
 }

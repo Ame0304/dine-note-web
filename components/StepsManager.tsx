@@ -16,11 +16,7 @@ export default function StepsManager({ name }: StepsManagerProps) {
   return (
     <div>
       {fields.length === 0 ? (
-        <Button
-          variant="outline"
-          size="small"
-          onClick={() => append({ step: fields.length + 1, instruction: "" })}
-        >
+        <Button variant="outline" size="small" onClick={() => append("")}>
           Add Step
         </Button>
       ) : (

@@ -30,9 +30,10 @@ export default function RecipeDetails({ recipe }: { recipe: Recipe }) {
       {/* Steps */}
       <ExpandableSection icon="🥘" title="Steps">
         {/* Steps with number markers */}
-
         {recipe.steps &&
-          recipe.steps.map((item) => <StepRow key={item.step} item={item} />)}
+          recipe.steps.map((item, index) => (
+            <StepRow key={`step ${index}`} item={item} index={index} />
+          ))}
       </ExpandableSection>
       {/* Note */}
       <ExpandableSection icon="✨" title="Note">

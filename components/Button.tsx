@@ -25,7 +25,7 @@ export default function Button({
     primary: "text-accent-500 bg-accent-500 text-white hover:bg-accent-400",
     alert:
       "border-2 border-accent-400 text-accent-400 hover:bg-accent-400 hover:text-white",
-    link: " transition-colors bg-transparent shadow-none",
+    link: "text-accent-200 transition-colors bg-transparent shadow-none",
     outline:
       "border-2 border-accent-200 text-accent-200 hover:bg-accent-500 hover:text-white hover:border-accent-500",
   };
@@ -35,7 +35,7 @@ export default function Button({
     return (
       <button
         {...props}
-        className={`flex items-center gap-2 text-sm   disabled:opacity-60 disabled:cursor-not-allowed ${
+        className={`flex items-center gap-2 text-sm disabled:opacity-60 disabled:cursor-not-allowed ${
           variantClasses[variant]
         } ${props.className || ""}  `}
       >

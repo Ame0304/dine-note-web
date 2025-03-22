@@ -2,8 +2,10 @@ import { useState } from "react";
 
 export default function StepRow({
   item,
+  index,
 }: {
-  item: { step: number; instruction: string };
+  item: string;
+  index: number;
 }) {
   const [isChecked, setIsChecked] = useState(false);
 
@@ -12,10 +14,7 @@ export default function StepRow({
   };
 
   return (
-    <div
-      key={item.step}
-      className="flex justify-start items-center mb-6 last:mb-0"
-    >
+    <div className="flex justify-start items-center mb-6 last:mb-0">
       {/* Circle marker */}
       <button
         onClick={toggleChecked}
@@ -27,7 +26,7 @@ export default function StepRow({
             isChecked ? "bg-accent-500" : ""
           }`}
         >
-          <div className="text-md text-center">{item.step}</div>
+          <div className="text-md text-center">{index + 1}</div>
         </div>
       </button>
 
@@ -37,7 +36,7 @@ export default function StepRow({
           isChecked ? "line-through" : ""
         }`}
       >
-        {item.instruction}
+        {item}
       </p>
     </div>
   );

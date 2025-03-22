@@ -11,7 +11,7 @@ export interface Recipe {
   categories: Array<{ name: string; id: string; color: string }>;
   ingredients: Array<{ id: string; name: string; quantity: string }>;
   note: string;
-  steps: Array<{ step: number; instruction: string }>;
+  steps: Array<string>;
   created_at: string;
   userId: string;
 }

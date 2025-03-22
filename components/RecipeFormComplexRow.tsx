@@ -6,13 +6,9 @@ interface RecipeFormComplexRowProps {
   index: number;
   fieldId: string;
   register: UseFormRegister<{
-    [key: string]: { name?: string; quantity?: string; instruction?: string }[];
+    [key: string]: { name?: string; quantity?: string }[];
   }>;
-  append: (
-    value:
-      | { name: string; quantity: string }
-      | { step: number; instruction: string }
-  ) => void;
+  append: (value: { name: string; quantity: string } | string) => void;
   remove: (index: number) => void;
   type?: "ingredient" | "step";
 }
@@ -31,7 +27,8 @@ export default function RecipeFormComplexRow({
   const label = type === "ingredient" ? "Name" : `Step ${index + 1}`;
   const placeholder =
     type === "ingredient" ? "Ingredient Name" : "Step Instruction";
-  const inputFieldName = type === "ingredient" ? "name" : "instruction";
+  const inputField =
+    type === "ingredient" ? `${name}[${index}].name` : `${name}[${index}]`;
 
   const renderQuantityInput = () => {
     if (type !== "ingredient") return null;
@@ -60,18 +57,15 @@ export default function RecipeFormComplexRow({
   return (
     <div className="flex items-center justify-between gap-5 px-2" key={fieldId}>
       <div className={`flex flex-col ${type === "step" ? "w-3/4" : "w-1/2"}`}>
-        <label
-          htmlFor={`${name}[${index}].${inputFieldName}`}
-          className="text-sm font-semibold"
-        >
+        <label htmlFor={inputField} className="text-sm font-semibold">
           {label}
         </label>
         <input
           type="text"
-          id={`${name}[${index}].${inputFieldName}`}
+          id={inputField}
           placeholder={placeholder}
           className={inputClasses}
-          {...register(`${name}[${index}].${inputFieldName}` as const, {
+          {...register(inputField, {
             required: `${label} is required`,
           })}
         />
@@ -83,11 +77,7 @@ export default function RecipeFormComplexRow({
         <PlusCircleIcon
           className="size-8 stroke-accent-200 stroke-2 cursor-pointer hover:stroke-accent-500 shrink-0"
           onClick={() =>
-            append(
-              type === "ingredient"
-                ? { name: "", quantity: "" }
-                : { step: index + 1, instruction: "" }
-            )
+            append(type === "ingredient" ? { name: "", quantity: "" } : "")
           }
         />
         <MinusCircleIcon
