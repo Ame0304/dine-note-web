@@ -7,13 +7,13 @@ import RecipeFormInput from "./RecipeFormInput";
 import Image from "next/image";
 import RecipeFormTextarea from "./RecipeFormTextarea";
 import FileInput from "./FileInput";
-import ExpandableSection from "./ExpandableSection";
+// import ExpandableSection from "./ExpandableSection";
 import { Recipe } from "../lib/services/recipeService";
-import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { useEffect } from "react";
-// import useUpdateRecipeDetails from "@/hooks/recipes/useUpdateRecipeDetails";
-import IngredientsManager from "./IngredientsManager";
-import StepsManager from "./StepsManager";
+import useUpdateRecipeBasics from "@/hooks/recipes/useUpdateRecipeBasics";
+// import IngredientsManager from "./IngredientsManager";
+// import StepsManager from "./StepsManager";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -26,14 +26,12 @@ interface RecipeFormModalProps {
   recipe: Recipe | null;
 }
 
-interface RecipeFormValues {
+interface RecipeBasicsFormValues {
   id: string;
   title: string;
   description: string;
   imageFile?: File | null;
   imageUrl: string;
-  ingredients: Array<{ name: string; quantity: string }>;
-  steps: string[];
   note: string;
   userId: string;
 }
@@ -43,27 +41,23 @@ export default function RecipeFormModal({
   onClose,
   recipe,
 }: RecipeFormModalProps) {
-  const methods = useForm<RecipeFormValues>({
+  const {
+    handleSubmit,
+    reset,
+    register,
+    watch,
+    formState: { errors },
+    setValue,
+  } = useForm<RecipeBasicsFormValues>({
     defaultValues: {
       title: "",
       description: "",
       imageUrl: "/default-recipe.png",
-      ingredients: [{ name: "", quantity: "" }],
-      steps: [],
       note: "",
     },
   });
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setValue,
-    reset,
-    formState: { errors },
-  } = methods;
-
-  // const { updateRecipeDetails, isUpdating } = useUpdateRecipeDetails();
+  const { updateRecipeBasics, isUpdating } = useUpdateRecipeBasics();
 
   const imageUrl = watch("imageUrl"); // watch to show preview
 
@@ -76,29 +70,18 @@ export default function RecipeFormModal({
         title: recipe.title,
         description: recipe.description || "",
         imageUrl: recipe.imageUrl || "/default-recipe.png",
-        ingredients: recipe.ingredients || [],
-        steps: recipe.steps || [],
         note: recipe.note || "",
         userId: recipe.userId,
-      });
-    } else {
-      // Reset to default values
-      reset({
-        title: "",
-        description: "",
-        imageUrl: "/default-recipe.png",
-        ingredients: [],
-        steps: [],
-        note: "",
       });
     }
   }, [recipe, reset, isOpen]);
 
-  const onSubmit: SubmitHandler<RecipeFormValues> = (data) => {
+  const onSubmit: SubmitHandler<RecipeBasicsFormValues> = (data) => {
+    if (!recipe?.id) return;
     console.log(data);
 
     // Update recipe details
-    // updateRecipeDetails(data);
+    updateRecipeBasics(data);
 
     onClose();
   };
@@ -124,97 +107,93 @@ export default function RecipeFormModal({
             </Heading>
           </div>
           {/* Form */}
-          <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)} id="recipe-form">
-              <div className="mt-4 px-4 py-5 rounded-2xl border-4 border-accent-200 bg-white/80 flex flex-col gap-3">
-                {/* Image */}
-                <div className="ml-2 mb-3 flex items-center justify-start gap-5">
-                  <label htmlFor="imageUrl" className="text-lg font-semibold">
-                    Recipe image
-                  </label>
-                  <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-accent-200 shadow-lg shadow-primary-900">
-                    <Image
-                      src={imageUrl}
-                      alt={"Recipe image"}
-                      width={300}
-                      height={300}
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
-                  <FileInput
-                    accept="image/*"
-                    id="imageUrl"
-                    onChange={(e) => {
-                      if (e.target.files && e.target.files[0]) {
-                        const file = e.target.files[0];
-                        // Store the file object for upload
-                        setValue("imageFile", file);
-                        // Create URL for preview only
-                        const previewUrl = URL.createObjectURL(file);
-                        setValue("imageUrl", previewUrl);
-                      }
-                    }}
-                  >
-                    Change Image
-                  </FileInput>
+          <form onSubmit={handleSubmit(onSubmit)} id="recipe-form">
+            <div className="mt-4 px-4 py-5 rounded-2xl border-4 border-accent-200 bg-white/80 flex flex-col gap-3">
+              {/* Image */}
+              <div className="ml-2 mb-3 flex items-center justify-start gap-5">
+                <label htmlFor="imageUrl" className="text-lg font-semibold">
+                  Image
+                </label>
+                <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-accent-200 shadow-lg shadow-primary-900">
+                  <Image
+                    src={imageUrl}
+                    alt={"Recipe image"}
+                    width={300}
+                    height={300}
+                    className="object-cover w-full h-full"
+                  />
                 </div>
-
-                {/* Title */}
-                <RecipeFormRow label="Title" error={errors.title?.message}>
-                  <RecipeFormInput
-                    type="text"
-                    id="title"
-                    {...register("title", { required: "Title is required" })}
-                  />
-                </RecipeFormRow>
-
-                {/* Description */}
-                <RecipeFormRow label="Description">
-                  <RecipeFormTextarea
-                    id="description"
-                    placeholder="Give your recipe a description"
-                    {...register("description")}
-                  />
-                </RecipeFormRow>
-
-                {/* Ingredients */}
-                <ExpandableSection icon="🥔" title="Ingredients" isEdit={true}>
-                  <IngredientsManager name="ingredients" />
-                </ExpandableSection>
-
-                {/* Steps */}
-                <ExpandableSection icon="🔪" title="Steps" isEdit={true}>
-                  <StepsManager name="steps" />
-                </ExpandableSection>
-
-                <RecipeFormRow label="Note">
-                  <RecipeFormTextarea
-                    id="note"
-                    placeholder="Type your chef's note here"
-                    {...register("note")}
-                  />
-                </RecipeFormRow>
+                <FileInput
+                  accept="image/*"
+                  id="imageUrl"
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      const file = e.target.files[0];
+                      // Store the file object for upload
+                      setValue("imageFile", file);
+                      // Create URL for preview only
+                      const previewUrl = URL.createObjectURL(file);
+                      setValue("imageUrl", previewUrl);
+                    }
+                  }}
+                >
+                  Change Image
+                </FileInput>
               </div>
-            </form>
-          </FormProvider>
-          <div className="pt-4 flex gap-4 justify-end">
-            <Button
-              onClick={onClose}
-              variant="outline"
-              // disabled={isUpdating}
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              form="recipe-form"
-              // disabled={isUpdating}
-            >
-              Save
-            </Button>
-          </div>
+
+              {/* Title */}
+              <RecipeFormRow label="Title" error={errors.title?.message}>
+                <RecipeFormInput
+                  type="text"
+                  id="title"
+                  {...register("title", { required: "Title is required" })}
+                />
+              </RecipeFormRow>
+
+              {/* Description */}
+              <RecipeFormRow label="Description">
+                <RecipeFormTextarea
+                  id="description"
+                  placeholder="Give your recipe a description"
+                  {...register("description")}
+                />
+              </RecipeFormRow>
+
+              <RecipeFormRow label="Note">
+                <RecipeFormTextarea
+                  id="note"
+                  placeholder="Type your chef's note here"
+                  {...register("note")}
+                />
+              </RecipeFormRow>
+              <div className="pt-4 flex gap-4 justify-end">
+                <Button
+                  onClick={onClose}
+                  variant="outline"
+                  disabled={isUpdating}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit" form="recipe-form" disabled={isUpdating}>
+                  Save
+                </Button>
+              </div>
+            </div>
+          </form>
         </DialogPanel>
       </div>
     </Dialog>
   );
 }
+
+// /*
+//           {/* Ingredients */}
+//           <ExpandableSection icon="🥔" title="Ingredients" isEdit={true}>
+//             <IngredientsManager name="ingredients" />
+//           </ExpandableSection>
+
+//           {/* Steps */}
+//           <ExpandableSection icon="🔪" title="Steps" isEdit={true}>
+//             <StepsManager name="steps" />
+//           </ExpandableSection>
+// */

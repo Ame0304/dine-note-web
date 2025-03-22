@@ -1,20 +1,21 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateRecipe } from "@/lib/services/recipeService";
-import { UpdateRecipeParams } from "@/lib/services/recipeService";
 import { toast } from "react-hot-toast";
 
-export default function useUpdateRecipeDetails() {
+interface RecipeBasics {
+  id: string;
+  title: string;
+  description: string;
+  note: string;
+  imageUrl: string;
+  imageFile?: File | null;
+  userId: string;
+}
+
+export default function useUpdateRecipeBasics() {
   const queryClient = useQueryClient();
-  const { mutate: updateRecipeDetails, isPending: isUpdating } = useMutation({
-    mutationFn: ({
-      id,
-      title,
-      description,
-      note,
-      imageFile,
-      userId,
-    }: UpdateRecipeParams) =>
-      updateRecipe({ id, title, description, note, imageFile, userId }),
+  const { mutate: updateRecipeBasics, isPending: isUpdating } = useMutation({
+    mutationFn: (data: RecipeBasics) => updateRecipe(data),
     onSuccess: (data, variables) => {
       toast.success(`Updated recipe "${variables.title}" successfully!`, {
         duration: 3000,
@@ -29,5 +30,5 @@ export default function useUpdateRecipeDetails() {
     },
   });
 
-  return { updateRecipeDetails, isUpdating };
+  return { updateRecipeBasics, isUpdating };
 }

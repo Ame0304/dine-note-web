@@ -14,24 +14,27 @@ export default function StepsManager({ name }: StepsManagerProps) {
   });
 
   return (
-    <div>
+    <div className="flex flex-col space-y-4 justify-center items-start">
       {fields.length === 0 ? (
         <Button variant="outline" size="small" onClick={() => append("")}>
           Add Step
         </Button>
       ) : (
-        fields.map((field, index) => (
-          <RecipeFormComplexRow
-            key={field.id}
-            name={name}
-            index={index}
-            fieldId={field.id}
-            register={register}
-            insert={insert}
-            remove={remove}
-            type="step"
-          />
-        ))
+        <div className="flex flex-col justify-center items-end w-full">
+          {fields.map((field, index) => (
+            <RecipeFormComplexRow
+              key={field.id}
+              name={name}
+              index={index}
+              fieldId={field.id}
+              register={register}
+              insert={insert}
+              remove={remove}
+              type="step"
+            />
+          ))}
+          <Button>Save</Button>
+        </div>
       )}
     </div>
   );

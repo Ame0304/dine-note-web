@@ -24,13 +24,14 @@ interface FetchRecipesParams {
   searchTerm?: string;
 }
 
-export interface UpdateRecipeParams {
+export interface RecipeBasics {
   id: string;
   title?: string;
   description?: string;
   imageFile?: File | null;
   note?: string;
   userId?: string;
+  imageUrl?: string;
 }
 
 const supabase = createClient();
@@ -191,54 +192,34 @@ export async function deleteRecipe(recipeId: string) {
   return;
 }
 
-export async function updateRecipe({
-  id,
-  title,
-  description,
-  imageFile,
-  note,
-  userId,
-}: UpdateRecipeParams) {
-  // 1. update the recipe text data without image
-  const recipeTextData = {
-    title,
-    description,
-    note,
-  };
+export async function updateRecipe(data: RecipeBasics) {
+  const { id, imageFile, userId, ...updateData } = data;
+  // 1.check if image is updated
+  if (imageFile) {
+    // 2. upload the image
+    const fileName = `recipe-${userId}-${Date.now()}`;
+
+    const { error: storageError } = await supabase.storage
+      .from("recipe_images")
+      .upload(fileName, imageFile);
+
+    if (storageError) throw new Error(storageError.message);
+
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const image_url = `${supabaseUrl}/storage/v1/object/public/recipe_images/${fileName}`;
+
+    updateData.imageUrl = image_url;
+  }
+  // 4. update the recipe data
 
   const { error } = await supabase
     .from("recipes")
-    .update(recipeTextData)
+    .update(updateData)
     .eq("id", id);
 
   if (error) {
     console.error("Update error:", error);
     throw new Error(error.message);
-  }
-
-  if (!imageFile) return;
-
-  // 2. upload the image
-  const fileName = `recipe-${userId}-${Date.now()}`;
-
-  const { error: storageError } = await supabase.storage
-    .from("recipe_images")
-    .upload(fileName, imageFile);
-
-  if (storageError) throw new Error(storageError.message);
-
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const image_url = `${supabaseUrl}/storage/v1/object/public/recipe_images/${fileName}`;
-
-  // 3. update the image url in the recipe
-  const { error: imageError } = await supabase
-    .from("recipes")
-    .update({ imageUrl: image_url })
-    .eq("id", id);
-
-  if (imageError) {
-    console.error("Update Image error:", imageError);
-    throw new Error(imageError.message);
   }
 
   return;

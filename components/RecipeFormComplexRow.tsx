@@ -58,7 +58,12 @@ export default function RecipeFormComplexRow({
   };
 
   return (
-    <div className="flex items-center justify-between gap-5 px-2" key={fieldId}>
+    <div
+      className={`flex items-center justify-between gap-5 px-2 ${
+        type === "step" ? "w-full" : ""
+      } `}
+      key={fieldId}
+    >
       <div className={`flex flex-col ${type === "step" ? "w-3/4" : "w-1/2"}`}>
         <label htmlFor={inputField} className="text-sm font-semibold">
           {label}

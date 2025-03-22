@@ -14,7 +14,7 @@ export default function IngredientsManager({ name }: IngredientsManagerProps) {
   });
 
   return (
-    <div>
+    <div className="flex flex-col space-y-4 justify-center items-start">
       {fields.length === 0 ? (
         <Button
           variant="outline"
@@ -24,17 +24,20 @@ export default function IngredientsManager({ name }: IngredientsManagerProps) {
           Add Ingredient
         </Button>
       ) : (
-        fields.map((field, index) => (
-          <RecipeFormComplexRow
-            key={field.id}
-            name={name}
-            index={index}
-            fieldId={field.id}
-            register={register}
-            insert={insert}
-            remove={remove}
-          />
-        ))
+        <div className="flex flex-col justify-center items-end">
+          {fields.map((field, index) => (
+            <RecipeFormComplexRow
+              key={field.id}
+              name={name}
+              index={index}
+              fieldId={field.id}
+              register={register}
+              insert={insert}
+              remove={remove}
+            />
+          ))}
+          <Button>Save</Button>
+        </div>
       )}
     </div>
   );
