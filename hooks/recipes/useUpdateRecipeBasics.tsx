@@ -25,8 +25,8 @@ export default function useUpdateRecipeBasics() {
         queryKey: ["recipe", variables.id],
       });
     },
-    onError: (error) => {
-      toast.error(error.message, { duration: 3000 });
+    onError: () => {
+      toast.error("Error updating basic info", { duration: 3000 });
     },
   });
 

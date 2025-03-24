@@ -27,7 +27,7 @@ export default function Button({
       "border-2 border-accent-400 text-accent-400 hover:bg-accent-400 hover:text-white",
     link: "text-accent-200 transition-colors bg-transparent shadow-none",
     outline:
-      "border-2 border-accent-200 text-accent-200 hover:bg-accent-500 hover:text-white hover:border-accent-500",
+      "border-2 border-accent-200 text-accent-200 hover:text-accent-500 hover:border-accent-500",
   };
 
   // Link variant with icon has different styling

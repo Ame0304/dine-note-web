@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/component";
 import { PAGE_SIZE } from "../constants";
 import { format, parseISO } from "date-fns";
+import { Ingredient } from "@/components/IngredientsManager";
 
 export interface Recipe {
   id: string;
@@ -230,10 +231,57 @@ export async function updateRecipeBasics(data: RecipeBasics) {
   return;
 }
 
-// export async function updateRecipeIngredients({
-//   recipeId,
-//   ingredients,
-// }: UpdateIngredientsData) {}
+export async function addIngredientsToRecipe(
+  recipeId: string,
+  ingredients: Ingredient[]
+) {
+  // 1. check if ingredient already exists in database
+  // 2. if not, add it to the database
+  // 3. add the ingredient to the recipe by adding the recipeId and ingredientId to the recipe_ingredients table
+  const { error } = await supabase.from("recipe_ingredients").insert(
+    ingredients.map((ing) => ({
+      recipeId: recipeId,
+      ingredientId: ing.id,
+      quantity: ing.quantity,
+    }))
+  );
+
+  if (error) throw new Error(error.message);
+}
+
+export async function deleteIngredientsFromRecipe(
+  recipeId: string,
+  ingredientIds: string[]
+) {
+  const { error } = await supabase
+    .from("recipe_ingredients")
+    .delete()
+    .in("ingredientId", ingredientIds)
+    .eq("recipeId", recipeId);
+
+  if (error) throw new Error(error.message);
+}
+
+export async function updateIngredientQuantities(
+  recipeId: string,
+  ingredients: Ingredient[]
+) {
+  // TODO:update ingredient name
+  const updates = ingredients.map((ing) =>
+    supabase
+      .from("recipe_ingredients")
+      .update({ quantity: ing.quantity })
+      .eq("recipeId", recipeId)
+      .eq("ingredientId", ing.id)
+  );
+
+  const results = await Promise.all(updates);
+
+  results.forEach(({ error }) => {
+    if (error) throw new Error(error.message);
+  });
+}
+
 export async function toggleTried({
   tried,
   id,

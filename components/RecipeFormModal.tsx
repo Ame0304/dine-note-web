@@ -167,14 +167,7 @@ export default function RecipeFormModal({
                   {...register("note")}
                 />
               </RecipeFormRow>
-              <div className="pt-4 flex gap-4 justify-end">
-                <Button
-                  onClick={onClose}
-                  variant="outline"
-                  disabled={isUpdating}
-                >
-                  Cancel
-                </Button>
+              <div className="pt-4 flex justify-end">
                 <Button type="submit" form="recipe-form" disabled={isUpdating}>
                   Save
                 </Button>
@@ -187,8 +180,14 @@ export default function RecipeFormModal({
               name="ingredients"
               recipeId={recipe?.id || ""}
               initialIngredients={recipe?.ingredients || []}
+              onClose={onClose}
             />
           </ExpandableSection>
+          <div className="flex justify-end pt-4">
+            <Button onClick={onClose} variant="outline" disabled={isUpdating}>
+              Cancel
+            </Button>
+          </div>
         </DialogPanel>
       </div>
     </Dialog>
