@@ -9,7 +9,7 @@ interface IngredientFormRowProps {
   register: UseFormRegister<IngredientsFormValues>;
   insert: (
     index: number,
-    value: { id: string; name: string; quantity: string }
+    value: { id?: string; name: string; quantity: string }
   ) => void;
   remove: (index: number) => void;
 }
@@ -70,7 +70,6 @@ export default function IngredientFormRow({
           className="size-8 stroke-accent-200 stroke-2 cursor-pointer hover:stroke-accent-500 shrink-0"
           onClick={() =>
             insert(index + 1, {
-              id: crypto.randomUUID(),
               name: "",
               quantity: "",
             })

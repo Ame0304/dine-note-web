@@ -35,11 +35,6 @@ export interface RecipeBasics {
   imageUrl?: string;
 }
 
-// interface UpdateIngredientsData {
-//   id: string;
-//   ingredients: { name: string; quantity: string }[];
-// }
-
 const supabase = createClient();
 
 export async function getRecipes({
@@ -235,18 +230,61 @@ export async function addIngredientsToRecipe(
   recipeId: string,
   ingredients: Ingredient[]
 ) {
-  // 1. check if ingredient already exists in database
-  // 2. if not, add it to the database
-  // 3. add the ingredient to the recipe by adding the recipeId and ingredientId to the recipe_ingredients table
-  const { error } = await supabase.from("recipe_ingredients").insert(
-    ingredients.map((ing) => ({
-      recipeId: recipeId,
-      ingredientId: ing.id,
-      quantity: ing.quantity,
-    }))
+  // 1. Check for existing ingredients by name
+  const { data: existingIngredients, error: searchError } = await supabase
+    .from("ingredients")
+    .select("id, name")
+    .or(ingredients.map((ing) => `name.ilike.${ing.name.trim()}`).join(","));
+
+  if (searchError) throw new Error(searchError.message);
+
+  console.log("Existing Ingredients", existingIngredients);
+
+  // Create a map of existing ingredients
+  const existingIngredientsMap = new Map(
+    existingIngredients?.map((ing) => [ing.name.toLowerCase(), ing.id]) ?? []
   );
 
-  if (error) throw new Error(error.message);
+  // 2. Separate new ingredients that need to be created
+  const newIngredients = ingredients.filter(
+    (ing) => !existingIngredientsMap.has(ing.name.toLowerCase().trim())
+  );
+
+  // 3. Insert new ingredients
+  let newIngredientsMap = new Map();
+  if (newIngredients.length > 0) {
+    const { data: createdIngredients, error: createError } = await supabase
+      .from("ingredients")
+      .insert(
+        newIngredients.map((ing) => ({
+          name: ing.name.trim(),
+        }))
+      )
+      .select("id, name");
+
+    if (createError) throw new Error(createError.message);
+
+    // Add newly created ingredients to our map
+    newIngredientsMap = new Map(
+      createdIngredients?.map((ing) => [ing.name.toLowerCase(), ing.id]) ?? []
+    );
+  }
+
+  // 4. Create recipe-ingredient associations using both existing and new ingredients
+  const recipeIngredients = ingredients.map((ing) => ({
+    recipeId,
+    ingredientId:
+      existingIngredientsMap.get(ing.name.toLowerCase().trim()) ||
+      newIngredientsMap.get(ing.name.toLowerCase().trim()),
+    quantity: ing.quantity,
+  }));
+
+  // 5. Insert recipe-ingredient associations
+  const { error: associationError } = await supabase
+    .from("recipe_ingredients")
+    .insert(recipeIngredients);
+
+  if (associationError) throw new Error(associationError.message);
 }
 
 export async function deleteIngredientsFromRecipe(

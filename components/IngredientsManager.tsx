@@ -4,7 +4,7 @@ import IngredientFormRow from "./IngredientFormRow";
 import { useUpdateRecipeIngredients } from "@/hooks/recipes/useUpdateRecipeIngredients";
 
 export interface Ingredient {
-  id: string;
+  id?: string;
   name: string;
   quantity: string;
 }
@@ -44,23 +44,18 @@ export default function IngredientsManager({
     const newIngredients = data.ingredients;
 
     // 1. Identify added ingredients (exist in new but not in original)
-    const addedIngredients = newIngredients.filter(
-      (newIng) =>
-        !initialIngredients.some((origIng) => origIng.id === newIng.id)
-    );
-
+    const addedIngredients = newIngredients.filter((ing) => !ing.id);
     // 2. Identify deleted ingredients (exist in original but not in new)
     const deletedIngredients = initialIngredients
       .filter(
         (origIng) => !newIngredients.some((newIng) => newIng.id === origIng.id)
       )
-      .map((ing) => ing.id); // Only need the IDs to delete
+      .map((ing) => ing.id!); // We know that the id is not undefined
 
     // 3.Extract existing ingredients that need quantity updates
-    const existingIngredientsToUpdate = newIngredients.filter(
-      (newIng) =>
-        initialIngredients.some((origIng) => origIng.id === newIng.id) && // Must already exist
-        !addedIngredients.some((addedIng) => addedIng.id === newIng.id) // Exclude newly added
+    const updatedIngredients = newIngredients.filter(
+      (ing) =>
+        ing.id && initialIngredients.some((origIng) => origIng.id === ing.id)
     );
 
     // Execute the API Calls:
@@ -79,14 +74,14 @@ export default function IngredientsManager({
       deleteMutation.mutate(deletedIngredients);
     }
 
-    if (existingIngredientsToUpdate.length > 0) {
+    if (updatedIngredients.length > 0) {
       console.log(
         "Updated Ingredients",
-        existingIngredientsToUpdate,
+        updatedIngredients,
         "Recipe ID",
         recipeId
       );
-      updateMutation.mutate(existingIngredientsToUpdate);
+      updateMutation.mutate(updatedIngredients);
     }
 
     onClose();
@@ -115,18 +110,15 @@ export default function IngredientsManager({
         )}
       </div>
       <div className="flex justify-between items-center w-full">
-        {fields.length === 0 && (
-          <Button
-            type="button"
-            variant="outline"
-            size="small"
-            onClick={() =>
-              append({ id: crypto.randomUUID(), name: "", quantity: "" })
-            }
-          >
-            Add Ingredient
-          </Button>
-        )}
+        <Button
+          type="button"
+          variant="outline"
+          size="small"
+          onClick={() => append({ name: "", quantity: "" })}
+        >
+          Add Ingredient
+        </Button>
+
         <Button type="submit">Save Ingredients</Button>
       </div>
     </form>
