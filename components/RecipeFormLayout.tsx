@@ -1,6 +1,7 @@
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Heading from "./Heading";
 import { ReactNode } from "react";
+import { Lexend } from "next/font/google";
 
 interface RecipeFormLayoutProps {
   isOpen: boolean;
@@ -10,6 +11,11 @@ interface RecipeFormLayoutProps {
   footerContent?: ReactNode;
 }
 
+const lexend = Lexend({
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export default function RecipeFormLayout({
   isOpen,
   onClose,
@@ -18,7 +24,11 @@ export default function RecipeFormLayout({
   footerContent,
 }: RecipeFormLayoutProps) {
   return (
-    <Dialog open={isOpen} onClose={onClose} className="relative z-50">
+    <Dialog
+      open={isOpen}
+      onClose={onClose}
+      className={`relative z-50 ${lexend.className} `}
+    >
       {/* Background overlay */}
       <div
         className="fixed inset-0 bg-black/10 backdrop-blur-sm"

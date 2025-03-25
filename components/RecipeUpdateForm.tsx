@@ -1,7 +1,4 @@
-import { Lexend } from "next/font/google";
-import { Dialog, DialogPanel } from "@headlessui/react";
 import Button from "./Button";
-import Heading from "./Heading";
 import RecipeFormRow from "./RecipeFormRow";
 import RecipeFormInput from "./RecipeFormInput";
 import RecipeFormTextarea from "./RecipeFormTextarea";
@@ -13,11 +10,7 @@ import useUpdateRecipeBasics from "@/hooks/recipes/useUpdateRecipeBasics";
 import IngredientsManager from "./IngredientsManager";
 import StepsManager from "./StepsManager";
 import ImageUploadField from "./ImageUploadField";
-
-const lexend = Lexend({
-  subsets: ["latin"],
-  display: "swap",
-});
+import RecipeFormLayout from "./RecipeFormLayout";
 
 interface RecipeUpdateFormProps {
   isOpen: boolean;
@@ -86,92 +79,75 @@ export default function RecipeUpdateForm({
   };
 
   return (
-    <Dialog
-      open={isOpen}
+    <RecipeFormLayout
+      isOpen={isOpen}
       onClose={onClose}
-      className={`relative z-50 ${lexend.className}`}
+      title="Update Recipe"
+      footerContent={
+        <Button onClick={onClose} variant="outline" disabled={isUpdating}>
+          Cancel
+        </Button>
+      }
     >
-      {/* Background overlay */}
-      <div
-        className="fixed inset-0 bg-black/10 backdrop-blur-sm"
-        aria-hidden="true"
-      />
-      <div className="fixed inset-0 flex w-screen items-center justify-center text-primary-100">
-        <DialogPanel className="w-full md:w-1/2 bg-primary-950 rounded-2xl shadow-lg shadow-primary-900 p-6 mx-auto  border-4 border-accent-200 transform transition-all max-h-[90vh] overflow-y-auto scrollbar-hide">
-          {/* Hidden userId field */}
-          <input type="hidden" {...register("userId")} />
+      {/* Basic info form */}
+      <form onSubmit={handleSubmit(onSubmit)} id="recipe-basic">
+        <div className="mt-4 px-4 py-5 rounded-2xl border-4 border-accent-200 bg-white/80 flex flex-col gap-3">
+          {/* Image */}
+          <ImageUploadField
+            imageUrl={imageUrl}
+            onImageChange={(file) => {
+              setValue("imageFile", file);
+              const previewUrl = URL.createObjectURL(file);
+              setValue("imageUrl", previewUrl);
+            }}
+          />
           {/* Title */}
-          <div className="text-center">
-            <Heading level="h3" styled={true} className="text-accent-200">
-              {recipe ? "Update Recipe" : "Create Recipe"}
-            </Heading>
-          </div>
-          {/* Basic info form */}
-          <form onSubmit={handleSubmit(onSubmit)} id="recipe-form">
-            <div className="mt-4 px-4 py-5 rounded-2xl border-4 border-accent-200 bg-white/80 flex flex-col gap-3">
-              {/* Image */}
-              <ImageUploadField
-                imageUrl={imageUrl}
-                onImageChange={(file) => {
-                  setValue("imageFile", file);
-                  const previewUrl = URL.createObjectURL(file);
-                  setValue("imageUrl", previewUrl);
-                }}
-              />
-              {/* Title */}
-              <RecipeFormRow label="Title" error={errors.title?.message}>
-                <RecipeFormInput
-                  type="text"
-                  id="title"
-                  {...register("title", { required: "Title is required" })}
-                />
-              </RecipeFormRow>
-
-              {/* Description */}
-              <RecipeFormRow label="Description">
-                <RecipeFormTextarea
-                  id="description"
-                  placeholder="Give your recipe a description"
-                  {...register("description")}
-                />
-              </RecipeFormRow>
-
-              <RecipeFormRow label="Note">
-                <RecipeFormTextarea
-                  id="note"
-                  placeholder="Type your chef's note here"
-                  {...register("note")}
-                />
-              </RecipeFormRow>
-              <div className="pt-4 flex justify-end">
-                <Button type="submit" form="recipe-form" disabled={isUpdating}>
-                  Save
-                </Button>
-              </div>
-            </div>
-          </form>
-          {/* Ingredients Form */}
-          <ExpandableSection icon="🥔" title="Ingredients" isEdit={true}>
-            <IngredientsManager
-              recipeId={recipe?.id || ""}
-              initialIngredients={recipe?.ingredients || []}
-              onClose={onClose}
+          <RecipeFormRow label="Title" error={errors.title?.message}>
+            <RecipeFormInput
+              type="text"
+              id="title"
+              {...register("title", { required: "Title is required" })}
             />
-          </ExpandableSection>
-          <ExpandableSection icon="🔪" title="Steps" isEdit={true}>
-            <StepsManager
-              recipeId={recipe?.id || ""}
-              initialSteps={recipe?.steps || []}
-              onClose={onClose}
+          </RecipeFormRow>
+
+          {/* Description */}
+          <RecipeFormRow label="Description">
+            <RecipeFormTextarea
+              id="description"
+              placeholder="Give your recipe a description"
+              {...register("description")}
             />
-          </ExpandableSection>
-          <div className="flex justify-end pt-4">
-            <Button onClick={onClose} variant="outline" disabled={isUpdating}>
-              Cancel
+          </RecipeFormRow>
+
+          <RecipeFormRow label="Note">
+            <RecipeFormTextarea
+              id="note"
+              placeholder="Type your chef's note here"
+              {...register("note")}
+            />
+          </RecipeFormRow>
+          <div className="pt-4 flex justify-end">
+            <Button type="submit" form="recipe-basic" disabled={isUpdating}>
+              Save
             </Button>
           </div>
-        </DialogPanel>
-      </div>
-    </Dialog>
+        </div>
+      </form>
+      {/* Ingredients Form */}
+      <ExpandableSection icon="🥔" title="Ingredients" isEdit={true}>
+        <IngredientsManager
+          recipeId={recipe?.id || ""}
+          initialIngredients={recipe?.ingredients || []}
+          onClose={onClose}
+        />
+      </ExpandableSection>
+      <ExpandableSection icon="🔪" title="Steps" isEdit={true}>
+        <StepsManager
+          recipeId={recipe?.id || ""}
+          initialSteps={recipe?.steps || []}
+          onClose={onClose}
+        />
+      </ExpandableSection>
+    </RecipeFormLayout>
   );
 }

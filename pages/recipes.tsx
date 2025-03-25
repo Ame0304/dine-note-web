@@ -4,11 +4,15 @@ import Pagination from "@/components/Pagination";
 import RecipeControls from "@/components/RecipeControls";
 import RecipesList from "@/components/RecipesList";
 import Button from "@/components/Button";
+import RecipeAddForm from "@/components/recipe/RecipeAddForm";
+import { useState } from "react";
 import { useUser } from "@/context/UserContext";
 import { useRecipes } from "@/hooks/recipes/useRecipes";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 
 export default function RecipesPage() {
+  const [isOpenAdd, setIsOpenAdd] = useState(false);
+
   const { user } = useUser();
   const userId = user?.id;
 
@@ -27,7 +31,7 @@ export default function RecipesPage() {
             Recipes
           </Heading>
 
-          <Button>
+          <Button onClick={() => setIsOpenAdd(true)}>
             Add
             <PlusCircleIcon className="size-5" />
           </Button>
@@ -36,6 +40,8 @@ export default function RecipesPage() {
         {/* Recipe Controls:Search, Filter, Sort */}
         <RecipeControls userId={userId} />
       </div>
+
+      <RecipeAddForm isOpen={isOpenAdd} onClose={() => setIsOpenAdd(false)} />
 
       {/* Recipe Grid View */}
       <RecipesList recipes={recipes} />
