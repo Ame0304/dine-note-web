@@ -10,7 +10,6 @@ export interface Ingredient {
 }
 
 interface IngredientsManagerProps {
-  name: string;
   recipeId: string;
   initialIngredients: Ingredient[] | [];
   onClose: () => void;
@@ -21,7 +20,6 @@ export interface IngredientsFormValues {
 }
 
 export default function IngredientsManager({
-  name,
   recipeId,
   initialIngredients,
   onClose,
@@ -98,7 +96,6 @@ export default function IngredientsManager({
             {fields.map((field, index) => (
               <IngredientFormRow
                 key={field.id}
-                name={name}
                 index={index}
                 fieldId={field.id}
                 register={register}

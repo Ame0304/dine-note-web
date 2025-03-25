@@ -1,41 +1,77 @@
-import { useFieldArray, useFormContext } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import Button from "./Button";
-import RecipeFormComplexRow from "./IngredientFormRow";
+import StepFormRow from "./StepFormRow";
 
-interface StepsManagerProps {
-  name: string; // Field name for steps in the parent form
+export interface Step {
+  id: string;
+  value: string;
 }
 
-export default function StepsManager({ name }: StepsManagerProps) {
-  const { control, register } = useFormContext(); // Access the parent form context
-  const { fields, insert, remove, append } = useFieldArray({
-    control,
-    name,
+interface StepsManagerProps {
+  recipeId: string;
+  onClose: () => void;
+  initialSteps: string[];
+}
+
+export interface StepsFormValues {
+  steps: Step[];
+}
+
+export default function StepsManager({
+  recipeId,
+  onClose,
+  initialSteps = [],
+}: StepsManagerProps) {
+  console.log(initialSteps);
+  const { control, register, handleSubmit } = useForm<StepsFormValues>({
+    defaultValues: {
+      steps: initialSteps.map((step, index) => ({
+        id: String(index),
+        value: step,
+      })),
+    },
   });
 
+  const { fields, append, remove, insert } = useFieldArray<StepsFormValues>({
+    control,
+    name: "steps",
+  });
+
+  const onSubmit = (data: StepsFormValues) => {
+    console.log(recipeId, data);
+    onClose();
+  };
+
   return (
-    <div className="flex flex-col space-y-4 justify-center items-start">
-      {fields.length === 0 ? (
-        <Button variant="outline" size="small" onClick={() => append("")}>
-          Add Step
+    <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col">
+      <div>
+        {fields.length !== 0 && (
+          <div className="">
+            {fields.map((field, index) => (
+              <StepFormRow
+                key={field.id}
+                index={index}
+                fieldId={field.id}
+                register={register}
+                insert={insert}
+                remove={remove}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="flex justify-between items-center w-full">
+        <Button
+          type="button"
+          variant="outline"
+          size="small"
+          onClick={() => append({ id: String(fields.length), value: "" })}
+        >
+          Add Steps
         </Button>
-      ) : (
-        <div className="flex flex-col justify-center items-end w-full">
-          {fields.map((field, index) => (
-            <RecipeFormComplexRow
-              key={field.id}
-              name={name}
-              index={index}
-              fieldId={field.id}
-              register={register}
-              insert={insert}
-              remove={remove}
-              type="step"
-            />
-          ))}
-          <Button>Save</Button>
-        </div>
-      )}
-    </div>
+
+        <Button type="submit">Save Steps</Button>
+      </div>
+    </form>
   );
 }

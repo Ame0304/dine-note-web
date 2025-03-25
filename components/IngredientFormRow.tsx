@@ -3,7 +3,6 @@ import { UseFormRegister } from "react-hook-form";
 import { IngredientsFormValues } from "./IngredientsManager";
 
 interface IngredientFormRowProps {
-  name: string;
   index: number;
   fieldId: string;
   register: UseFormRegister<IngredientsFormValues>;
@@ -20,13 +19,13 @@ const inputClasses =
 // TODO: validation
 
 export default function IngredientFormRow({
-  name = "ingredients",
   index,
   fieldId,
   register,
   insert,
   remove,
 }: IngredientFormRowProps) {
+  const name = "ingredients";
   return (
     <div className="flex items-center justify-between gap-5 px-2" key={fieldId}>
       <div className="flex flex-col w-1/2">

@@ -13,7 +13,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useEffect } from "react";
 import useUpdateRecipeBasics from "@/hooks/recipes/useUpdateRecipeBasics";
 import IngredientsManager from "./IngredientsManager";
-// import StepsManager from "./StepsManager";
+import StepsManager from "./StepsManager";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -177,9 +177,15 @@ export default function RecipeFormModal({
           {/* Ingredients Form */}
           <ExpandableSection icon="🥔" title="Ingredients" isEdit={true}>
             <IngredientsManager
-              name="ingredients"
               recipeId={recipe?.id || ""}
               initialIngredients={recipe?.ingredients || []}
+              onClose={onClose}
+            />
+          </ExpandableSection>
+          <ExpandableSection icon="🔪" title="Steps" isEdit={true}>
+            <StepsManager
+              recipeId={recipe?.id || ""}
+              initialSteps={recipe?.steps || []}
               onClose={onClose}
             />
           </ExpandableSection>
@@ -193,13 +199,3 @@ export default function RecipeFormModal({
     </Dialog>
   );
 }
-
-// /*
-
-//
-
-//           {/* Steps */}
-//           <ExpandableSection icon="🔪" title="Steps" isEdit={true}>
-//             <StepsManager name="steps" />
-//           </ExpandableSection>
-// */
