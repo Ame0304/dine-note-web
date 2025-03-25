@@ -1,6 +1,7 @@
 import { useFieldArray, useForm } from "react-hook-form";
 import Button from "./Button";
 import StepFormRow from "./StepFormRow";
+import useUpdateSteps from "@/hooks/recipes/useUpdateSteps";
 
 export interface Step {
   id: string;
@@ -22,7 +23,6 @@ export default function StepsManager({
   onClose,
   initialSteps = [],
 }: StepsManagerProps) {
-  console.log(initialSteps);
   const { control, register, handleSubmit } = useForm<StepsFormValues>({
     defaultValues: {
       steps: initialSteps.map((step, index) => ({
@@ -37,8 +37,12 @@ export default function StepsManager({
     name: "steps",
   });
 
+  const { updateSteps, isUpdating } = useUpdateSteps();
+
   const onSubmit = (data: StepsFormValues) => {
-    console.log(recipeId, data);
+    const stepsStringArr = data.steps.map((step) => step.value);
+    updateSteps({ recipeId, steps: stepsStringArr });
+
     onClose();
   };
 
@@ -65,12 +69,15 @@ export default function StepsManager({
           type="button"
           variant="outline"
           size="small"
+          disabled={isUpdating}
           onClick={() => append({ id: String(fields.length), value: "" })}
         >
           Add Steps
         </Button>
 
-        <Button type="submit">Save Steps</Button>
+        <Button type="submit" disabled={isUpdating}>
+          Save Steps
+        </Button>
       </div>
     </form>
   );

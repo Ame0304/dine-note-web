@@ -320,6 +320,15 @@ export async function updateIngredientQuantities(
   });
 }
 
+export async function updateRecipeSteps(recipeId: string, steps: string[]) {
+  const { error } = await supabase
+    .from("recipes")
+    .update({ steps })
+    .eq("id", recipeId);
+
+  if (error) throw new Error(error.message);
+}
+
 export async function toggleTried({
   tried,
   id,
