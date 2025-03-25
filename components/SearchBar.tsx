@@ -59,16 +59,19 @@ export default function SearchBar() {
 
   return (
     <form onSubmit={handleSearch} className="relative flex-1 max-w-md">
+      <div className="absolute left-3 top-2.5">
+        <MagnifyingGlassIcon className="size-5 stroke-2 text-accent-500" />
+      </div>
       <input
         id="search"
         placeholder="Search recipes..."
         value={searchTerm}
-        className="w-full px-3 py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500  shadow-md shadow-accent-500 placeholder:text-primary-50/70 placeholder:text-sm"
+        className="w-full py-1.5 pl-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500 shadow-md shadow-accent-500 placeholder:text-primary-50/70 placeholder:text-sm bg-accent-200 text-primary-950"
         onChange={(e) => {
           setSearchTerm(e.target.value);
         }}
       />
-      <div className="absolute right-3 top-2.5 flex items-center">
+      <div className="absolute right-3 top-2.5">
         {searchTerm && (
           <button
             type="button"
@@ -79,7 +82,6 @@ export default function SearchBar() {
             <XMarkIcon className="size-5 stroke-2 text-accent-500" />
           </button>
         )}
-        <MagnifyingGlassIcon className="size-5 stroke-2 text-accent-500" />
       </div>
     </form>
   );

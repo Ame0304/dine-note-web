@@ -26,10 +26,10 @@ export default function RecipeCard({
   const router = useRouter();
 
   return (
-    <div className="bg-white/50 border-4 border-accent-200 rounded-xl shadow-lg transform transition-all hover:scale-105 hover:shadow-accent-500 flex flex-col h-full p-8 md:p-6">
+    <div className="bg-white/40 border-4 border-accent-200 rounded-xl shadow-lg transform transition-all hover:scale-105 hover:shadow-accent-500 flex flex-col h-full p-8 md:p-6">
       <div className="flex flex-col h-full">
         {/* Feathered Recipe Image  */}
-        <div className="relative aspect-square w-full mb-2">
+        <div className="relative aspect-square w-full mb-2 shadow-lg rounded-xl">
           <Image
             src={imageUrl || "/default-recipe.png"}
             alt={title}
@@ -37,7 +37,6 @@ export default function RecipeCard({
             className="object-cover rounded-xl"
             sizes="(min-width: 1280px) 20vw, (min-width: 768px) 25vw, 40vw"
           />
-          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white/30 to-transparent pointer-events-none"></div>
 
           {/* Tried badge */}
           <TriedBadge tried={tried} id={id} />

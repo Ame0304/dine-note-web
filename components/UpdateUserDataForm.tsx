@@ -40,7 +40,7 @@ export default function UpdateUserDataForm({
   }
 
   return (
-    <div className="space-y-2 flex flex-col justify-between p-10 rounded-xl bg-white ">
+    <div className="space-y-2 flex flex-col justify-between p-10 rounded-xl bg-white border-4 border-accent-200">
       <Heading level="h3">Updating user information</Heading>
       <form onSubmit={handleSubmit}>
         <FormRowHorizontal label="Full Name">

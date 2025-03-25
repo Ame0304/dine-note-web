@@ -28,7 +28,7 @@ export default function Filter({ userId }: { userId?: string | undefined }) {
   };
   return (
     <select
-      className="px-3 py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-400 shadow-md shadow-accent-400 text-accent-400"
+      className="px-3 py-1.5 rounded-lg bg-accent-200 focus:outline-none focus:ring-2 focus:ring-accent-400 shadow-md shadow-accent-400 text-accent-400"
       onChange={(e) => handleFilterCategory(e.target.value)}
       value={String(router.query.filter || "0")}
     >
