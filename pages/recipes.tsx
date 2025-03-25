@@ -3,8 +3,10 @@ import Loading from "@/components/Loading";
 import Pagination from "@/components/Pagination";
 import RecipeControls from "@/components/RecipeControls";
 import RecipesList from "@/components/RecipesList";
+import Button from "@/components/Button";
 import { useUser } from "@/context/UserContext";
 import { useRecipes } from "@/hooks/recipes/useRecipes";
+import { PlusCircleIcon } from "@heroicons/react/24/outline";
 
 export default function RecipesPage() {
   const { user } = useUser();
@@ -20,9 +22,16 @@ export default function RecipesPage() {
     <div>
       <div className="flex justify-between items-center mb-4">
         {/* Recipe Page Header */}
-        <Heading level="h2" styled={true}>
-          Recipes
-        </Heading>
+        <div className="flex items-center gap-5">
+          <Heading level="h2" styled={true}>
+            Recipes
+          </Heading>
+
+          <Button>
+            Add
+            <PlusCircleIcon className="size-5" />
+          </Button>
+        </div>
 
         {/* Recipe Controls:Search, Filter, Sort */}
         <RecipeControls userId={userId} />

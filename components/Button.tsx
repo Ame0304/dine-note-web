@@ -22,7 +22,8 @@ export default function Button({
   };
 
   const variantClasses = {
-    primary: "text-accent-500 bg-accent-500 text-white hover:bg-accent-400",
+    primary:
+      "text-accent-500 bg-accent-500 text-primary-950 hover:bg-accent-400",
     alert:
       "border-2 border-accent-400 text-accent-400 hover:bg-accent-400 hover:text-white",
     link: "text-accent-200 transition-colors bg-transparent shadow-none",
@@ -50,7 +51,7 @@ export default function Button({
   return (
     <button
       {...props}
-      className={`rounded-xl shadow-lg ${sizeClasses[size]} ${variantClasses[variant]} disabled:opacity-50 disabled:cursor-not-allowed`}
+      className={`rounded-xl shadow-lg ${sizeClasses[size]} ${variantClasses[variant]} disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2`}
     >
       {isLoading ? (
         <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-accent-500 border-r-transparent" />

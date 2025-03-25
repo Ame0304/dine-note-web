@@ -17,7 +17,7 @@ export default function Sort() {
   };
   return (
     <select
-      className="px-3 py-1.5 rounded-lg bg-accent-200 focus:outline-none focus:ring-2 focus:ring-accent-300  shadow-md shadow-accent-300 text-accent-300"
+      className="px-3 py-1.5 rounded-lg bg-primary-950 focus:outline-none focus:ring-4 focus:ring-accent-200 shadow-md shadow-accent-300 text-accent-300"
       onChange={(e) => handleSort(e.target.value)}
       value={String(router.query.sortBy || "date-desc")}
     >

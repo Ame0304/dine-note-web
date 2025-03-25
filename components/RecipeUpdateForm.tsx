@@ -4,9 +4,7 @@ import Button from "./Button";
 import Heading from "./Heading";
 import RecipeFormRow from "./RecipeFormRow";
 import RecipeFormInput from "./RecipeFormInput";
-import Image from "next/image";
 import RecipeFormTextarea from "./RecipeFormTextarea";
-import FileInput from "./FileInput";
 import ExpandableSection from "./ExpandableSection";
 import { Recipe } from "../lib/services/recipeService";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -14,13 +12,14 @@ import { useEffect } from "react";
 import useUpdateRecipeBasics from "@/hooks/recipes/useUpdateRecipeBasics";
 import IngredientsManager from "./IngredientsManager";
 import StepsManager from "./StepsManager";
+import ImageUploadField from "./ImageUploadField";
 
 const lexend = Lexend({
   subsets: ["latin"],
   display: "swap",
 });
 
-interface RecipeFormModalProps {
+interface RecipeUpdateFormProps {
   isOpen: boolean;
   onClose: () => void;
   recipe: Recipe | null;
@@ -36,11 +35,11 @@ interface RecipeBasicsFormValues {
   userId: string;
 }
 
-export default function RecipeFormModal({
+export default function RecipeUpdateForm({
   isOpen,
   onClose,
   recipe,
-}: RecipeFormModalProps) {
+}: RecipeUpdateFormProps) {
   const {
     handleSubmit,
     reset,
@@ -111,37 +110,14 @@ export default function RecipeFormModal({
           <form onSubmit={handleSubmit(onSubmit)} id="recipe-form">
             <div className="mt-4 px-4 py-5 rounded-2xl border-4 border-accent-200 bg-white/80 flex flex-col gap-3">
               {/* Image */}
-              <div className="ml-2 mb-3 flex items-center justify-start gap-5">
-                <label htmlFor="imageUrl" className="text-lg font-semibold">
-                  Image
-                </label>
-                <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-accent-200 shadow-lg shadow-primary-900">
-                  <Image
-                    src={imageUrl}
-                    alt={"Recipe image"}
-                    width={300}
-                    height={300}
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-                <FileInput
-                  accept="image/*"
-                  id="imageUrl"
-                  onChange={(e) => {
-                    if (e.target.files && e.target.files[0]) {
-                      const file = e.target.files[0];
-                      // Store the file object for upload
-                      setValue("imageFile", file);
-                      // Create URL for preview only
-                      const previewUrl = URL.createObjectURL(file);
-                      setValue("imageUrl", previewUrl);
-                    }
-                  }}
-                >
-                  Change Image
-                </FileInput>
-              </div>
-
+              <ImageUploadField
+                imageUrl={imageUrl}
+                onImageChange={(file) => {
+                  setValue("imageFile", file);
+                  const previewUrl = URL.createObjectURL(file);
+                  setValue("imageUrl", previewUrl);
+                }}
+              />
               {/* Title */}
               <RecipeFormRow label="Title" error={errors.title?.message}>
                 <RecipeFormInput
