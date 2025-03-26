@@ -1,7 +1,6 @@
 import { useFieldArray, useForm } from "react-hook-form";
-import Button from "./Button";
-import StepFormRow from "./StepFormRow";
 import useUpdateSteps from "@/hooks/recipes/useUpdateSteps";
+import StepsFieldset from "./recipe/StepsFieldset";
 
 export interface Step {
   id: string;
@@ -47,38 +46,15 @@ export default function StepsManager({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col">
-      <div>
-        {fields.length !== 0 && (
-          <div className="">
-            {fields.map((field, index) => (
-              <StepFormRow
-                key={field.id}
-                index={index}
-                fieldId={field.id}
-                register={register}
-                insert={insert}
-                remove={remove}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-      <div className="flex justify-between items-center w-full">
-        <Button
-          type="button"
-          variant="outline"
-          size="small"
-          disabled={isUpdating}
-          onClick={() => append({ id: String(fields.length), value: "" })}
-        >
-          Add Steps
-        </Button>
-
-        <Button type="submit" disabled={isUpdating}>
-          Save Steps
-        </Button>
-      </div>
-    </form>
+    <StepsFieldset
+      register={register}
+      fields={fields}
+      append={append}
+      remove={remove}
+      insert={insert}
+      showSaveButton
+      onSave={handleSubmit(onSubmit)}
+      isUpdating={isUpdating}
+    />
   );
 }

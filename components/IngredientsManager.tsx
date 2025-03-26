@@ -57,27 +57,14 @@ export default function IngredientsManager({
 
     // Execute the API Calls:
     if (addedIngredients.length > 0) {
-      console.log("Added Ingredients", addedIngredients, "Recipe ID", recipeId);
       addMutation.mutate(addedIngredients);
     }
 
     if (deletedIngredients.length > 0) {
-      console.log(
-        "Deleted Ingredients",
-        deletedIngredients,
-        "Recipe ID",
-        recipeId
-      );
       deleteMutation.mutate(deletedIngredients);
     }
 
     if (updatedIngredients.length > 0) {
-      console.log(
-        "Updated Ingredients",
-        updatedIngredients,
-        "Recipe ID",
-        recipeId
-      );
       updateMutation.mutate(updatedIngredients);
     }
 

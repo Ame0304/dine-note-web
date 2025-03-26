@@ -1,12 +1,12 @@
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
-import { UseFormRegister } from "react-hook-form";
-import { StepsFormValues } from "./StepsManager";
+import { UseFormRegister, Path } from "react-hook-form";
 import { Step } from "./StepsManager";
+import { FormWithSteps } from "./recipe/StepsFieldset";
 
-interface StepFormRowProps {
+interface StepFormRowProps<T extends FormWithSteps> {
   index: number;
   fieldId: string;
-  register: UseFormRegister<StepsFormValues>;
+  register: UseFormRegister<T>;
   insert: (index: number, value: Step) => void;
   remove: (index: number) => void;
 }
@@ -14,13 +14,13 @@ interface StepFormRowProps {
 const inputClasses =
   "mb-2 bg-primary-950 text-primary-100 block w-full rounded-xl px-3 py-1 sm:text-base/6 font-semibold border-4 border-accent-200/50 focus:outline-accent-200 focus:outline-2 overflow-x-scroll";
 
-export default function StepFormRow({
+export default function StepFormRow<T extends FormWithSteps>({
   index,
   fieldId,
   register,
   insert,
   remove,
-}: StepFormRowProps) {
+}: StepFormRowProps<T>) {
   return (
     <div
       className="flex items-center justify-between gap-5 px-2 w-full"
@@ -35,7 +35,7 @@ export default function StepFormRow({
           id={`steps[${index}]`}
           placeholder="Step Instruction"
           className={inputClasses}
-          {...register(`steps.${index}.value`, {
+          {...register(`steps.${index}.value` as Path<T>, {
             required: "Step instruction is required",
           })}
         />

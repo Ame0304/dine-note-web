@@ -5,10 +5,10 @@ import RecipeFormRow from "@/components/RecipeFormRow";
 import RecipeFormInput from "@/components/RecipeFormInput";
 import RecipeFormTextarea from "@/components/RecipeFormTextarea";
 import ExpandableSection from "@/components/ExpandableSection";
-import StepsManager from "@/components/StepsManager";
 import IngredientsFieldset from "./IngredientsFieldset";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useFieldArray } from "react-hook-form";
+import StepsFieldset from "./StepsFieldset";
 
 interface RecipeUpdateFormProps {
   isOpen: boolean;
@@ -23,8 +23,8 @@ interface RecipeAddFormValues {
   tried?: boolean;
   categories?: Array<{ name: string; id: string; color: string }>;
   ingredients: Array<{ id?: string; name: string; quantity: string }>;
+  steps: Array<{ id: string; value: string }>; // Ensure steps is always defined
   note?: string;
-  steps?: Array<string>;
   userId: string;
 }
 
@@ -45,9 +45,21 @@ export default function RecipeAddForm({
     },
   });
 
+  // UseFieldArray for ingredients
   const { fields, append, remove, insert } = useFieldArray({
     control,
     name: "ingredients",
+  });
+
+  // UseFieldArray for steps
+  const {
+    fields: stepFields,
+    append: appendStep,
+    remove: removeStep,
+    insert: insertStep,
+  } = useFieldArray({
+    control,
+    name: "steps",
   });
 
   const imageUrl = watch("imageUrl"); // watch to show preview
@@ -63,70 +75,74 @@ export default function RecipeAddForm({
       onClose={onClose}
       title="Add New Recipe"
       footerContent={
-        <Button
-          onClick={onClose}
-          variant="outline"
-          // disabled={isUpdating}
-        >
-          Cancel
-        </Button>
+        <div className="flex flex-end gap-2">
+          <Button onClick={handleSubmit(onSubmit)}>Add new recipe</Button>
+          <Button
+            onClick={onClose}
+            variant="outline"
+            // disabled={isUpdating}
+          >
+            Cancel
+          </Button>
+        </div>
       }
     >
-      <form onSubmit={handleSubmit(onSubmit)} id="recipe-add">
-        <div className="mt-4 px-4 py-5 rounded-2xl border-4 border-accent-200 bg-white/80 flex flex-col gap-3">
-          {/* Image */}
-          <ImageUploadField
-            imageUrl={imageUrl}
-            onImageChange={(file) => {
-              setValue("imageFile", file);
-              const previewUrl = URL.createObjectURL(file);
-              setValue("imageUrl", previewUrl);
-            }}
+      <div className="mt-4 px-4 py-5 rounded-2xl border-4 border-accent-200 bg-white/80 flex flex-col gap-3">
+        {/* Image */}
+        <ImageUploadField
+          imageUrl={imageUrl || "/default-recipe.png"}
+          onImageChange={(file) => {
+            setValue("imageFile", file);
+            const previewUrl = URL.createObjectURL(file);
+            setValue("imageUrl", previewUrl);
+          }}
+        />
+
+        {/* Title */}
+        <RecipeFormRow label="Title" error={errors.title?.message}>
+          <RecipeFormInput
+            type="text"
+            id="title"
+            {...register("title", { required: "Title is required" })}
           />
+        </RecipeFormRow>
 
-          {/* Title */}
-          <RecipeFormRow label="Title" error={errors.title?.message}>
-            <RecipeFormInput
-              type="text"
-              id="title"
-              {...register("title", { required: "Title is required" })}
-            />
-          </RecipeFormRow>
-
-          {/* Description */}
-          <RecipeFormRow label="Description">
-            <RecipeFormTextarea
-              id="description"
-              placeholder="Give your recipe a description"
-              {...register("description")}
-            />
-          </RecipeFormRow>
-
-          <RecipeFormRow label="Note">
-            <RecipeFormTextarea
-              id="note"
-              placeholder="Type your chef's note here"
-              {...register("note")}
-            />
-          </RecipeFormRow>
-        </div>
-        {/* Ingredients Form*/}
-        <ExpandableSection icon="🥔" title="Ingredients" isEdit={true}>
-          <IngredientsFieldset<RecipeAddFormValues>
-            register={register}
-            fields={fields}
-            append={append}
-            remove={remove}
-            insert={insert}
+        {/* Description */}
+        <RecipeFormRow label="Description">
+          <RecipeFormTextarea
+            id="description"
+            placeholder="Give your recipe a description"
+            {...register("description")}
           />
-        </ExpandableSection>
-        <ExpandableSection icon="🔪" title="Steps" isEdit={true}>
-          <StepsManager recipeId={""} initialSteps={[]} onClose={onClose} />
-        </ExpandableSection>
-        <Button type="submit" form="recipe-add">
-          Add new recipe
-        </Button>
-      </form>
+        </RecipeFormRow>
+
+        <RecipeFormRow label="Note">
+          <RecipeFormTextarea
+            id="note"
+            placeholder="Type your chef's note here"
+            {...register("note")}
+          />
+        </RecipeFormRow>
+      </div>
+      {/* Ingredients Form*/}
+      <ExpandableSection icon="🥔" title="Ingredients" isEdit={true}>
+        <IngredientsFieldset<RecipeAddFormValues>
+          register={register}
+          fields={fields}
+          append={append}
+          remove={remove}
+          insert={insert}
+        />
+      </ExpandableSection>
+      <ExpandableSection icon="🔪" title="Steps" isEdit={true}>
+        <StepsFieldset<RecipeAddFormValues>
+          register={register}
+          fields={stepFields}
+          append={appendStep}
+          remove={removeStep}
+          insert={insertStep}
+        />
+      </ExpandableSection>
     </RecipeFormLayout>
   );
 }
