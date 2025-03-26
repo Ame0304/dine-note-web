@@ -1,6 +1,6 @@
 import { useFieldArray, useForm } from "react-hook-form";
 import { useUpdateRecipeIngredients } from "@/hooks/recipes/useUpdateRecipeIngredients";
-import IngredientsFieldset from "./recipe/IngredientsFieldset";
+import IngredientsFieldset from "./IngredientsFieldset";
 
 export interface Ingredient {
   id?: string;

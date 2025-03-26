@@ -7,7 +7,7 @@ import { Recipe } from "../lib/services/recipeService";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useEffect } from "react";
 import useUpdateRecipeBasics from "@/hooks/recipes/useUpdateRecipeBasics";
-import IngredientsManager from "./IngredientsManager";
+import IngredientsManager from "@/components/recipe/IngredientsManager";
 import StepsManager from "./StepsManager";
 import ImageUploadField from "./ImageUploadField";
 import RecipeFormLayout from "./RecipeFormLayout";

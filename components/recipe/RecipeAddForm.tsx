@@ -6,16 +6,18 @@ import RecipeFormInput from "@/components/RecipeFormInput";
 import RecipeFormTextarea from "@/components/RecipeFormTextarea";
 import ExpandableSection from "@/components/ExpandableSection";
 import IngredientsFieldset from "./IngredientsFieldset";
+import StepsFieldset from "./StepsFieldset";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useFieldArray } from "react-hook-form";
-import StepsFieldset from "./StepsFieldset";
+import useAddRecipe from "@/hooks/recipes/useAddRecipe";
 
-interface RecipeUpdateFormProps {
+interface RecipeAddFormProps {
   isOpen: boolean;
   onClose: () => void;
+  userId: string;
 }
 
-interface RecipeAddFormValues {
+export interface RecipeAddFormValues {
   title: string;
   description?: string;
   imageFile?: File | null;
@@ -31,7 +33,10 @@ interface RecipeAddFormValues {
 export default function RecipeAddForm({
   isOpen,
   onClose,
-}: RecipeUpdateFormProps) {
+  userId,
+}: RecipeAddFormProps) {
+  const { addRecipe, isAdding } = useAddRecipe();
+
   const {
     handleSubmit,
     register,
@@ -66,6 +71,7 @@ export default function RecipeAddForm({
 
   const onSubmit: SubmitHandler<RecipeAddFormValues> = (data) => {
     console.log(data);
+    addRecipe(data);
     onClose();
   };
 
@@ -76,18 +82,17 @@ export default function RecipeAddForm({
       title="Add New Recipe"
       footerContent={
         <div className="flex flex-end gap-2">
-          <Button onClick={handleSubmit(onSubmit)}>Add new recipe</Button>
-          <Button
-            onClick={onClose}
-            variant="outline"
-            // disabled={isUpdating}
-          >
+          <Button onClick={handleSubmit(onSubmit)} disabled={isAdding}>
+            Add new recipe
+          </Button>
+          <Button onClick={onClose} variant="outline" disabled={isAdding}>
             Cancel
           </Button>
         </div>
       }
     >
       <div className="mt-4 px-4 py-5 rounded-2xl border-4 border-accent-200 bg-white/80 flex flex-col gap-3">
+        <input hidden {...register("userId")} value={userId} />
         {/* Image */}
         <ImageUploadField
           imageUrl={imageUrl || "/default-recipe.png"}

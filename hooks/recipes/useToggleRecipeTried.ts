@@ -15,10 +15,6 @@ export default function useToggleRecipeTried() {
         { duration: 4000 }
       );
 
-      // const currentCache = queryClient.getQueryData(["recipes"]);
-      // console.log("Current recipes cache:", currentCache);
-
-      // update the status in recipe detail page
       queryClient.invalidateQueries({
         queryKey: ["recipe", variables.id],
       });
@@ -26,24 +22,6 @@ export default function useToggleRecipeTried() {
       queryClient.invalidateQueries({
         queryKey: ["recipes"],
       });
-
-      // // Update the recipes list without refetching
-      // queryClient.setQueryData(
-      //   ["recipes"],
-      //   (oldData: { recipes: Recipe[]; count: number } | undefined) => {
-      //     if (!oldData) return oldData;
-
-      //     // Update the tried status in the recipes list
-      //     return {
-      //       ...oldData,
-      //       recipes: oldData.recipes.map((recipe: Recipe) =>
-      //         recipe.id === variables.id
-      //           ? { ...recipe, tried: variables.tried }
-      //           : recipe
-      //       ),
-      //     };
-      //   }
-      // );
     },
     onError: (error) => {
       toast.error("Failed to update recipe");

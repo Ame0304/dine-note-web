@@ -1,7 +1,8 @@
 import { createClient } from "@/lib/supabase/component";
 import { PAGE_SIZE } from "../constants";
 import { format, parseISO } from "date-fns";
-import { Ingredient } from "@/components/IngredientsManager";
+import { Ingredient } from "@/components/recipe/IngredientsManager";
+import { RecipeAddFormValues } from "@/components/recipe/RecipeAddForm";
 
 export interface Recipe {
   id: string;
@@ -51,8 +52,8 @@ export async function getRecipes({
   let query = supabase
     .from("recipes")
     .select(
-      `*,recipe_ingredients(ingredients(name,id),quantity),recipe_categories!inner(category:categories(name,id,color))`,
-      { count: "exact" } // Get the total count of recipes
+      `*,recipe_ingredients(ingredients(name,id),quantity),recipe_categories(category:categories(name,id,color))`,
+      { count: "exact" }
     )
     .eq("userId", userId);
 
@@ -142,7 +143,7 @@ export async function getRecipeById(recipeId: string) {
   const { data, error } = await supabase
     .from("recipes")
     .select(
-      `*,recipe_ingredients(ingredients(name,id),quantity),recipe_categories!inner(category:categories(name,id,color))`
+      `*,recipe_ingredients(ingredients(name,id),quantity),recipe_categories(category:categories(name,id,color))`
     )
     .eq("id", recipeId);
 
@@ -195,24 +196,10 @@ export async function deleteRecipe(recipeId: string) {
 
 export async function updateRecipeBasics(data: RecipeBasics) {
   const { id, imageFile, userId, ...updateData } = data;
-  // 1.check if image is updated
-  if (imageFile) {
-    // 2. upload the image
-    const fileName = `recipe-${userId}-${Date.now()}`;
-
-    const { error: storageError } = await supabase.storage
-      .from("recipe_images")
-      .upload(fileName, imageFile);
-
-    if (storageError) throw new Error(storageError.message);
-
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const image_url = `${supabaseUrl}/storage/v1/object/public/recipe_images/${fileName}`;
-
-    updateData.imageUrl = image_url;
+  if (imageFile && userId) {
+    updateData.imageUrl = await uploadRecipeImage(imageFile, userId);
   }
-  // 4. update the recipe data
-
+  // update the recipe data
   const { error } = await supabase
     .from("recipes")
     .update(updateData)
@@ -238,7 +225,7 @@ export async function addIngredientsToRecipe(
 
   if (searchError) throw new Error(searchError.message);
 
-  console.log("Existing Ingredients", existingIngredients);
+  console.log("existingIngredients", existingIngredients);
 
   // Create a map of existing ingredients
   const existingIngredientsMap = new Map(
@@ -249,6 +236,8 @@ export async function addIngredientsToRecipe(
   const newIngredients = ingredients.filter(
     (ing) => !existingIngredientsMap.has(ing.name.toLowerCase().trim())
   );
+
+  console.log("newIngredients", newIngredients);
 
   // 3. Insert new ingredients
   let newIngredientsMap = new Map();
@@ -329,6 +318,73 @@ export async function updateRecipeSteps(recipeId: string, steps: string[]) {
   if (error) throw new Error(error.message);
 }
 
+export async function addRecipe(recipeData: RecipeAddFormValues) {
+  if (!recipeData.userId) {
+    throw new Error("User ID is required");
+  }
+
+  // Handle image upload if provided
+  let imageUrl = recipeData.imageUrl || "/default-recipe.png";
+  if (recipeData.imageFile) {
+    imageUrl = await uploadRecipeImage(recipeData.imageFile, recipeData.userId);
+  }
+
+  // Extract ingredients for later processing
+  const ingredients = recipeData.ingredients || [];
+  const steps = recipeData.steps || [];
+
+  // Prepare recipe data
+  const recipeBasics = {
+    title: recipeData.title,
+    description: recipeData.description,
+    userId: recipeData.userId,
+    note: recipeData.note,
+    tried: recipeData.tried || false,
+  };
+
+  // Insert the recipe
+  const { data: newRecipe, error: recipeError } = await supabase
+    .from("recipes")
+    .insert([
+      {
+        ...recipeBasics,
+        imageUrl: imageUrl,
+        steps: steps
+          .filter(
+            (step: { id: string; value: string }) => step.value.trim() !== ""
+          )
+          .map((step) => step.value), // Filter out empty steps and return only string array
+        created_at: new Date().toISOString(),
+      },
+    ])
+    .select("id")
+    .single();
+
+  if (recipeError) {
+    console.error("Error creating recipe:", recipeError);
+    throw new Error(recipeError.message);
+  }
+
+  // Handle ingredients if provided
+  if (ingredients.length > 0) {
+    try {
+      await addIngredientsToRecipe(
+        newRecipe.id,
+        ingredients.filter(
+          (ing: { name: string; quantity: string }) => ing.name.trim() !== ""
+        ) // Filter out empty ingredients
+      );
+    } catch (error) {
+      console.error("Error adding ingredients:", error);
+      // If ingredients fail, delete the recipe to avoid orphaned data
+      await supabase.from("recipes").delete().eq("id", newRecipe.id);
+      throw error;
+    }
+  }
+
+  return newRecipe.id;
+}
+
 export async function toggleTried({
   tried,
   id,
@@ -347,4 +403,27 @@ export async function toggleTried({
     throw new Error(error.message);
   }
   return data;
+}
+
+export async function uploadRecipeImage(
+  imageFile: File,
+  userId: string
+): Promise<string> {
+  if (!imageFile) {
+    return "/default-recipe.png";
+  }
+
+  // Generate a unique filename
+  const fileName = `recipe-${userId}-${Date.now()}`;
+
+  // Upload the image to Supabase storage
+  const { error: storageError } = await supabase.storage
+    .from("recipe_images")
+    .upload(fileName, imageFile);
+
+  if (storageError) throw new Error(storageError.message);
+
+  // Generate the public URL for the uploaded image
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  return `${supabaseUrl}/storage/v1/object/public/recipe_images/${fileName}`;
 }
