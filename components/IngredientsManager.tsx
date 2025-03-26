@@ -1,7 +1,6 @@
 import { useFieldArray, useForm } from "react-hook-form";
-import Button from "./Button";
-import IngredientFormRow from "./IngredientFormRow";
 import { useUpdateRecipeIngredients } from "@/hooks/recipes/useUpdateRecipeIngredients";
+import IngredientsFieldset from "./recipe/IngredientsFieldset";
 
 export interface Ingredient {
   id?: string;
@@ -86,38 +85,14 @@ export default function IngredientsManager({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col space-y-4 items-end"
-    >
-      <div>
-        {fields.length !== 0 && (
-          <div className="flex flex-col justify-center items-center">
-            {fields.map((field, index) => (
-              <IngredientFormRow
-                key={field.id}
-                index={index}
-                fieldId={field.id}
-                register={register}
-                insert={insert}
-                remove={remove}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-      <div className="flex justify-between items-center w-full">
-        <Button
-          type="button"
-          variant="outline"
-          size="small"
-          onClick={() => append({ name: "", quantity: "" })}
-        >
-          Add Ingredient
-        </Button>
-
-        <Button type="submit">Save Ingredients</Button>
-      </div>
-    </form>
+    <IngredientsFieldset<IngredientsFormValues>
+      register={register}
+      fields={fields}
+      append={append}
+      remove={remove}
+      insert={insert}
+      showSaveButton={true}
+      onSave={handleSubmit(onSubmit)}
+    />
   );
 }

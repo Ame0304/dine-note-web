@@ -1,11 +1,11 @@
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
-import { UseFormRegister } from "react-hook-form";
-import { IngredientsFormValues } from "./IngredientsManager";
+import { UseFormRegister, Path } from "react-hook-form";
+import { FormWithIngredients } from "./recipe/IngredientsFieldset";
 
-interface IngredientFormRowProps {
+interface IngredientFormRowProps<T extends FormWithIngredients> {
   index: number;
   fieldId: string;
-  register: UseFormRegister<IngredientsFormValues>;
+  register: UseFormRegister<T>;
   insert: (
     index: number,
     value: { id?: string; name: string; quantity: string }
@@ -18,13 +18,13 @@ const inputClasses =
 
 // TODO: validation
 
-export default function IngredientFormRow({
+export default function IngredientFormRow<T extends FormWithIngredients>({
   index,
   fieldId,
   register,
   insert,
   remove,
-}: IngredientFormRowProps) {
+}: IngredientFormRowProps<T>) {
   const name = "ingredients";
   return (
     <div className="flex items-center justify-between gap-5 px-2" key={fieldId}>
@@ -40,7 +40,7 @@ export default function IngredientFormRow({
           id={`${name}[${index}].name`}
           placeholder="Ingredient Name"
           className={inputClasses}
-          {...register(`ingredients.${index}.name`, {
+          {...register(`ingredients.${index}.name` as Path<T>, {
             required: "Name is required",
           })}
         />
@@ -58,7 +58,7 @@ export default function IngredientFormRow({
           id={`${name}[${index}].quantity`}
           placeholder="Quantity"
           className={inputClasses}
-          {...register(`ingredients.${index}.quantity`, {
+          {...register(`ingredients.${index}.quantity` as Path<T>, {
             required: "Quantity is required",
           })}
         />

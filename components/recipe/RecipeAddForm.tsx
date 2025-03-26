@@ -5,9 +5,10 @@ import RecipeFormRow from "@/components/RecipeFormRow";
 import RecipeFormInput from "@/components/RecipeFormInput";
 import RecipeFormTextarea from "@/components/RecipeFormTextarea";
 import ExpandableSection from "@/components/ExpandableSection";
-import IngredientsManager from "@/components/IngredientsManager";
 import StepsManager from "@/components/StepsManager";
+import IngredientsFieldset from "./IngredientsFieldset";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
 
 interface RecipeUpdateFormProps {
   isOpen: boolean;
@@ -21,7 +22,7 @@ interface RecipeAddFormValues {
   imageUrl: string;
   tried?: boolean;
   categories?: Array<{ name: string; id: string; color: string }>;
-  ingredients?: Array<{ id: string; name: string; quantity: string }>;
+  ingredients: Array<{ id?: string; name: string; quantity: string }>;
   note?: string;
   steps?: Array<string>;
   userId: string;
@@ -35,12 +36,18 @@ export default function RecipeAddForm({
     handleSubmit,
     register,
     watch,
+    control,
     formState: { errors },
     setValue,
   } = useForm<RecipeAddFormValues>({
     defaultValues: {
       title: "",
     },
+  });
+
+  const { fields, append, remove, insert } = useFieldArray({
+    control,
+    name: "ingredients",
   });
 
   const imageUrl = watch("imageUrl"); // watch to show preview
@@ -54,7 +61,7 @@ export default function RecipeAddForm({
     <RecipeFormLayout
       isOpen={isOpen}
       onClose={onClose}
-      title="Update Recipe"
+      title="Add New Recipe"
       footerContent={
         <Button
           onClick={onClose}
@@ -65,7 +72,7 @@ export default function RecipeAddForm({
         </Button>
       }
     >
-      <form onSubmit={handleSubmit(onSubmit)} id="recipe-form">
+      <form onSubmit={handleSubmit(onSubmit)} id="recipe-add">
         <div className="mt-4 px-4 py-5 rounded-2xl border-4 border-accent-200 bg-white/80 flex flex-col gap-3">
           {/* Image */}
           <ImageUploadField
@@ -103,17 +110,22 @@ export default function RecipeAddForm({
             />
           </RecipeFormRow>
         </div>
-        {/* Ingredients Form */}
+        {/* Ingredients Form*/}
         <ExpandableSection icon="🥔" title="Ingredients" isEdit={true}>
-          <IngredientsManager
-            recipeId={""}
-            initialIngredients={[]}
-            onClose={onClose}
+          <IngredientsFieldset<RecipeAddFormValues>
+            register={register}
+            fields={fields}
+            append={append}
+            remove={remove}
+            insert={insert}
           />
         </ExpandableSection>
         <ExpandableSection icon="🔪" title="Steps" isEdit={true}>
           <StepsManager recipeId={""} initialSteps={[]} onClose={onClose} />
         </ExpandableSection>
+        <Button type="submit" form="recipe-add">
+          Add new recipe
+        </Button>
       </form>
     </RecipeFormLayout>
   );
