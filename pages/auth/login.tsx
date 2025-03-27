@@ -1,7 +1,7 @@
-import LoginForm from "@/components/LoginForm";
+import LoginForm from "@/components/auth/LoginForm";
 import GoogleLoginButton from "@/components/auth/GoogleLoginButton";
 
-import AuthLayout from "@/components/AuthLayout";
+import AuthLayout from "@/components/auth/AuthLayout";
 
 export default function LoginPage() {
   return (

@@ -1,6 +1,6 @@
 import GoogleLoginButton from "@/components/auth/GoogleLoginButton";
-import SignUpForm from "@/components/SignupForm";
-import AuthLayout from "@/components/AuthLayout";
+import SignUpForm from "@/components/auth/SignupForm";
+import AuthLayout from "@/components/auth/AuthLayout";
 
 export default function SignUpPage() {
   return (

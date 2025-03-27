@@ -1,13 +1,13 @@
 import Button from "@/components/Button";
 import Loading from "@/components/Loading";
-import RecipeOverview from "@/components/RecipeOverview";
-import RecipeDetails from "@/components/RecipeDetails";
+import RecipeOverview from "@/components/recipe/RecipeOverview";
+import RecipeDetails from "@/components/recipe/RecipeDetails";
 
 import { useState } from "react";
 
 import { useRecipe } from "@/hooks/recipes/useRecipe";
 import { useRouter } from "next/router";
-import RecipeUpdateForm from "@/components/RecipeUpdateForm";
+import RecipeUpdateForm from "@/components/recipe/RecipeUpdateForm";
 
 function RecipeDetail() {
   const [isOpenEdit, setIsOpenEdit] = useState(false);

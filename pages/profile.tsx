@@ -1,6 +1,6 @@
 import Avatar from "@/components/Avatar";
 import Heading from "@/components/Heading";
-import UpdateUserDataForm from "@/components/UpdateUserDataForm";
+import UpdateUserDataForm from "@/components/profile/UpdateUserDataForm";
 import ResetPasswordForm from "@/components/profile/ResetPasswordForm";
 import { useUser } from "@/context/UserContext";
 import { format, parseISO } from "date-fns";

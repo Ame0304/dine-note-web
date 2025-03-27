@@ -26,7 +26,11 @@ export default function RecipeCard({
   const router = useRouter();
 
   return (
-    <div className="bg-white/40 border-4 border-accent-200 rounded-xl shadow-lg transform transition-all hover:scale-105 hover:shadow-accent-500 flex flex-col h-full p-8 md:p-6">
+    <div
+      className={`bg-white/80 border-4 rounded-xl shadow-lg transform transition-all hover:scale-105 hover:shadow-accent-500 flex flex-col h-full p-6 ${
+        tried ? "border-accent-200" : "border-accent-200/20"
+      }`}
+    >
       <div className="flex flex-col h-full">
         {/* Feathered Recipe Image  */}
         <div className="relative aspect-square w-full mb-2 shadow-lg rounded-xl">
@@ -44,17 +48,17 @@ export default function RecipeCard({
 
         {/* Recipe Info */}
         <div className="flex flex-col flex-1 w-full px-0.5">
-          <div>
-            <Heading level="h5" className="text-accent-200">
+          <div className="w-full">
+            <Heading
+              level="h5"
+              className="text-accent-200 overflow-x-auto whitespace-nowrap scrollbar-hide"
+            >
               {title}
             </Heading>
             {/* Tags - Horizontally scrollable */}
-            <div className="w-full mb-1">
+            <div className="mb-1">
               {categories.length > 0 && (
-                <div
-                  className="mt-2 overflow-x-auto pb-2"
-                  style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-                >
+                <div className="mt-2 overflow-x-auto pb-2 scrollbar-hide">
                   <div className="flex gap-2 flex-nowrap">
                     {categories.map((category) => (
                       <Tag key={category.id} color={category.color}>

@@ -82,11 +82,11 @@ export default function RecipeAddForm({
       title="Add New Recipe"
       footerContent={
         <div className="flex flex-end gap-2">
-          <Button onClick={handleSubmit(onSubmit)} disabled={isAdding}>
-            Add new recipe
-          </Button>
           <Button onClick={onClose} variant="outline" disabled={isAdding}>
             Cancel
+          </Button>
+          <Button onClick={handleSubmit(onSubmit)} disabled={isAdding}>
+            Add new recipe
           </Button>
         </div>
       }

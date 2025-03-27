@@ -28,8 +28,8 @@ export default function PrivateLayout({ children }: { children: ReactNode }) {
           />
 
           <main
-            className={`relative flex-1 overflow-y-auto py-8 transition-[padding] duration-300 ease-in-out px-4 lg:px-8 ${
-              showSidebar ? "ml-0" : "ml-12 lg:ml-0"
+            className={`relative flex-1 overflow-y-auto py-8 px-4 lg:px-8 transition-transform duration-300 ease-in-out ${
+              showSidebar ? "lg:translate-x-0" : "lg:translate-x-10"
             }`}
           >
             {/* Overlay for mobile */}
