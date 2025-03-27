@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useDeleteRecipe from "@/hooks/recipes/useDeleteRecipe";
 
-import Button from "./Button";
+import Button from "@/components/Button";
 import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
 
 export default function DeleteRecipe({

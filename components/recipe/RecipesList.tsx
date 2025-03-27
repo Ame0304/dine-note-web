@@ -1,6 +1,6 @@
 import React from "react";
 import RecipeCard from "./RecipeCard";
-import Heading from "./Heading";
+import Heading from "@/components/Heading";
 import { Recipe } from "@/lib/services/recipeService";
 
 export default function RecipesList({ recipes }: { recipes: Recipe[] }) {

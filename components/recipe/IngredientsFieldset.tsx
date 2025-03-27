@@ -1,6 +1,6 @@
 import { UseFormRegister, FieldArrayWithId } from "react-hook-form";
 import Button from "../Button";
-import IngredientFormRow from "../IngredientFormRow";
+import IngredientFormRow from "./IngredientFormRow";
 
 // Generic interface for any form that includes ingredients
 export interface FormWithIngredients {

@@ -1,15 +1,15 @@
-import Button from "./Button";
+import Button from "@/components/Button";
 import RecipeFormRow from "./RecipeFormRow";
 import RecipeFormInput from "./RecipeFormInput";
 import RecipeFormTextarea from "./RecipeFormTextarea";
-import ExpandableSection from "./ExpandableSection";
-import { Recipe } from "../lib/services/recipeService";
+import ExpandableSection from "../ExpandableSection";
+import { Recipe } from "@/lib/services/recipeService";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useEffect } from "react";
 import useUpdateRecipeBasics from "@/hooks/recipes/useUpdateRecipeBasics";
 import IngredientsManager from "@/components/recipe/IngredientsManager";
 import StepsManager from "./StepsManager";
-import ImageUploadField from "./ImageUploadField";
+import ImageUploadField from "@/components/ImageUploadField";
 import RecipeFormLayout from "./RecipeFormLayout";
 
 interface RecipeUpdateFormProps {

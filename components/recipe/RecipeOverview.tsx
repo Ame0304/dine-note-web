@@ -1,9 +1,9 @@
 import Image from "next/image";
-import Button from "./Button";
-import Heading from "./Heading";
-import Tag from "./Tag";
+import Button from "@/components/Button";
+import Heading from "@/components/Heading";
+import Tag from "@/components/Tag";
 import DeleteRecipe from "./DeleteRecipe";
-import { Recipe } from "../lib/services/recipeService";
+import { Recipe } from "@/lib/services/recipeService";
 
 export default function RecipeOverview({
   recipe,

@@ -1,7 +1,7 @@
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
 import { UseFormRegister, Path } from "react-hook-form";
 import { Step } from "./StepsManager";
-import { FormWithSteps } from "./recipe/StepsFieldset";
+import { FormWithSteps } from "./StepsFieldset";
 
 interface StepFormRowProps<T extends FormWithSteps> {
   index: number;

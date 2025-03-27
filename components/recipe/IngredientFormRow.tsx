@@ -1,6 +1,6 @@
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
 import { UseFormRegister, Path } from "react-hook-form";
-import { FormWithIngredients } from "./recipe/IngredientsFieldset";
+import { FormWithIngredients } from "./IngredientsFieldset";
 
 interface IngredientFormRowProps<T extends FormWithIngredients> {
   index: number;

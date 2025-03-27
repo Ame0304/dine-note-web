@@ -1,6 +1,6 @@
 import { UseFormRegister, FieldArrayWithId } from "react-hook-form";
 import Button from "../Button";
-import StepFormRow from "../StepFormRow";
+import StepFormRow from "./StepFormRow";
 
 // Generic interface for any form that includes steps
 export interface FormWithSteps {

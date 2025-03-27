@@ -1,5 +1,5 @@
 import LoginForm from "@/components/LoginForm";
-import GoogleLoginButton from "@/components/GoogleLoginButton";
+import GoogleLoginButton from "@/components/auth/GoogleLoginButton";
 
 import AuthLayout from "@/components/AuthLayout";
 

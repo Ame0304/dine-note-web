@@ -1,6 +1,6 @@
 import { useFieldArray, useForm } from "react-hook-form";
 import useUpdateSteps from "@/hooks/recipes/useUpdateSteps";
-import StepsFieldset from "./recipe/StepsFieldset";
+import StepsFieldset from "./StepsFieldset";
 
 export interface Step {
   id: string;

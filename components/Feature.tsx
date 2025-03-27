@@ -24,9 +24,6 @@ export default function Feature({
         <p className="text-md font-semibold text-accent-400">
           Cook, Record, Share
         </p>
-        {/* <p className="mt-2 text-4xl font-semibold tracking-tight text-pretty text-primary-100 sm:text-5xl">
-          {title}
-        </p> */}
         <Heading level="h1" className="tracking-tight text-pretty mt-2">
           {title}
         </Heading>

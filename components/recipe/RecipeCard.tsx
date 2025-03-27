@@ -1,9 +1,9 @@
 import { EyeIcon, TrashIcon } from "@heroicons/react/24/outline";
-import Tag from "./Tag";
+import Tag from "@/components/Tag";
 import Heading from "@/components/Heading";
 import Image from "next/image";
 
-import Button from "./Button";
+import Button from "@/components/Button";
 import TriedBadge from "./TriedBadge";
 import { useRouter } from "next/router";
 import DeleteRecipe from "./DeleteRecipe";

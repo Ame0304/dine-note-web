@@ -1,8 +1,8 @@
+import ExpandableSection from "../ExpandableSection";
 import IngredientRow from "./IngredientRow";
-import ExpandableSection from "./ExpandableSection";
-import Heading from "./Heading";
+import Heading from "@/components/Heading";
 import TriedBadge from "./TriedBadge";
-import { Recipe } from "../lib/services/recipeService";
+import { Recipe } from "@/lib/services/recipeService";
 import StepRow from "./StepRow";
 
 export default function RecipeDetails({ recipe }: { recipe: Recipe }) {

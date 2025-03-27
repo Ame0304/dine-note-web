@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
-import Button from "./Button";
+import Button from "@/components/Button";
 import { PAGE_SIZE } from "@/lib/constants";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 

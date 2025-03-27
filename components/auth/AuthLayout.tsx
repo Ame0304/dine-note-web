@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../public/logo.png";
-import Heading from "./Heading";
+import Heading from "@/components/Heading";
 
 interface AuthLayoutProps {
   children: React.ReactNode;

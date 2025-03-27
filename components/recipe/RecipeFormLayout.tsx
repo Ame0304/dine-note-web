@@ -1,5 +1,5 @@
 import { Dialog, DialogPanel } from "@headlessui/react";
-import Heading from "./Heading";
+import Heading from "@/components/Heading";
 import { ReactNode } from "react";
 import { Lexend } from "next/font/google";
 

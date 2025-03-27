@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { createClient } from "@/lib/supabase/component";
 import FormRow from "@/components/FormRow";
 import Button from "@/components/Button";
-import Input from "./Input";
+import Input from "@/components/Input";
 
 interface LoginFormData {
   email: string;

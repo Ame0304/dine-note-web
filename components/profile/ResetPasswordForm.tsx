@@ -1,10 +1,10 @@
 import React from "react";
-import Button from "./Button";
-import FormRowHorizontal from "./FormRowHorizontal";
-import Heading from "./Heading";
-import Input from "./Input";
+import Button from "../Button";
+import FormRowHorizontal from "../FormRowHorizontal";
+import Heading from "../Heading";
+import Input from "../Input";
 import { useForm } from "react-hook-form";
-import { updateUser } from "../lib/services/userService";
+import { updateUser } from "../../lib/services/userService";
 import toast from "react-hot-toast";
 
 interface ResetPasswordFormData {

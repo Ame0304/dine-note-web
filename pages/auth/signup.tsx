@@ -1,4 +1,4 @@
-import GoogleLoginButton from "@/components/GoogleLoginButton";
+import GoogleLoginButton from "@/components/auth/GoogleLoginButton";
 import SignUpForm from "@/components/SignupForm";
 import AuthLayout from "@/components/AuthLayout";
 

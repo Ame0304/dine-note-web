@@ -3,7 +3,7 @@ import Button from "@/components/Button";
 import FormRowHorizontal from "@/components/FormRowHorizontal";
 import Input from "@/components/Input";
 import Heading from "@/components/Heading";
-import FileInput from "./FileInput";
+import FileInput from "@/components/FileInput";
 import { updateUser } from "@/lib/services/userService";
 import toast from "react-hot-toast";
 
