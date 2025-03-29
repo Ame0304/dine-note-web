@@ -1,11 +1,13 @@
-import { EyeIcon, TrashIcon } from "@heroicons/react/24/outline";
-import Tag from "@/components/Tag";
-import Heading from "@/components/Heading";
+import { useRouter } from "next/router";
 import Image from "next/image";
 
+import { EyeIcon, TrashIcon } from "@heroicons/react/24/outline";
+
+import Tag from "@/components/Tag";
+import Heading from "@/components/Heading";
 import Button from "@/components/Button";
 import TriedBadge from "./TriedBadge";
-import { useRouter } from "next/router";
+import TagList from "@/components/recipe/TagList";
 import DeleteRecipe from "./DeleteRecipe";
 
 interface RecipeCardProps {
@@ -27,8 +29,8 @@ export default function RecipeCard({
 
   return (
     <div
-      className={`bg-white/80 border-4 rounded-xl shadow-lg transform transition-all hover:scale-105 hover:shadow-accent-500 flex flex-col h-full p-6 ${
-        tried ? "border-accent-200" : "border-accent-200/20"
+      className={`bg-white border-4 rounded-xl shadow-lg transform transition-all hover:scale-105 hover:shadow-accent-500 flex flex-col h-full p-6 ${
+        tried ? "border-accent-200" : "border-primary-900/50"
       }`}
     >
       <div className="flex flex-col h-full">
@@ -58,21 +60,19 @@ export default function RecipeCard({
             {/* Tags - Horizontally scrollable */}
             <div className="mb-1">
               {categories.length > 0 && (
-                <div className="mt-2 overflow-x-auto pb-2 scrollbar-hide">
-                  <div className="flex gap-2 flex-nowrap">
-                    {categories.map((category) => (
-                      <Tag key={category.id} color={category.color}>
-                        {category.name}
-                      </Tag>
-                    ))}
-                  </div>
-                </div>
+                <TagList>
+                  {categories.map((category) => (
+                    <Tag key={category.id} color={category.color}>
+                      {category.name}
+                    </Tag>
+                  ))}
+                </TagList>
               )}
             </div>
           </div>
 
           {/* Recipe Actions */}
-          <div className="mt-auto pt-2 -mb-2 w-full flex justify-between border-t  border-accent-200/20 gap-5">
+          <div className="mt-auto pt-2 -mb-2 w-full flex justify-between border-t border-accent-200/20 gap-5">
             {/* Delete recipe */}
             <DeleteRecipe
               id={id}

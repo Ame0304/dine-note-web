@@ -36,12 +36,8 @@ export default function Sidebar({ expanded, onToggle }: SidebarProps) {
   return (
     <aside className="h-full lg:h-auto lg:flex lg:flex-col">
       <div
-        className={`overflow-hidden rounded-xl fixed z-30 transform bg-white/80 transition-all duration-300 ease-in-out shadow-xl backdrop-blur-md backdrop-saturate-150 flex flex-col top-6 bottom-6 left-4 px-2 lg:min-h-0 lg:max-h-[calc(100vh-3rem)] lg:flex-1
-          ${
-            expanded
-              ? "w-64 lg:static lg:my-6 lg:ml-4 "
-              : "w-14 items-center pt-14"
-          }`}
+        className={`overflow-hidden rounded-xl fixed z-30 transform bg-white transition-all duration-300 ease-in-out shadow-xl backdrop-blur-md backdrop-saturate-150 flex flex-col top-6 bottom-6 left-4 px-2 lg:min-h-0 lg:max-h-[calc(100vh-3rem)] lg:flex-1
+          ${expanded ? "w-64 lg:static lg:m-6" : "w-14 items-center pt-14"}`}
       >
         {/* Toggle button for collapsed state */}
         {!expanded && <ToggleSidebarButton onClick={onToggle} isOpen={false} />}
@@ -49,7 +45,7 @@ export default function Sidebar({ expanded, onToggle }: SidebarProps) {
         {/* Content only shown when expanded */}
         <div className={`${expanded ? "block w-full" : "hidden"}`}>
           {/* Header with logo and toggle */}
-          <div className="py-6 border-b border-primary-900/50">
+          <div className="pt-6 border-b border-primary-900/50">
             <div className="flex items-center justify-between mb-2">
               <Logo size="small" />
               <ToggleSidebarButton onClick={onToggle} isOpen={true} />

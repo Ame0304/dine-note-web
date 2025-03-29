@@ -24,7 +24,7 @@ export default function RecipesPage() {
   }
 
   return (
-    <div>
+    <>
       <div className="flex flex-col justify-between items-center mb-4 md:flex-row">
         {/* Recipe Page Header */}
         <div className="flex items-center gap-5">
@@ -53,6 +53,6 @@ export default function RecipesPage() {
 
       {/* Pagination */}
       {count > 0 && <Pagination totalItems={count} />}
-    </div>
+    </>
   );
 }

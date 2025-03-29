@@ -1,0 +1,19 @@
+export default function Widget({
+  size = "medium",
+  children,
+}: {
+  size?: "small" | "medium" | "large";
+  children: React.ReactNode;
+}) {
+  const sizeClasses = {
+    small: "col-span-1 md:col-span-2 lg:col-span-2",
+    medium: "col-span-1 md:col-span-3 lg:col-span-3",
+    large: "col-span-1 md:col-span-6 lg:col-span-6",
+  };
+
+  return (
+    <div className={`${sizeClasses[size]} bg-white rounded-xl p-3`}>
+      {children}
+    </div>
+  );
+}

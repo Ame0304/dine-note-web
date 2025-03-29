@@ -28,7 +28,7 @@ export default function PrivateLayout({ children }: { children: ReactNode }) {
           />
 
           <main
-            className={`relative flex-1 overflow-y-auto py-8 px-4 lg:px-8 transition-transform duration-300 ease-in-out ${
+            className={`relative flex-1 overflow-y-auto py-8 px-4 lg:pr-8 transition-transform duration-300 ease-in-out ${
               showSidebar ? "lg:translate-x-0" : "lg:translate-x-10"
             }`}
           >

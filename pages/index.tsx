@@ -61,7 +61,7 @@ export default function Home() {
           <Image src={awardRight} alt="award right icon" />
         </div>
         <div className="mt-6">
-          <Link href="/auth/signup">
+          <Link href="/auth/signup" className="flex justify-center">
             <Button size="large">Get started for free</Button>
           </Link>
         </div>
