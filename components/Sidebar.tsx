@@ -34,10 +34,14 @@ export default function Sidebar({ expanded, onToggle }: SidebarProps) {
   };
 
   return (
-    <aside className="h-full lg:h-auto lg:flex lg:flex-col">
+    <aside className="h-full flex flex-col">
       <div
-        className={`overflow-hidden rounded-xl fixed z-30 transform bg-white transition-all duration-300 ease-in-out shadow-xl backdrop-blur-md backdrop-saturate-150 flex flex-col top-6 bottom-6 left-4 px-2 lg:min-h-0 lg:max-h-[calc(100vh-3rem)] lg:flex-1
-          ${expanded ? "w-64 lg:static lg:m-6" : "w-14 items-center pt-14"}`}
+        className={`overflow-hidden rounded-xl fixed z-30 transform bg-white transition-all duration-300 ease-in-out shadow-xl backdrop-blur-md backdrop-saturate-150 flex flex-col px-3 flex-1
+          ${
+            expanded
+              ? "w-72 lg:static h-screen"
+              : "w-14 items-center left-6 top-6 p-2 max-h-fit"
+          }`}
       >
         {/* Toggle button for collapsed state */}
         {!expanded && <ToggleSidebarButton onClick={onToggle} isOpen={false} />}
@@ -55,11 +59,15 @@ export default function Sidebar({ expanded, onToggle }: SidebarProps) {
 
         {/* Navigation links */}
         <nav
-          className={`${expanded ? "flex-1 py-4 px-2 w-full" : "w-full mt-4"}`}
+          className={`${
+            expanded
+              ? "flex-1 py-4 px-2 w-full block"
+              : "w-full mt-4 hidden lg:block"
+          }`}
         >
           <ul
             className={`${
-              expanded ? "space-y-3" : "flex flex-col items-center space-y-6"
+              expanded ? "space-y-3" : "flex flex-col items-center space-y-5"
             }`}
           >
             {navigation.map((item) => {

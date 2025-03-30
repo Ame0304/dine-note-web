@@ -6,9 +6,9 @@ export default function Widget({
   children: React.ReactNode;
 }) {
   const sizeClasses = {
-    small: "col-span-1 md:col-span-2 lg:col-span-2",
-    medium: "col-span-1 md:col-span-3 lg:col-span-3",
-    large: "col-span-1 md:col-span-6 lg:col-span-6",
+    small: "col-span-1 sm:col-span-2 lg:col-span-2",
+    medium: "col-span-1 sm:col-span-3 lg:col-span-3",
+    large: "col-span-1 sm:col-span-6 lg:col-span-6",
   };
 
   return (

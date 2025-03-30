@@ -25,7 +25,7 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-9 gap-6">
         {/* Left Container: Analytics (2/3 width) */}
-        <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-6 gap-6">
+        <div className="col-span-9 lg:col-span-6 grid grid-cols-1 md:grid-cols-6 gap-6">
           <Widget size="small">
             <Stat
               title="Total Recipes"

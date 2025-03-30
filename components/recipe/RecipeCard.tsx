@@ -30,7 +30,7 @@ export default function RecipeCard({
   return (
     <div
       className={`bg-white border-4 rounded-xl shadow-lg transform transition-all hover:scale-105 hover:shadow-accent-500 flex flex-col h-full p-6 ${
-        tried ? "border-accent-200" : "border-primary-900/50"
+        tried ? "border-accent-200" : "border-accent-200/50"
       }`}
     >
       <div className="flex flex-col h-full">
