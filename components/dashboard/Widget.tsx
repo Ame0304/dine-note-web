@@ -12,7 +12,9 @@ export default function Widget({
   };
 
   return (
-    <div className={`${sizeClasses[size]} bg-white rounded-xl p-3`}>
+    <div
+      className={`${sizeClasses[size]} bg-white/80 border-4 border-accent-200/50 rounded-xl p-3`}
+    >
       {children}
     </div>
   );

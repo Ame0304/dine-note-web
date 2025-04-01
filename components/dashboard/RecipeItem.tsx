@@ -31,7 +31,7 @@ export default function RecipeItem({ recipe }: { recipe: RecentRecipe }) {
         </div>
       </div>
       <Link
-        href="/" // TODO:Replace with the actual recipe link
+        href={`/recipes/${recipe.id}`}
         className="border-2 border-accent-500/80 text-accent-500 hover:bg-accent-500 hover:text-primary-950 rounded-xl p-0.5"
       >
         <ChevronRightIcon className="size-5" />

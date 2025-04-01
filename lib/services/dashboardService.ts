@@ -20,6 +20,23 @@ export interface RecentRecipe {
   created_at: string;
 }
 
+interface FetchedCategory {
+  id: string;
+  name: string;
+  color: string;
+}
+interface FetchedRecipeCategoryLink {
+  category: FetchedCategory;
+}
+interface FetchedRecipe {
+  id: string;
+  tried: boolean;
+  title: string;
+  imageUrl: string;
+  recipe_categories: FetchedRecipeCategoryLink[];
+  created_at: string;
+}
+
 export async function fetchDashboardData(
   userId: string,
   supabase: SupabaseClient
@@ -27,7 +44,7 @@ export async function fetchDashboardData(
   try {
     // 1. Fetch ALL recipes with their categories in a single query
     const {
-      data: recipes,
+      data,
       error: recipesError,
       count: totalRecipes,
     } = await supabase
@@ -45,6 +62,8 @@ export async function fetchDashboardData(
       )
       .eq("userId", userId)
       .order("created_at", { ascending: false });
+
+    const recipes = data as FetchedRecipe[] | null;
 
     if (recipesError) throw recipesError;
 
@@ -67,7 +86,7 @@ export async function fetchDashboardData(
     ];
 
     // Recent recipes transformation (top 3)
-    const recentRecipes = recipes.slice(0, 3).map((recipe) => {
+    const recentRecipes: RecentRecipe[] = recipes.slice(0, 3).map((recipe) => {
       const categories = recipe.recipe_categories.map((cat) => ({
         id: cat.category.id,
         name: cat.category.name,

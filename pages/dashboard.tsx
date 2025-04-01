@@ -7,15 +7,6 @@ import { AnalyticsData } from "@/lib/services/dashboardService";
 import { GetServerSidePropsContext } from "next";
 
 import {
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  Cell,
-  Legend,
-} from "recharts";
-
-import {
   FireIcon,
   LightBulbIcon,
   PuzzlePieceIcon,
@@ -24,19 +15,8 @@ import Heading from "@/components/Heading";
 import Widget from "@/components/dashboard/Widget";
 import Stat from "@/components/dashboard/Stat";
 import RecipeItem from "@/components/dashboard/RecipeItem";
-
-const tailwindColorMap = {
-  red: "rgb(246, 160, 160)",
-  blue: "rgb(140, 189, 248)",
-  green: "rgb(74, 222, 128)",
-  yellow: "rgb(239, 217, 119)",
-  purple: "rgb(216, 183, 250)",
-  pink: "rgb(244, 176, 211)",
-  indigo: "rgb(129, 140, 248)",
-  orange: "rgb(248, 174, 113)",
-  teal: "rgb(144, 245, 232)",
-  gray: "rgb(156, 163, 175)",
-};
+import TriedChart from "@/components/dashboard/TriedChart";
+import CategoryChart from "@/components/dashboard/CategoryChart";
 
 export default function DashboardPage({
   userName,
@@ -53,8 +33,6 @@ export default function DashboardPage({
     recentRecipes,
     categoryChart,
   } = initalAnalytics;
-  console.log(recentRecipes, "recentRecipes");
-  console.log(categoryChart, "categoryChart");
 
   return (
     <div>
@@ -104,46 +82,7 @@ export default function DashboardPage({
             <Heading level="h4" styled={true}>
               Recipe Progress
             </Heading>
-
-            <ResponsiveContainer width="100%" height={250}>
-              <PieChart>
-                <Pie
-                  data={triedVsUntriedData}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={40}
-                  outerRadius={80}
-                  paddingAngle={5}
-                >
-                  {triedVsUntriedData.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={index === 0 ? "#71d7ff" : "#91f8b1"}
-                    />
-                  ))}
-                </Pie>
-                <Tooltip
-                  formatter={(value, name) => [`${value} recipes`, `${name}`]}
-                  contentStyle={{
-                    backgroundColor: "#fff4e5",
-                    borderRadius: "8px",
-                    border: "none",
-                    boxShadow: "0 2px 6px #fcdab8",
-                    padding: "10px 14px",
-                    color: "#333",
-                    fontSize: "14px",
-                    fontWeight: 500,
-                  }}
-                />
-                <Legend
-                  layout="vertical"
-                  verticalAlign="middle"
-                  align="right"
-                />
-              </PieChart>
-            </ResponsiveContainer>
+            <TriedChart data={triedVsUntriedData} />
           </Widget>
 
           {/* Category Chart */}
@@ -151,63 +90,7 @@ export default function DashboardPage({
             <Heading level="h4" styled={true}>
               Recipe Categories
             </Heading>
-            <ResponsiveContainer width="100%" height={250}>
-              <PieChart>
-                <Pie
-                  data={categoryChart}
-                  dataKey="count"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={40}
-                  outerRadius={80}
-                  paddingAngle={5}
-                >
-                  {categoryChart.map((entry, index) => {
-                    const fillColor =
-                      tailwindColorMap[
-                        entry.color as keyof typeof tailwindColorMap
-                      ] || entry.color;
-                    return <Cell key={`cell-${index}`} fill={fillColor} />;
-                  })}
-                </Pie>
-                <Tooltip
-                  formatter={(value, name) => [`${value} recipes`, `${name}`]}
-                  contentStyle={{
-                    backgroundColor: "#fff4e5",
-                    borderRadius: "8px",
-                    border: "none",
-                    boxShadow: "0 2px 6px #fcdab8",
-                    padding: "10px 14px",
-                    color: "#565656",
-                    fontSize: "14px",
-                    fontWeight: 500,
-                  }}
-                />
-                <Legend
-                  layout="vertical"
-                  verticalAlign="middle"
-                  align="right"
-                  wrapperStyle={{
-                    paddingLeft: "15px",
-                    paddingRight: "15px",
-                    right: 0,
-                    width: "40%",
-                    fontSize: "14px",
-                    lineHeight: "1.4em",
-                  }}
-                  formatter={(value, entry, index) => {
-                    // Format the legend label to include the count
-                    const item = categoryChart[index];
-                    return (
-                      <span>
-                        {value} -<span> {item.count}</span>
-                      </span>
-                    );
-                  }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
+            <CategoryChart data={categoryChart} />
           </Widget>
 
           <Widget size="large">
