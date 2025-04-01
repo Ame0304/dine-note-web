@@ -1,0 +1,126 @@
+import { SupabaseClient } from "@supabase/supabase-js";
+
+export interface AnalyticsData {
+  totalRecipes: string;
+  triedRecipesPercentage: number;
+  triedVsUntriedData: Array<{ name: string; value: number }>;
+  categoryChart: Array<{ name: string; count: number; color: string }>;
+  recentRecipes: RecentRecipe[];
+}
+
+export interface RecentRecipe {
+  id: string;
+  title: string;
+  imageUrl: string | null;
+  categories: Array<{
+    id: string;
+    name: string;
+    color: string;
+  }>;
+  created_at: string;
+}
+
+export async function fetchDashboardData(
+  userId: string,
+  supabase: SupabaseClient
+): Promise<AnalyticsData> {
+  try {
+    // 1. Fetch ALL recipes with their categories in a single query
+    const {
+      data: recipes,
+      error: recipesError,
+      count: totalRecipes,
+    } = await supabase
+      .from("recipes")
+      .select(
+        `
+          id,
+          title,
+          imageUrl,
+          tried,
+          created_at,
+          recipe_categories(category:categories(name,id,color))
+        `,
+        { count: "exact" }
+      )
+      .eq("userId", userId)
+      .order("created_at", { ascending: false });
+
+    if (recipesError) throw recipesError;
+
+    if (!recipes) {
+      throw new Error("No recipes found");
+    }
+
+    // 2. Process the recipe data to derive all the metrics needed
+
+    // Stats calculation
+    const triedRecipes = recipes.filter((recipe) => recipe.tried).length;
+    const triedRecipesPercentage = totalRecipes
+      ? Math.round((triedRecipes / totalRecipes) * 100)
+      : 0;
+
+    // Tried vs Untried data for bar chart
+    const triedVsUntriedData = [
+      { name: "Tried", value: triedRecipes },
+      { name: "Untried", value: totalRecipes! - triedRecipes },
+    ];
+
+    // Recent recipes transformation (top 3)
+    const recentRecipes = recipes.slice(0, 3).map((recipe) => {
+      const categories = recipe.recipe_categories.map((cat) => ({
+        id: cat.category.id,
+        name: cat.category.name,
+        color: cat.category.color,
+      }));
+
+      return {
+        id: recipe.id,
+        title: recipe.title,
+        imageUrl: recipe.imageUrl,
+        categories,
+        created_at: recipe.created_at,
+      };
+    });
+
+    // Category data for pie chart
+    const categoryMap = new Map<
+      string,
+      {
+        count: number;
+        name: string;
+        color: string;
+      }
+    >();
+
+    recipes.forEach((recipe) => {
+      recipe.recipe_categories.forEach((cat) => {
+        const category = cat.category;
+        const key = category.id;
+
+        if (categoryMap.has(key)) {
+          categoryMap.get(key)!.count += 1;
+        } else {
+          categoryMap.set(key, {
+            count: 1,
+            name: cat.category.name,
+            color: category.color,
+          });
+        }
+      });
+    });
+
+    const categoryChart = Array.from(categoryMap.values());
+
+    return {
+      totalRecipes: totalRecipes !== null ? totalRecipes.toString() : "0",
+      triedRecipesPercentage,
+      triedVsUntriedData,
+      recentRecipes,
+      categoryChart,
+    };
+  } catch (error) {
+    console.error("Error fetching dashboard data:", error);
+    throw new Error("Failed to load dashboard data");
+  }
+}

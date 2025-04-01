@@ -1,113 +1,217 @@
-import Image from "next/image";
-import Link from "next/link";
-import { useUser } from "@/context/UserContext";
-import Heading from "@/components/Heading";
+import { createClient } from "@/lib/supabase/server-props";
 import {
-  ChevronRightIcon,
+  fetchDashboardData,
+  RecentRecipe,
+} from "@/lib/services/dashboardService";
+import { AnalyticsData } from "@/lib/services/dashboardService";
+import { GetServerSidePropsContext } from "next";
+
+import {
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  Cell,
+  Legend,
+} from "recharts";
+
+import {
   FireIcon,
   LightBulbIcon,
   PuzzlePieceIcon,
 } from "@heroicons/react/24/outline";
+import Heading from "@/components/Heading";
 import Widget from "@/components/dashboard/Widget";
 import Stat from "@/components/dashboard/Stat";
-import Tag from "@/components/Tag";
-import TagList from "@/components/recipe/TagList";
-// import { ResponsiveContainer } from "recharts";
+import RecipeItem from "@/components/dashboard/RecipeItem";
 
-export default function DashboardPage() {
-  const { user } = useUser();
+const tailwindColorMap = {
+  red: "rgb(246, 160, 160)",
+  blue: "rgb(140, 189, 248)",
+  green: "rgb(74, 222, 128)",
+  yellow: "rgb(239, 217, 119)",
+  purple: "rgb(216, 183, 250)",
+  pink: "rgb(244, 176, 211)",
+  indigo: "rgb(129, 140, 248)",
+  orange: "rgb(248, 174, 113)",
+  teal: "rgb(144, 245, 232)",
+  gray: "rgb(156, 163, 175)",
+};
+
+export default function DashboardPage({
+  userName,
+  initalAnalytics,
+}: {
+  userName: string;
+  userId: string;
+  initalAnalytics: AnalyticsData;
+}) {
+  const {
+    totalRecipes,
+    triedRecipesPercentage,
+    triedVsUntriedData,
+    recentRecipes,
+    categoryChart,
+  } = initalAnalytics;
+  console.log(recentRecipes, "recentRecipes");
+  console.log(categoryChart, "categoryChart");
+
   return (
-    <div className="mt-4">
+    <div>
       {/* Welcome Message */}
       <Heading level="h1" className="mb-4">
-        Welcome back, {user?.user_metadata.full_name}👏
+        Welcome back, {userName}👏
       </Heading>
 
       <div className="grid grid-cols-1 lg:grid-cols-9 gap-6">
         {/* Left Container: Analytics (2/3 width) */}
         <div className="col-span-9 lg:col-span-6 grid grid-cols-1 md:grid-cols-6 gap-6">
+          {/* Recipe Stats */}
           <Widget size="small">
-            <Stat
-              title="Total Recipes"
-              Icon={LightBulbIcon}
-              value="24"
-              color="purple"
-            />
+            <Stat title="Total Recipes" value={totalRecipes} color="purple">
+              <LightBulbIcon className="w-8 h-8 text-purple-500" />
+            </Stat>
           </Widget>
           <Widget size="small">
             <Stat
               title="Recipes Tried"
-              Icon={PuzzlePieceIcon}
-              value="50%"
+              value={`${triedRecipesPercentage}%`}
               color="yellow"
-            />
+            >
+              <PuzzlePieceIcon className="w-8 h-8 text-yellow-500" />
+            </Stat>
           </Widget>
           <Widget size="small">
-            <Stat title="Streak" Icon={FireIcon} value="5 days" color="red" />
+            <Stat title="Streak" value="5 days" color="red">
+              <FireIcon className="w-8 h-8 text-red-500" />
+            </Stat>
           </Widget>
 
+          {/* Recent Recipes */}
           <Widget size="medium">
             <Heading level="h4" styled={true}>
               Recent Recipes
             </Heading>
             <ul className="space-y-2">
-              <li className="border-b py-2 flex justify-between items-center gap-4">
-                <div className="flex items-center gap-4">
-                  <Image
-                    src="/default-recipe.png"
-                    alt="recipe image of ${title}"
-                    width={50}
-                    height={50}
-                    className="w-16 h-16 rounded-full inline-block"
-                  />
-                  {/* Recipe Title and Tags */}
-                  <div className="flex flex-col items-start">
-                    <p className="text-md font-semibold">Spicy Tofu Stir Fry</p>
-                    <div className="max-w-[200px]">
-                      <TagList>
-                        <Tag color="yellow" size="small">
-                          Dinner
-                        </Tag>
-                        <Tag color="blue" size="small">
-                          Asian
-                        </Tag>
-                        <Tag color="red" size="small">
-                          Quick
-                        </Tag>
-                      </TagList>
-                    </div>
-                  </div>
-                </div>
-                <Link
-                  href="/" // TODO:Replace with the actual recipe link
-                  className="border-2 border-accent-500/80 text-accent-500 rounded-xl p-0.5"
-                >
-                  <ChevronRightIcon className="size-5" />
-                </Link>
-              </li>
+              {recentRecipes.map((recipe: RecentRecipe) => (
+                <RecipeItem key={recipe.id} recipe={recipe} />
+              ))}
             </ul>
           </Widget>
+
+          {/* Tried vs Untried Pie Chart */}
           <Widget size="medium">
-            {/* <ResponsiveContainer width="100%" height={200}> */}
-            {/* Insert Pie Chart Here */}
-            <div className="h-40 bg-gray-100 flex items-center justify-center">
-              Recipe Categories - Pie Chart
-            </div>
-            {/* </ResponsiveContainer> */}
+            <Heading level="h4" styled={true}>
+              Recipe Progress
+            </Heading>
+
+            <ResponsiveContainer width="100%" height={250}>
+              <PieChart>
+                <Pie
+                  data={triedVsUntriedData}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={40}
+                  outerRadius={80}
+                  paddingAngle={5}
+                >
+                  {triedVsUntriedData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={index === 0 ? "#71d7ff" : "#91f8b1"}
+                    />
+                  ))}
+                </Pie>
+                <Tooltip
+                  formatter={(value, name) => [`${value} recipes`, `${name}`]}
+                  contentStyle={{
+                    backgroundColor: "#fff4e5",
+                    borderRadius: "8px",
+                    border: "none",
+                    boxShadow: "0 2px 6px #fcdab8",
+                    padding: "10px 14px",
+                    color: "#333",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                  }}
+                />
+                <Legend
+                  layout="vertical"
+                  verticalAlign="middle"
+                  align="right"
+                />
+              </PieChart>
+            </ResponsiveContainer>
           </Widget>
 
-          <Widget size="medium">
-            {/* <ResponsiveContainer width="100%" height={200}> */}
-            {/* Insert Bar Chart Here */}
-            <div className="h-40 bg-gray-100 flex items-center justify-center">
-              Tried vs. Untried Recipes - Bar Chart
-            </div>
-            {/* </ResponsiveContainer> */}
+          {/* Category Chart */}
+          <Widget size="large">
+            <Heading level="h4" styled={true}>
+              Recipe Categories
+            </Heading>
+            <ResponsiveContainer width="100%" height={250}>
+              <PieChart>
+                <Pie
+                  data={categoryChart}
+                  dataKey="count"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={40}
+                  outerRadius={80}
+                  paddingAngle={5}
+                >
+                  {categoryChart.map((entry, index) => {
+                    const fillColor =
+                      tailwindColorMap[
+                        entry.color as keyof typeof tailwindColorMap
+                      ] || entry.color;
+                    return <Cell key={`cell-${index}`} fill={fillColor} />;
+                  })}
+                </Pie>
+                <Tooltip
+                  formatter={(value, name) => [`${value} recipes`, `${name}`]}
+                  contentStyle={{
+                    backgroundColor: "#fff4e5",
+                    borderRadius: "8px",
+                    border: "none",
+                    boxShadow: "0 2px 6px #fcdab8",
+                    padding: "10px 14px",
+                    color: "#565656",
+                    fontSize: "14px",
+                    fontWeight: 500,
+                  }}
+                />
+                <Legend
+                  layout="vertical"
+                  verticalAlign="middle"
+                  align="right"
+                  wrapperStyle={{
+                    paddingLeft: "15px",
+                    paddingRight: "15px",
+                    right: 0,
+                    width: "40%",
+                    fontSize: "14px",
+                    lineHeight: "1.4em",
+                  }}
+                  formatter={(value, entry, index) => {
+                    // Format the legend label to include the count
+                    const item = categoryChart[index];
+                    return (
+                      <span>
+                        {value} -<span> {item.count}</span>
+                      </span>
+                    );
+                  }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
           </Widget>
 
           <Widget size="large">
             {/* <ResponsiveContainer width="100%" height={200}> */}
-            {/* Insert Line Chart Here */}
             <div className="h-40 bg-gray-100 flex items-center justify-center">
               Cooking Trends
             </div>
@@ -128,4 +232,43 @@ export default function DashboardPage() {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const supabase = createClient(context);
+
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error) {
+    console.error("Error fetching user:", error);
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  const userName = data?.user.user_metadata.full_name;
+  const userId = data?.user.id;
+
+  try {
+    const initalAnalytics = await fetchDashboardData(userId, supabase);
+
+    return {
+      props: {
+        userName,
+        initalAnalytics,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching dashboard data:", error);
+    return {
+      props: {
+        userName,
+        initalAnalytics: null,
+        error: "Failed to fetch dashboard data",
+      },
+    };
+  }
 }
