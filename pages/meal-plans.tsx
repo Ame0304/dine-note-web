@@ -10,7 +10,7 @@ export default function MealPlansPage() {
     imageUrl: "/default-recipe.png",
   };
   return (
-    <>
+    <div className="px-4">
       <Heading level="h1" className="mb-4">
         What&apos;s to eat this week?
       </Heading>
@@ -52,6 +52,6 @@ export default function MealPlansPage() {
           <TodayPlan />
         </div>
       </div>
-    </>
+    </div>
   );
 }
