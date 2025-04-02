@@ -25,7 +25,7 @@ export default function MealPlansPage() {
               Select a meal for
             </Heading>
 
-            <select className="px-3 py-1.5 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-accent-500 shadow-md shadow-accent-500 text-accent-500">
+            <select className="px-3 py-1.5 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-accent-500 shadow-md shadow-accent-500 text-accent-500 font-medium">
               <option value="breakfast">Breakfast</option>
               <option value="lunch">Lunch</option>
               <option value="dinner">Dinner</option>

@@ -66,7 +66,7 @@ export default function SearchBar() {
         id="search"
         placeholder="Search recipes..."
         value={searchTerm}
-        className="w-full py-1.5 pl-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500 shadow-md shadow-accent-500 placeholder:text-primary-50/70 placeholder:text-sm bg-white text-accent-200 font-semibold"
+        className="w-full py-1.5 pl-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500 shadow-md shadow-accent-500 placeholder:text-primary-50/70 placeholder:text-sm bg-white text-accent-500 font-medium"
         onChange={(e) => {
           setSearchTerm(e.target.value);
         }}

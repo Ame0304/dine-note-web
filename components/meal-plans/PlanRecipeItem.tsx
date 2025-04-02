@@ -31,10 +31,12 @@ export default function PlanRecipeItem({
         }`}
       />
 
-      <p className="text-lg font-semibold">{recipe.title}</p>
+      <p className={`text-${size === "large" ? "lg" : "md"} font-semibold`}>
+        {recipe.title}
+      </p>
       {hasButton && (
         <Button size="xs">
-          <PlusIcon className="size-6" />
+          <PlusIcon className="size-6 stroke-[4.5]" />
         </Button>
       )}
     </div>

@@ -32,9 +32,9 @@ export default function RecipeItem({ recipe }: { recipe: RecentRecipe }) {
       </div>
       <Link
         href={`/recipes/${recipe.id}`}
-        className="border-2 border-accent-500/80 text-accent-500 hover:bg-accent-500 hover:text-primary-950 rounded-xl p-0.5"
+        className="border-4 border-accent-500/80 text-accent-500 hover:bg-accent-500 hover:text-primary-950 rounded-xl p-0.5 "
       >
-        <ChevronRightIcon className="size-5" />
+        <ChevronRightIcon className="size-5 stroke-[4.5]" />
       </Link>
     </li>
   );

@@ -44,7 +44,7 @@ export default function Calendar() {
   return (
     <div className="flex items-center justify-center gap-4 p-4">
       <Button onClick={handlePrevWeek} size="xs">
-        <ChevronLeftIcon className="size-6" />
+        <ChevronLeftIcon className="size-6 stroke-[4.5]" />
       </Button>
       <div className="flex gap-2 sm:gap-4">
         {weekDates.map((date) => (
@@ -72,7 +72,7 @@ export default function Calendar() {
         ))}
       </div>
       <Button onClick={handleNextWeek} size="xs">
-        <ChevronRightIcon className="size-6" />
+        <ChevronRightIcon className="size-6 stroke-[4.5]" />
       </Button>
     </div>
   );

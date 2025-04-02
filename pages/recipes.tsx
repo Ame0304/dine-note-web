@@ -34,7 +34,7 @@ export default function RecipesPage() {
 
           <Button onClick={() => setIsOpenAdd(true)}>
             Add
-            <PlusCircleIcon className="size-5" />
+            <PlusCircleIcon className="size-6 stroke-[3]" />
           </Button>
         </div>
 

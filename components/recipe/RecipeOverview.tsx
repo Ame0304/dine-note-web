@@ -27,7 +27,7 @@ export default function RecipeOverview({
         </div>
 
         {/* Recipe Overview Card */}
-        <div className="bg-white shadow-lg p-6 relative -mt-12 border-4 border-accent-200 rounded-2xl">
+        <div className="bg-white shadow-lg p-6 relative -mt-12 border-4 border-accent-200/50 rounded-2xl">
           {/* Round Recipe Image */}
           <div className="absolute -top-24 left-1/2 transform -translate-x-1/2">
             <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-accent-200 shadow-xl shadow-primary-900">

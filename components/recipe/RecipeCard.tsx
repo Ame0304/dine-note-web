@@ -30,7 +30,7 @@ export default function RecipeCard({
   return (
     <div
       className={`bg-white/80 border-4 rounded-xl shadow-lg transform transition-all hover:scale-105 hover:shadow-accent-500 flex flex-col h-full p-6 ${
-        tried ? "border-accent-200" : "border-accent-200/50"
+        tried ? "border-accent-200" : "border-accent-200/20"
       }`}
     >
       <div className="flex flex-col h-full">
@@ -86,7 +86,7 @@ export default function RecipeCard({
               variant="link"
               icon={<EyeIcon className="size-5" />}
               onClick={() => router.push(`/recipes/${id}`)}
-              className="hover:text-accent-500"
+              className="hover:text-accent-500 font-medium"
             >
               Details
             </Button>
