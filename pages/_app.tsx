@@ -19,6 +19,7 @@ const PRIVATE_PAGES = [
   "/recipes",
   "/profile",
   "/recipes/[recipeId]",
+  "/meal-plans",
 ];
 
 export default function App({ Component, pageProps }: AppProps) {

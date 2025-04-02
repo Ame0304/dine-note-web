@@ -35,7 +35,7 @@ export default function DashboardPage({
   } = initalAnalytics;
 
   return (
-    <div>
+    <>
       {/* Welcome Message */}
       <Heading level="h1" className="mb-4">
         Welcome back, {userName}👏
@@ -111,9 +111,24 @@ export default function DashboardPage({
               <li className="border-b py-2">🥗 Avocado Salad</li>
             </ul>
           </Widget>
+
+          <Widget size="medium">
+            <p>Today&apos;s Shopping list</p>
+            <ul className="mt-2 space-y-2">
+              <li className="border-b py-2">🥔 Potato</li>
+              <li className="border-b py-2">🥑 Avocado </li>
+            </ul>
+          </Widget>
+
+          <p>
+            1. Today’s Meals 🍽️ (List of today’s planned meals) Meal Plan 2.
+            Completion Rate ✅ (How many planned meals were completed this week)
+            3. Most Planned Recipe 🏆 (The most frequently added recipe to meal
+            plans)
+          </p>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

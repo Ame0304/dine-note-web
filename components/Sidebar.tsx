@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { HomeIcon, BookOpenIcon, UserIcon } from "@heroicons/react/24/outline";
+import {
+  HomeIcon,
+  BookOpenIcon,
+  UserIcon,
+  CalendarDateRangeIcon,
+} from "@heroicons/react/24/outline";
 
 import Button from "./Button";
 import Logo from "./Logo";
@@ -12,6 +17,7 @@ const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
   { name: "Recipes", href: "/recipes", icon: BookOpenIcon },
   { name: "Profile", href: "/profile", icon: UserIcon },
+  { name: "Meal Plans", href: "/meal-plans", icon: CalendarDateRangeIcon },
 ];
 
 interface SidebarProps {
@@ -36,7 +42,7 @@ export default function Sidebar({ expanded, onToggle }: SidebarProps) {
   return (
     <aside className="h-full flex flex-col">
       <div
-        className={`overflow-hidden rounded-xl fixed z-30 transform bg-white transition-all duration-300 ease-in-out shadow-xl backdrop-blur-md backdrop-saturate-150 flex flex-col px-3 flex-1
+        className={`overflow-hidden rounded-xl fixed z-30 transform bg-white/80 transition-all duration-300 ease-in-out backdrop-blur-md backdrop-saturate-150 flex flex-col px-3 flex-1
           ${
             expanded
               ? "w-72 lg:static h-screen"
@@ -77,7 +83,7 @@ export default function Sidebar({ expanded, onToggle }: SidebarProps) {
                   <Link
                     href={item.href}
                     className={`flex items-center gap-3 rounded-xl text-md font-medium 
-                      ${expanded ? "px-3 py-2" : "justify-center p-2"}
+                      ${expanded ? "px-4 py-3" : "justify-center p-2"}
                       ${
                         isActive
                           ? "bg-accent-500 text-primary-950"

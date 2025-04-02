@@ -1,6 +1,6 @@
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  size?: "small" | "regular" | "large" | "full";
+  size?: "xs" | "small" | "regular" | "large" | "full";
   variant?: "primary" | "alert" | "link" | "outline";
   isLoading?: boolean;
   icon?: React.ReactNode;
@@ -15,6 +15,7 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const sizeClasses = {
+    xs: "px-1 py-1 text-sm",
     small: "px-2 py-1 text-sm",
     regular: "px-3 py-2 text-base",
     large: "px-4 py-3 text-lg",

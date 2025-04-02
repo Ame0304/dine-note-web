@@ -37,7 +37,7 @@ export default function ResetPasswordForm() {
   };
   return (
     <form
-      className="mt-5 space-y-2 flex flex-col justify-between p-10 rounded-xl bg-white border-4 border-accent-200"
+      className="mt-5 space-y-2 flex flex-col justify-between p-10 rounded-xl bg-white border-4 border-accent-200/50"
       onSubmit={handleSubmit(onSubmit)}
       method="POST"
     >
