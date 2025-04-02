@@ -10,7 +10,7 @@ export default function RecipeItem({ recipe }: { recipe: RecentRecipe }) {
     <li className="border-b py-2 flex justify-between items-center gap-4">
       <div className="flex items-center gap-4">
         <Image
-          src={recipe.imageUrl || "/images/placeholder.png"}
+          src={recipe.imageUrl || "/default-recipe.png"}
           alt="recipe image of ${title}"
           width={50}
           height={50}

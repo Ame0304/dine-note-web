@@ -43,7 +43,7 @@ export default function Calendar() {
 
   return (
     <div className="flex items-center justify-center gap-4 p-4">
-      <Button onClick={handlePrevWeek} size="xs" variant="outline">
+      <Button onClick={handlePrevWeek} size="xs">
         <ChevronLeftIcon className="size-6" />
       </Button>
       <div className="flex gap-2 sm:gap-4">
@@ -51,7 +51,7 @@ export default function Calendar() {
           <button
             key={date.toDateString()}
             onClick={() => onSelectDate(date)}
-            className={`px-1 py-2 w-8 text-xs sm:px-2 sm:py-4 sm:w-12 rounded-lg sm:text-sm font-medium shadow-lg shadow-primary-900 transition-all
+            className={`px-1 py-2 w-8 text-xs sm:px-2 sm:py-4 sm:w-12 rounded-3xl sm:text-sm font-medium shadow-lg shadow-primary-900 transition-all
           ${
             date.toDateString() === today
               ? "bg-accent-500 text-white"
@@ -71,7 +71,7 @@ export default function Calendar() {
           </button>
         ))}
       </div>
-      <Button onClick={handleNextWeek} size="xs" variant="outline">
+      <Button onClick={handleNextWeek} size="xs">
         <ChevronRightIcon className="size-6" />
       </Button>
     </div>
