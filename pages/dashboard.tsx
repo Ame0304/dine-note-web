@@ -14,7 +14,7 @@ import {
 import Heading from "@/components/Heading";
 import Widget from "@/components/dashboard/Widget";
 import Stat from "@/components/dashboard/Stat";
-import RecipeItem from "@/components/dashboard/RecipeItem";
+import DashboardRecipeItem from "@/components/dashboard/DashboardRecipeItem";
 import TriedChart from "@/components/dashboard/TriedChart";
 import CategoryChart from "@/components/dashboard/CategoryChart";
 
@@ -67,19 +67,19 @@ export default function DashboardPage({
 
           {/* Recent Recipes */}
           <Widget size="medium">
-            <Heading level="h4" styled={true}>
+            <Heading level="h4" styled="bg-accent-500">
               Recent Recipes
             </Heading>
             <ul className="space-y-2">
               {recentRecipes.map((recipe: RecentRecipe) => (
-                <RecipeItem key={recipe.id} recipe={recipe} />
+                <DashboardRecipeItem key={recipe.id} recipe={recipe} />
               ))}
             </ul>
           </Widget>
 
           {/* Tried vs Untried Pie Chart */}
           <Widget size="medium">
-            <Heading level="h4" styled={true}>
+            <Heading level="h4" styled="bg-accent-300">
               Recipe Progress
             </Heading>
             <TriedChart data={triedVsUntriedData} />
@@ -87,7 +87,7 @@ export default function DashboardPage({
 
           {/* Category Chart */}
           <Widget size="large">
-            <Heading level="h4" styled={true}>
+            <Heading level="h4" styled="bg-accent-400">
               Recipe Categories
             </Heading>
             <CategoryChart data={categoryChart} />

@@ -15,7 +15,7 @@ export default function PlanBox({ type, recipe }: PlanBoxProps) {
       </Heading>
       {/* Placeholder for breakfast recipe */}
       {recipe ? (
-        <PlanRecipeItem recipe={recipe} />
+        <PlanRecipeItem recipe={recipe} buttonType="remove" />
       ) : (
         <div className="bg-accent-200/20 border-4 border-dashed border-accent-200/50 rounded-xl p-3 text-center">
           <span>No meals planned for {type}</span>

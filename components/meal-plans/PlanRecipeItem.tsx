@@ -1,44 +1,44 @@
-import Image from "next/image";
+import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import Button from "../Button";
-import { PlusIcon } from "@heroicons/react/24/outline";
+import BaseRecipeItem from "@/components/BaseRecipeItem";
 
 export interface PlanRecipe {
   id: string;
   title: string;
   imageUrl: string;
+  categories: Array<{
+    id: string;
+    name: string;
+    color: string;
+  }>;
 }
 
 interface PlanRecipeItemProps {
   recipe: PlanRecipe;
-  size?: "small" | "large";
-  hasButton?: boolean;
+  buttonType?: "add" | "remove";
 }
 
 export default function PlanRecipeItem({
   recipe,
-  size = "small",
-  hasButton = false,
+  buttonType = "add",
 }: PlanRecipeItemProps) {
-  return (
-    <div className="flex items-center gap-4 px-3">
-      <Image
-        src={recipe.imageUrl || "/default-recipe.png"}
-        alt="recipe image of ${title}"
-        width={size === "large" ? 80 : 50}
-        height={size === "large" ? 80 : 50}
-        className={`rounded-full inline-block ${
-          size === "large" ? "w-20 h-20" : "w-14 h-14"
-        }`}
-      />
-
-      <p className={`text-${size === "large" ? "lg" : "md"} font-semibold`}>
-        {recipe.title}
-      </p>
-      {hasButton && (
-        <Button size="xs">
-          <PlusIcon className="size-6 stroke-[4.5]" />
-        </Button>
+  const actionButton = (
+    <Button size="xs">
+      {buttonType === "add" ? (
+        <PlusIcon className="size-5 stroke-[4]" />
+      ) : (
+        <MinusIcon className="size-5 stroke-[4]" />
       )}
-    </div>
+    </Button>
+  );
+
+  return (
+    <BaseRecipeItem
+      recipe={recipe}
+      imageSize="md"
+      rightElement={actionButton}
+      className="px-1"
+      maxTagWidth="max-w-[150px]"
+    />
   );
 }

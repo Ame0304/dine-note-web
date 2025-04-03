@@ -28,7 +28,7 @@ export default function RecipesPage() {
       <div className="flex flex-col justify-between items-center mb-4 md:flex-row">
         {/* Recipe Page Header */}
         <div className="flex items-center gap-5">
-          <Heading level="h2" styled={true}>
+          <Heading level="h2" styled="bg-accent-500">
             Recipes
           </Heading>
 

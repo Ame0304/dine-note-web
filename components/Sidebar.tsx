@@ -42,7 +42,7 @@ export default function Sidebar({ expanded, onToggle }: SidebarProps) {
   return (
     <aside className="h-full flex flex-col">
       <div
-        className={`overflow-hidden rounded-r-xl fixed z-30 transform bg-white/50 transition-all duration-300 ease-in-out backdrop-blur-md backdrop-saturate-150 flex flex-col px-3 flex-1
+        className={`overflow-hidden rounded-r-xl fixed z-30 transform bg-white/80 transition-all duration-300 ease-in-out backdrop-blur-md backdrop-saturate-150 flex flex-col px-3 flex-1
           ${
             expanded
               ? "w-72 lg:static h-screen"

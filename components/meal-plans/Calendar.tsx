@@ -42,7 +42,7 @@ export default function Calendar() {
   const today = new Date().toDateString();
 
   return (
-    <div className="flex items-center justify-center gap-4 p-4">
+    <div className="flex items-center justify-center gap-4 py-6 px-4 border-4 border-accent-200/50 rounded-3xl bg-white/80 shadow-lg shadow-primary-900">
       <Button onClick={handlePrevWeek} size="xs">
         <ChevronLeftIcon className="size-6 stroke-[4.5]" />
       </Button>
@@ -51,7 +51,7 @@ export default function Calendar() {
           <button
             key={date.toDateString()}
             onClick={() => onSelectDate(date)}
-            className={`px-1 py-2 w-8 text-xs sm:px-2 sm:py-4 sm:w-12 rounded-3xl sm:text-sm font-medium shadow-lg shadow-primary-900 transition-all
+            className={`px-1 py-2 w-8 text-xs sm:px-2 sm:py-4 sm:w-12 rounded-3xl sm:text-sm font-medium shadow-lg shadow-primary-900 transition-all hover:bg-accent-500 hover:text-white
           ${
             date.toDateString() === today
               ? "bg-accent-500 text-white"

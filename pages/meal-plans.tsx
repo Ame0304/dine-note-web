@@ -1,27 +1,35 @@
 import Heading from "@/components/Heading";
 import Calendar from "@/components/meal-plans/Calendar";
 import TodayPlan from "@/components/meal-plans/TodayPlan";
-import PlanRecipeItem from "@/components/meal-plans/PlanRecipeItem";
+
+import MealSelectionList from "@/components/meal-plans/MealSelectionList";
 
 export default function MealPlansPage() {
-  const recipe = {
-    id: "1",
-    title: "Spaghetti Bolognese",
-    imageUrl: "/default-recipe.png",
-  };
+  // TODO: add subtle highlight on the selected meal type box
   return (
     <div className="px-4">
-      <Heading level="h1" className="mb-4">
-        What&apos;s to eat this week?
+      <Heading level="h1" className="mb-4" styled="bg-accent-500">
+        Meal Plans
       </Heading>
 
       <div className="grid grid-cols-1 lg:grid-cols-9 gap-6">
         {/* Left Container: Calendar & recipes list (2/3 width) */}
         <div className="col-span-9 lg:col-span-6 flex flex-col gap-4">
           <Calendar />
-
-          <div className="flex items-center gap-4">
-            <Heading level="h3" className="mt-4 mb-2">
+          <div className="flex flex-col items-start justify-between">
+            <Heading level="h2" styled="bg-accent-400">
+              Today&apos;s plan
+            </Heading>
+            <span className="text-accent-200/50 font-medium">
+              Wed 2025/04/02
+            </span>
+          </div>
+          <TodayPlan />
+        </div>
+        {/* Right Container: Today's Plan (1/3 width) */}
+        <div className="flex flex-col gap-4 col-span-9 lg:col-span-3 shadow-lg shadow-primary-900 rounded-xl bg-white/80 p-4 lg:h-[calc(100vh-150px)]">
+          <div className="flex flex-col items-center gap-3">
+            <Heading level="h3" className="my-2">
               Select a meal for
             </Heading>
 
@@ -32,24 +40,9 @@ export default function MealPlansPage() {
               <option value="snack">Snack</option>
             </select>
           </div>
-          {/* Recipes List */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 overflow-y-auto h-96">
-            <PlanRecipeItem recipe={recipe} size="large" hasButton={true} />
-            <PlanRecipeItem recipe={recipe} size="large" hasButton={true} />
-            <PlanRecipeItem recipe={recipe} size="large" hasButton={true} />
-          </div>
-        </div>
-        {/* Right Container: Today's Plan (1/3 width) */}
-        <div className="flex flex-col gap-4 col-span-3">
-          <div className="flex flex-col items-start justify-between">
-            <Heading level="h2" styled={true}>
-              Today&apos;s plan
-            </Heading>
-            <span className="text-accent-200/50 font-medium">
-              Wed 2025/04/02
-            </span>
-          </div>
-          <TodayPlan />
+
+          {/* Meal Selection List */}
+          <MealSelectionList />
         </div>
       </div>
     </div>

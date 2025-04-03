@@ -6,14 +6,14 @@ interface HeadingProps {
   level: HeadingLevel;
   children: ReactNode;
   className?: string;
-  styled?: boolean;
+  styled?: string;
 }
 
 export default function Heading({
   level = "h2",
   children,
   className = "",
-  styled = false,
+  styled,
 }: HeadingProps) {
   // Map sizes to appropriate Tailwind classes
   const sizeClasses = {
@@ -33,7 +33,9 @@ export default function Heading({
         <h1 className={`relative z-10 text-primary-100 p-1 ${classes}`}>
           {children}
         </h1>
-        <div className="z-0 absolute left-0 right-0 top-1/2 h-2 bg-accent-500 rounded-full"></div>
+        <div
+          className={`z-0 absolute left-0 right-0 top-1/2 h-2 rounded-full ${styled}`}
+        ></div>
       </div>
     );
   }

@@ -7,9 +7,13 @@ export default function TodayPlan() {
     id: "1",
     title: "Spaghetti Bolognese",
     imageUrl: "/default-recipe.png",
+    categories: [
+      { id: "1", name: "Italian", color: "red" },
+      { id: "2", name: "Pasta", color: "blue" },
+    ],
   };
   return (
-    <div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
       <PlanBox type="Breakfast" recipe={recipe} />
       <PlanBox type="Lunch" />
       <PlanBox type="Dinner" />
