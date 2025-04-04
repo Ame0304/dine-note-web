@@ -6,11 +6,13 @@ import { PlanRecipe } from "@/lib/services/mealPlanService";
 interface PlanRecipeItemProps {
   recipe: PlanRecipe;
   buttonType?: "add" | "remove";
+  maxTagWidth?: string;
 }
 
 export default function PlanRecipeItem({
   recipe,
   buttonType = "add",
+  maxTagWidth = "max-w-[190px]",
 }: PlanRecipeItemProps) {
   const actionButton = (
     <Button size="xs">
@@ -25,10 +27,9 @@ export default function PlanRecipeItem({
   return (
     <BaseRecipeItem
       recipe={recipe}
-      imageSize="md"
       rightElement={actionButton}
       className="px-1"
-      maxTagWidth="max-w-[150px]"
+      maxTagWidth={maxTagWidth}
     />
   );
 }

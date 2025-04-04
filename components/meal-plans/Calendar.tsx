@@ -2,7 +2,11 @@ import { useState } from "react";
 import Button from "@/components/Button";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
-export default function Calendar() {
+interface CalendarProps {
+  onSelect: (date: Date) => void;
+}
+
+export default function Calendar({ onSelect }: CalendarProps) {
   const [startDate, setStartDate] = useState(getStartOfWeek(new Date()));
 
   // Get the start of the week (Monday)
@@ -34,10 +38,6 @@ export default function Calendar() {
     setStartDate(newStartDate);
   };
 
-  const onSelectDate = (date: Date) => {
-    console.log(`Selected date: ${date.toDateString()}`);
-  };
-
   const weekDates = getWeekDates(startDate);
   const today = new Date().toDateString();
 
@@ -50,7 +50,7 @@ export default function Calendar() {
         {weekDates.map((date) => (
           <button
             key={date.toDateString()}
-            onClick={() => onSelectDate(date)}
+            onClick={() => onSelect(date)}
             className={`px-1 py-2 w-8 text-xs sm:px-2 sm:py-4 sm:w-12 rounded-3xl sm:text-sm font-medium shadow-lg shadow-primary-900 transition-all hover:bg-accent-500 hover:text-white
           ${
             date.toDateString() === today

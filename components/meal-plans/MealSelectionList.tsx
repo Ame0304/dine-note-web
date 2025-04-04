@@ -6,12 +6,9 @@ import PlanRecipeItem from "@/components/meal-plans/PlanRecipeItem";
 import Loading from "@/components/Loading";
 import Error from "@/components/Error";
 import usePlanRecipes from "@/hooks/meal-plans/usePlanRecipes";
-import { useUser } from "@/context/UserContext";
 import { PlanRecipe } from "@/lib/services/mealPlanService";
 
-export default function MealSelectionList() {
-  const { user } = useUser();
-  const userId = user?.id || "";
+export default function MealSelectionList({ userId }: { userId: string }) {
   const { recipes, isLoading, error } = usePlanRecipes(userId);
 
   if (isLoading) {
