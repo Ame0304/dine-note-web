@@ -25,9 +25,10 @@ interface FetchedCategory {
   name: string;
   color: string;
 }
-interface FetchedRecipeCategoryLink {
+export interface FetchedRecipeCategoryLink {
   category: FetchedCategory;
 }
+
 interface FetchedRecipe {
   id: string;
   tried: boolean;

@@ -1,17 +1,7 @@
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import Button from "../Button";
 import BaseRecipeItem from "@/components/BaseRecipeItem";
-
-export interface PlanRecipe {
-  id: string;
-  title: string;
-  imageUrl: string;
-  categories: Array<{
-    id: string;
-    name: string;
-    color: string;
-  }>;
-}
+import { PlanRecipe } from "@/lib/services/mealPlanService";
 
 interface PlanRecipeItemProps {
   recipe: PlanRecipe;

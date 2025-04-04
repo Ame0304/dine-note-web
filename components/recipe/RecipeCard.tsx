@@ -29,7 +29,7 @@ export default function RecipeCard({
 
   return (
     <div
-      className={`bg-white/80 border-4 rounded-xl shadow-lg transform transition-all hover:scale-105 hover:shadow-accent-500 flex flex-col h-full p-6 ${
+      className={`bg-white/80 border-4 rounded-xl shadow-lg transform transition-all hover:scale-105 hover:shadow-primary-900 flex flex-col h-full p-6 ${
         tried ? "border-accent-200" : "border-accent-200/20"
       }`}
     >

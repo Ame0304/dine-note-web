@@ -86,7 +86,7 @@ export default function Sidebar({ expanded, onToggle }: SidebarProps) {
                       ${expanded ? "px-4 py-3" : "justify-center p-2"}
                       ${
                         isActive
-                          ? "bg-accent-500 text-primary-950"
+                          ? "bg-accent-500 text-primary-950 "
                           : "hover:bg-accent-500 hover:text-primary-950"
                       }`}
                   >
