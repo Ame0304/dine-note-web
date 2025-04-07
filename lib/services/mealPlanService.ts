@@ -74,7 +74,7 @@ export async function getMealPlans(userId: string, date: string) {
     .select("id")
     .eq("user_id", userId)
     .eq("date", date)
-    .single(); // Expect at most one result
+    .maybeSingle();
 
   if (planError) throw new Error(planError.message);
 

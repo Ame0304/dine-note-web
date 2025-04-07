@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { getMealPlans } from "@/lib/services/mealPlanService";
+import { format } from "date-fns";
 
 export default function useMealPlans(userId: string, selectedDate: Date) {
-  const formattedDate = selectedDate.toISOString().split("T")[0];
+  const formattedDate = format(new Date(selectedDate), "yyyy-MM-dd");
 
   const { isLoading, data, error } = useQuery({
     queryKey: ["meal-plans", userId],
