@@ -6,7 +6,7 @@ export default function useMealPlans(userId: string, selectedDate: Date) {
   const formattedDate = format(new Date(selectedDate), "yyyy-MM-dd");
 
   const { isLoading, data, error } = useQuery({
-    queryKey: ["meal-plans", userId, selectedDate],
+    queryKey: ["mealPlans", userId, selectedDate],
     enabled: !!userId,
     queryFn: () => getMealPlans(userId, formattedDate),
   });

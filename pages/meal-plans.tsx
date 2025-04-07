@@ -5,6 +5,7 @@ import Heading from "@/components/Heading";
 import Calendar from "@/components/meal-plans/Calendar";
 import TodayPlan from "@/components/meal-plans/TodayPlan";
 import MealSelectionList from "@/components/meal-plans/MealSelectionList";
+import useAddMealToPlan from "@/hooks/meal-plans/useAddMealToPlan";
 
 export default function MealPlansPage() {
   // TODO: add subtle highlight on the selected meal type box
@@ -12,7 +13,25 @@ export default function MealPlansPage() {
   const userId = user?.id || "";
 
   const [selectedDate, setSelectedDate] = useState(new Date());
-  // const [selectedMealType, setSelectedMealType] = useState("breakfast");
+  const [selectedMealType, setSelectedMealType] = useState("breakfast");
+  const { isAdding, addMealToPlan } = useAddMealToPlan();
+
+  function handleMealTypeChange(mealType: string) {
+    setSelectedMealType(mealType);
+  }
+
+  function handleAddMealToPlan(recipeId: string) {
+    if (!userId) return;
+
+    const data = {
+      userId,
+      date: selectedDate.toISOString().split("T")[0],
+      mealType: selectedMealType,
+      recipeId,
+    };
+
+    addMealToPlan(data);
+  }
 
   function handleDateSelect(date: Date) {
     setSelectedDate(date);
@@ -47,16 +66,27 @@ export default function MealPlansPage() {
               {formattedDate}
             </span>
           </div>
-          <TodayPlan userId={userId} selectedDate={selectedDate} />
+          <TodayPlan
+            userId={userId}
+            selectedDate={selectedDate}
+            selectedMealType={selectedMealType}
+            onAdd={handleMealTypeChange}
+            isAdding={isAdding}
+          />
         </div>
         {/* Right Container: Today's Plan (1/3 width) */}
-        <div className="flex flex-col gap-4 col-span-9 lg:col-span-3 shadow-lg shadow-primary-900 rounded-xl bg-white/80 p-4 lg:h-[calc(100vh-150px)]">
+        <div className="flex flex-col gap-4 col-span-9 lg:col-span-3 shadow-lg shadow-primary-900 rounded-xl bg-white/80 p-4 h-1/3 lg:h-[calc(100vh-150px)]">
           <div className="flex flex-col items-center gap-3">
             <Heading level="h3" className="my-2">
               Select a meal for
             </Heading>
 
-            <select className="px-3 py-1.5 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-accent-500 shadow-md shadow-accent-500 text-accent-500 font-medium">
+            <select
+              value={selectedMealType}
+              onChange={(e) => setSelectedMealType(e.target.value)}
+              disabled={isAdding}
+              className="px-3 py-1.5 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-accent-500 shadow-md shadow-accent-500 text-accent-500 font-medium"
+            >
               <option value="breakfast">Breakfast</option>
               <option value="lunch">Lunch</option>
               <option value="dinner">Dinner</option>
@@ -65,7 +95,11 @@ export default function MealPlansPage() {
           </div>
 
           {/* Meal Selection List */}
-          <MealSelectionList userId={userId} />
+          <MealSelectionList
+            userId={userId}
+            onAddMeal={handleAddMealToPlan}
+            isAdding={isAdding}
+          />
         </div>
       </div>
     </div>

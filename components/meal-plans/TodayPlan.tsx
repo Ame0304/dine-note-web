@@ -6,9 +6,18 @@ import useMealPlans from "@/hooks/meal-plans/useMealPlans";
 interface TodayPlanProps {
   userId: string;
   selectedDate: Date;
+  selectedMealType: string;
+  onAdd: (mealType: string) => void;
+  isAdding?: boolean;
 }
 
-export default function TodayPlan({ userId, selectedDate }: TodayPlanProps) {
+export default function TodayPlan({
+  userId,
+  selectedDate,
+  selectedMealType,
+  onAdd,
+  isAdding,
+}: TodayPlanProps) {
   // Fetch the meal plan for the selected date
   const { mealPlan, isLoading, error } = useMealPlans(userId, selectedDate);
 
@@ -44,12 +53,41 @@ export default function TodayPlan({ userId, selectedDate }: TodayPlanProps) {
   const dinnerRecipes = getRecipesByMealType("dinner") || [];
   const snackRecipes = getRecipesByMealType("snack") || [];
 
+  const planBoxes = [
+    {
+      type: "Breakfast",
+      recipes: breakfastRecipes,
+      selected: selectedMealType === "breakfast",
+    },
+    {
+      type: "Lunch",
+      recipes: lunchRecipes,
+      selected: selectedMealType === "lunch",
+    },
+    {
+      type: "Dinner",
+      recipes: dinnerRecipes,
+      selected: selectedMealType === "dinner",
+    },
+    {
+      type: "Snack",
+      recipes: snackRecipes,
+      selected: selectedMealType === "snack",
+    },
+  ];
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      <PlanBox type="Breakfast" recipes={breakfastRecipes} />
-      <PlanBox type="Lunch" recipes={lunchRecipes} />
-      <PlanBox type="Dinner" recipes={dinnerRecipes} />
-      <PlanBox type="Snack" recipes={snackRecipes} />
+      {planBoxes.map((box) => (
+        <PlanBox
+          key={box.type}
+          recipes={box.recipes}
+          selected={box.selected}
+          typeTitle={box.type}
+          onAdd={onAdd}
+          isAdding={isAdding}
+        />
+      ))}
     </div>
   );
 }

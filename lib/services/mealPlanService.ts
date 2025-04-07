@@ -25,6 +25,13 @@ export interface MealPlanItem {
   recipe: PlanRecipe;
 }
 
+export interface AddMealToPlanParams {
+  userId: string;
+  date: string;
+  mealType: string;
+  recipeId: string;
+}
+
 const supabase = createClient();
 
 export async function getPlanRecipes(userId: string) {
@@ -94,7 +101,6 @@ export async function getMealPlans(userId: string, date: string) {
     )
     .eq("meal_plan_id", mealPlan.id)
     .order("meal_type", { ascending: true });
-  console.log("mealPlanItems", mealPlanItems);
 
   if (itemsError) throw new Error(itemsError.message);
 
@@ -119,7 +125,43 @@ export async function getMealPlans(userId: string, date: string) {
     };
   });
 
-  console.log("transformedItems", transformedItems);
-
   return { mealPlanId: mealPlan.id, meals: transformedItems };
+}
+
+export async function addMealToPlan({
+  userId,
+  date,
+  recipeId,
+  mealType,
+}: AddMealToPlanParams) {
+  // 1. Check if a meal plan exists for the given date
+  const { data: mealPlan, error: planError } = await supabase
+    .from("meal_plans")
+    .select("id")
+    .eq("user_id", userId)
+    .eq("date", date)
+    .maybeSingle();
+  if (planError) throw new Error(planError.message);
+
+  let mealPlanId = mealPlan?.id;
+
+  // 2. If no meal plan exists, create one
+  if (!mealPlanId) {
+    const { data: newMealPlan, error: createError } = await supabase
+      .from("meal_plans")
+      .insert({ user_id: userId, date })
+      .select("id")
+      .single();
+    if (createError) throw new Error(createError.message);
+    mealPlanId = newMealPlan.id;
+  }
+
+  // 3. Insert the meal into the meal plan
+  const { error: itemError } = await supabase.from("meal_plan_items").insert({
+    meal_plan_id: mealPlanId,
+    meal_type: mealType,
+    recipe_id: recipeId,
+  });
+
+  if (itemError) throw new Error(itemError.message);
 }

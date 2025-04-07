@@ -8,7 +8,17 @@ import Error from "@/components/Error";
 import usePlanRecipes from "@/hooks/meal-plans/usePlanRecipes";
 import { PlanRecipe } from "@/lib/services/mealPlanService";
 
-export default function MealSelectionList({ userId }: { userId: string }) {
+interface MealSelectionListProps {
+  userId: string;
+  onAddMeal: (recipeId: string) => void;
+  isAdding: boolean;
+}
+
+export default function MealSelectionList({
+  userId,
+  onAddMeal,
+  isAdding,
+}: MealSelectionListProps) {
   const { recipes, isLoading, error } = usePlanRecipes(userId);
 
   if (isLoading) {
@@ -20,7 +30,12 @@ export default function MealSelectionList({ userId }: { userId: string }) {
       {error && <Error message="Error loading recipes" />}
 
       {recipes.map((recipe: PlanRecipe) => (
-        <PlanRecipeItem key={recipe.id} recipe={recipe} />
+        <PlanRecipeItem
+          key={recipe.id}
+          recipe={recipe}
+          onAction={() => onAddMeal(recipe.id)}
+          isAdding={isAdding}
+        />
       ))}
     </div>
   );

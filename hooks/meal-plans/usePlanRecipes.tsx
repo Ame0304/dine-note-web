@@ -3,7 +3,7 @@ import { getPlanRecipes } from "@/lib/services/mealPlanService";
 
 export default function usePlanRecipes(userId: string) {
   const { isLoading, data, error } = useQuery({
-    queryKey: ["meal-plan-recipes", userId],
+    queryKey: ["mealPlansRecipes", userId],
     enabled: !!userId,
     queryFn: () => getPlanRecipes(userId),
   });

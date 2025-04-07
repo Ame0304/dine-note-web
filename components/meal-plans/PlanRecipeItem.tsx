@@ -7,17 +7,26 @@ interface PlanRecipeItemProps {
   recipe: PlanRecipe;
   buttonType?: "add" | "remove";
   maxTagWidth?: string;
+  onAction?: () => void;
+  isAdding?: boolean;
 }
 
 export default function PlanRecipeItem({
   recipe,
   buttonType = "add",
   maxTagWidth = "max-w-[190px]",
+  onAction,
+  isAdding = false,
 }: PlanRecipeItemProps) {
+  const handleClick = () => {
+    if (onAction && !isAdding) {
+      onAction();
+    }
+  };
   const actionButton = (
     <Button size="xs">
       {buttonType === "add" ? (
-        <PlusIcon className="size-5 stroke-[4]" />
+        <PlusIcon className="size-5 stroke-[4]" onClick={handleClick} />
       ) : (
         <MinusIcon className="size-5 stroke-[4]" />
       )}
