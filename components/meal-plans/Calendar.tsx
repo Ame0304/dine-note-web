@@ -4,10 +4,11 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
 interface CalendarProps {
   onSelect: (date: Date) => void;
+  selectedDate: Date;
 }
 
-export default function Calendar({ onSelect }: CalendarProps) {
-  const [startDate, setStartDate] = useState(getStartOfWeek(new Date()));
+export default function Calendar({ onSelect, selectedDate }: CalendarProps) {
+  const [startDate, setStartDate] = useState(getStartOfWeek(selectedDate));
 
   // Get the start of the week (Monday)
   function getStartOfWeek(date: Date): Date {
@@ -53,10 +54,14 @@ export default function Calendar({ onSelect }: CalendarProps) {
             onClick={() => onSelect(date)}
             className={`px-1 py-2 w-8 text-xs sm:px-2 sm:py-4 sm:w-12 rounded-3xl sm:text-sm font-medium shadow-lg shadow-primary-900 transition-all hover:bg-accent-500 hover:text-white
           ${
-            date.toDateString() === today
+            date.toDateString() === selectedDate.toDateString()
               ? "bg-accent-500 text-white"
               : "bg-white/80"
-          }`}
+          } ${
+              date.toDateString() === today
+                ? "bg-accent-200/50 text-accent-500"
+                : ""
+            }`}
           >
             <div>
               {date.toLocaleDateString("en-US", {

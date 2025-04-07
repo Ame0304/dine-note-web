@@ -19,6 +19,16 @@ export default function MealPlansPage() {
     console.log(`Selected date: ${date.toDateString()}`);
   }
 
+  // Format the selected date to display
+  const formattedDate = selectedDate
+    .toLocaleDateString("en-US", {
+      weekday: "short",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+    .replace(/(\d+)\/(\d+)\/(\d+)/, "$3/$1/$2");
+
   return (
     <div className="px-4">
       <Heading level="h1" className="mb-4" styled="bg-accent-500">
@@ -28,13 +38,13 @@ export default function MealPlansPage() {
       <div className="grid grid-cols-1 lg:grid-cols-9 gap-6">
         {/* Left Container: Calendar & recipes list (2/3 width) */}
         <div className="col-span-9 lg:col-span-6 flex flex-col gap-4">
-          <Calendar onSelect={handleDateSelect} />
+          <Calendar onSelect={handleDateSelect} selectedDate={selectedDate} />
           <div className="flex flex-col items-start justify-between">
             <Heading level="h2" styled="bg-accent-400">
               Today&apos;s plan
             </Heading>
             <span className="text-accent-200/50 font-medium">
-              Wed 2025/04/02
+              {formattedDate}
             </span>
           </div>
           <TodayPlan userId={userId} selectedDate={selectedDate} />
