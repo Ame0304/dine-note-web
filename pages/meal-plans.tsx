@@ -6,6 +6,7 @@ import Calendar from "@/components/meal-plans/Calendar";
 import TodayPlan from "@/components/meal-plans/TodayPlan";
 import MealSelectionList from "@/components/meal-plans/MealSelectionList";
 import useAddMealToPlan from "@/hooks/meal-plans/useAddMealToPlan";
+import useMealPlans from "@/hooks/meal-plans/useMealPlans";
 
 export default function MealPlansPage() {
   // TODO: add subtle highlight on the selected meal type box
@@ -13,9 +14,14 @@ export default function MealPlansPage() {
   const userId = user?.id || "";
 
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const today = new Date();
   const [selectedMealType, setSelectedMealType] = useState("breakfast");
   const { isAdding, addMealToPlan } = useAddMealToPlan();
+
+  // Fetch the meal plan for the selected date
+  const { mealPlan } = useMealPlans(userId, selectedDate);
+
+  // Get the IDs of the planned meals for the selected date
+  const plannedMealIds = mealPlan?.meals.map((meal) => meal.recipe.id) || [];
 
   function handleMealTypeChange(mealType: string) {
     setSelectedMealType(mealType);
@@ -48,6 +54,8 @@ export default function MealPlansPage() {
     })
     .replace(/(\d+)\/(\d+)\/(\d+)/, "$3/$1/$2");
 
+  const today = new Date();
+
   return (
     <div className="px-4">
       <Heading level="h1" className="mb-4" styled="bg-accent-500">
@@ -68,9 +76,9 @@ export default function MealPlansPage() {
               {formattedDate}
             </span>
           </div>
+
           <TodayPlan
-            userId={userId}
-            selectedDate={selectedDate}
+            mealPlan={mealPlan || { mealPlanId: "", meals: [] }}
             selectedMealType={selectedMealType}
             onAdd={handleMealTypeChange}
             isAdding={isAdding}
@@ -102,6 +110,7 @@ export default function MealPlansPage() {
             userId={userId}
             onAddMeal={handleAddMealToPlan}
             isAdding={isAdding}
+            plannedMealIds={plannedMealIds}
           />
         </div>
       </div>

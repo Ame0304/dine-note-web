@@ -1,4 +1,8 @@
-import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
+import {
+  MinusIcon,
+  PlusIcon,
+  CheckCircleIcon,
+} from "@heroicons/react/24/outline";
 import Button from "../Button";
 import BaseRecipeItem from "@/components/BaseRecipeItem";
 import { PlanRecipe } from "@/lib/services/mealPlanService";
@@ -11,6 +15,7 @@ interface PlanRecipeItemProps {
   onAction?: () => void;
   isAdding?: boolean;
   mealItemId?: string;
+  isAlreadyPlanned?: boolean;
 }
 
 export default function PlanRecipeItem({
@@ -20,6 +25,7 @@ export default function PlanRecipeItem({
   onAction,
   isAdding = false,
   mealItemId,
+  isAlreadyPlanned = false,
 }: PlanRecipeItemProps) {
   const { deleteMeal, isDeleting } = useDeleteMeal();
   const handleClick = () => {
@@ -35,9 +41,13 @@ export default function PlanRecipeItem({
   };
 
   const actionButton = (
-    <Button size="xs" disabled={isAdding || isDeleting}>
+    <Button size="xs" disabled={isAdding || isDeleting || isAlreadyPlanned}>
       {buttonType === "add" ? (
-        <PlusIcon className="size-5 stroke-[4]" onClick={handleClick} />
+        isAlreadyPlanned ? (
+          <CheckCircleIcon className="size-5 stroke-[4] stroke-accent-200" />
+        ) : (
+          <PlusIcon className="size-5 stroke-[4]" onClick={handleClick} />
+        )
       ) : (
         <MinusIcon className="size-5 stroke-[4]" onClick={handleDelete} />
       )}

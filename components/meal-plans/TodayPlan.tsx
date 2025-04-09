@@ -1,34 +1,26 @@
 import PlanBox from "./PlanBox";
-import Loading from "@/components/Loading";
-import Error from "@/components/Error";
-import useMealPlans from "@/hooks/meal-plans/useMealPlans";
+import { PlanRecipe } from "@/lib/services/mealPlanService";
 
 interface TodayPlanProps {
-  userId: string;
-  selectedDate: Date;
+  mealPlan: {
+    mealPlanId: string;
+    meals: {
+      id: string;
+      recipe: PlanRecipe;
+      meal_type: string;
+    }[];
+  };
   selectedMealType: string;
   onAdd: (mealType: string) => void;
   isAdding?: boolean;
 }
 
 export default function TodayPlan({
-  userId,
-  selectedDate,
+  mealPlan,
   selectedMealType,
   onAdd,
   isAdding,
 }: TodayPlanProps) {
-  // Fetch the meal plan for the selected date
-  const { mealPlan, isLoading, error } = useMealPlans(userId, selectedDate);
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (error) {
-    return <Error message="Error fetching meal plans" />;
-  }
-
   const meals = mealPlan?.meals;
 
   // Get meals for each meal type

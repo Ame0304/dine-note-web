@@ -12,12 +12,14 @@ interface MealSelectionListProps {
   userId: string;
   onAddMeal: (recipeId: string) => void;
   isAdding: boolean;
+  plannedMealIds?: string[];
 }
 
 export default function MealSelectionList({
   userId,
   onAddMeal,
   isAdding,
+  plannedMealIds = [],
 }: MealSelectionListProps) {
   const { recipes, isLoading, error } = usePlanRecipes(userId);
 
@@ -35,6 +37,7 @@ export default function MealSelectionList({
           recipe={recipe}
           onAction={() => onAddMeal(recipe.id)}
           isAdding={isAdding}
+          isAlreadyPlanned={plannedMealIds.includes(recipe.id)}
         />
       ))}
     </div>
