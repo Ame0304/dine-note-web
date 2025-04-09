@@ -1,8 +1,4 @@
-import {
-  MinusIcon,
-  PlusIcon,
-  CheckCircleIcon,
-} from "@heroicons/react/24/outline";
+import { MinusIcon, PlusIcon, CheckIcon } from "@heroicons/react/24/outline";
 import Button from "../Button";
 import BaseRecipeItem from "@/components/BaseRecipeItem";
 import { PlanRecipe } from "@/lib/services/mealPlanService";
@@ -44,7 +40,7 @@ export default function PlanRecipeItem({
     <Button size="xs" disabled={isAdding || isDeleting || isAlreadyPlanned}>
       {buttonType === "add" ? (
         isAlreadyPlanned ? (
-          <CheckCircleIcon className="size-5 stroke-[4] stroke-accent-200" />
+          <CheckIcon className="size-5 stroke-[4]" />
         ) : (
           <PlusIcon className="size-5 stroke-[4]" onClick={handleClick} />
         )

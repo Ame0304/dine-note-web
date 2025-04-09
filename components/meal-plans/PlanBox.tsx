@@ -44,7 +44,7 @@ export default function PlanBox({
               mealItemId={meal.id}
               recipe={meal.recipe}
               buttonType="remove"
-              maxTagWidth="max-w-[220px]"
+              maxTagWidth="max-w-[210px]"
             />
           ))}
         </div>
