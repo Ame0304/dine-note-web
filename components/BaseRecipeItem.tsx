@@ -36,7 +36,7 @@ export default function BaseRecipeItem({
         alt={`recipe image of ${recipe.title}`}
         width={50}
         height={50}
-        className="h-14 w-14 rounded-2xl inline-block object-cover"
+        className="h-14 w-14 rounded-2xl inline-block object-cover shadow-lg"
       />
 
       <div className="flex flex-col items-start flex-1 min-w-0">

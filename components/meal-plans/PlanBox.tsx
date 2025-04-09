@@ -4,7 +4,7 @@ import { PlanRecipe } from "@/lib/services/mealPlanService";
 
 interface PlanBoxProps {
   typeTitle: string;
-  recipes?: PlanRecipe[];
+  meals?: { id: string; recipe: PlanRecipe }[];
   selected?: boolean;
   onAdd?: (mealType: string) => void;
   isAdding?: boolean;
@@ -12,7 +12,7 @@ interface PlanBoxProps {
 
 export default function PlanBox({
   typeTitle,
-  recipes,
+  meals,
   selected,
   onAdd,
   isAdding,
@@ -27,17 +27,22 @@ export default function PlanBox({
     <div>
       <Heading
         level="h5"
-        className={`mb-2 ${selected ? "text-accent-500" : ""}`}
+        className={`mb-2 ${
+          selected
+            ? "text-accent-500 scale-125 translate-x-10 transition-transform duration-300 ease-in-out"
+            : ""
+        }`}
       >
         {typeTitle}
       </Heading>
       {/* Placeholder for breakfast recipe */}
-      {recipes?.length ? (
+      {meals?.length ? (
         <div className="flex flex-col gap-2">
-          {recipes.map((recipe: PlanRecipe) => (
+          {meals.map((meal) => (
             <PlanRecipeItem
-              key={recipe.id}
-              recipe={recipe}
+              key={meal.id}
+              mealItemId={meal.id}
+              recipe={meal.recipe}
               buttonType="remove"
               maxTagWidth="max-w-[220px]"
             />

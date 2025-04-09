@@ -13,6 +13,7 @@ export default function MealPlansPage() {
   const userId = user?.id || "";
 
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const today = new Date();
   const [selectedMealType, setSelectedMealType] = useState("breakfast");
   const { isAdding, addMealToPlan } = useAddMealToPlan();
 
@@ -35,7 +36,6 @@ export default function MealPlansPage() {
 
   function handleDateSelect(date: Date) {
     setSelectedDate(date);
-    console.log(`Selected date: ${date.toDateString()}`);
   }
 
   // Format the selected date to display
@@ -60,7 +60,9 @@ export default function MealPlansPage() {
           <Calendar onSelect={handleDateSelect} selectedDate={selectedDate} />
           <div className="flex flex-col items-start justify-between">
             <Heading level="h2" styled="bg-accent-400">
-              Today&apos;s plan
+              {selectedDate.toDateString() === today.toDateString()
+                ? "Today's Plan"
+                : "Meal Plan for"}
             </Heading>
             <span className="text-accent-200/50 font-medium">
               {formattedDate}
@@ -74,6 +76,7 @@ export default function MealPlansPage() {
             isAdding={isAdding}
           />
         </div>
+
         {/* Right Container: Today's Plan (1/3 width) */}
         <div className="flex flex-col gap-4 col-span-9 lg:col-span-3 shadow-lg shadow-primary-900 rounded-xl bg-white/80 p-4 h-1/3 lg:h-[calc(100vh-150px)]">
           <div className="flex flex-col items-center gap-3">

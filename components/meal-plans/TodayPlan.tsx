@@ -31,47 +31,51 @@ export default function TodayPlan({
 
   const meals = mealPlan?.meals;
 
-  // Get the recipes array for each meal type
-  function getRecipesByMealType(mealType: string) {
+  // Get meals for each meal type
+  const getMealsByMealType = (mealType: string) => {
     const mealsOfThisType = meals?.filter(
       (meal) => meal.meal_type === mealType
     );
-    const recipes = mealsOfThisType?.map((meal) => {
+    const filteredMeals = mealsOfThisType?.map((meal) => {
       return {
-        id: meal.recipe.id,
-        title: meal.recipe.title,
-        imageUrl: meal.recipe.imageUrl,
-        categories: meal.recipe.categories,
+        id: meal.id,
+        recipe: {
+          id: meal.recipe.id,
+          title: meal.recipe.title,
+          imageUrl: meal.recipe.imageUrl,
+          categories: meal.recipe.categories,
+        },
       };
     });
-    return recipes;
-  }
+
+    return filteredMeals;
+  };
 
   // Get recipes for each meal type
-  const lunchRecipes = getRecipesByMealType("lunch") || [];
-  const breakfastRecipes = getRecipesByMealType("breakfast") || [];
-  const dinnerRecipes = getRecipesByMealType("dinner") || [];
-  const snackRecipes = getRecipesByMealType("snack") || [];
+  const lunchMeals = getMealsByMealType("lunch") || [];
+  const breakfastMeals = getMealsByMealType("breakfast") || [];
+  const dinnerMeals = getMealsByMealType("dinner") || [];
+  const snackMeals = getMealsByMealType("snack") || [];
 
   const planBoxes = [
     {
       type: "Breakfast",
-      recipes: breakfastRecipes,
+      meals: breakfastMeals,
       selected: selectedMealType === "breakfast",
     },
     {
       type: "Lunch",
-      recipes: lunchRecipes,
+      meals: lunchMeals,
       selected: selectedMealType === "lunch",
     },
     {
       type: "Dinner",
-      recipes: dinnerRecipes,
+      meals: dinnerMeals,
       selected: selectedMealType === "dinner",
     },
     {
       type: "Snack",
-      recipes: snackRecipes,
+      meals: snackMeals,
       selected: selectedMealType === "snack",
     },
   ];
@@ -81,7 +85,7 @@ export default function TodayPlan({
       {planBoxes.map((box) => (
         <PlanBox
           key={box.type}
-          recipes={box.recipes}
+          meals={box.meals}
           selected={box.selected}
           typeTitle={box.type}
           onAdd={onAdd}

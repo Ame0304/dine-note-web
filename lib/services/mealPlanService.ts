@@ -165,3 +165,12 @@ export async function addMealToPlan({
 
   if (itemError) throw new Error(itemError.message);
 }
+
+export async function removeMealFromPlan(mealPlanItemId: string) {
+  const { error } = await supabase
+    .from("meal_plan_items")
+    .delete()
+    .eq("id", mealPlanItemId);
+
+  if (error) throw new Error(error.message);
+}

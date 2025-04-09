@@ -2,6 +2,7 @@ import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import Button from "../Button";
 import BaseRecipeItem from "@/components/BaseRecipeItem";
 import { PlanRecipe } from "@/lib/services/mealPlanService";
+import useDeleteMeal from "@/hooks/meal-plans/useDeleteMeal";
 
 interface PlanRecipeItemProps {
   recipe: PlanRecipe;
@@ -9,6 +10,7 @@ interface PlanRecipeItemProps {
   maxTagWidth?: string;
   onAction?: () => void;
   isAdding?: boolean;
+  mealItemId?: string;
 }
 
 export default function PlanRecipeItem({
@@ -17,18 +19,27 @@ export default function PlanRecipeItem({
   maxTagWidth = "max-w-[190px]",
   onAction,
   isAdding = false,
+  mealItemId,
 }: PlanRecipeItemProps) {
+  const { deleteMeal, isDeleting } = useDeleteMeal();
   const handleClick = () => {
     if (onAction && !isAdding) {
       onAction();
     }
   };
+
+  const handleDelete = () => {
+    if (mealItemId) {
+      deleteMeal(mealItemId);
+    }
+  };
+
   const actionButton = (
-    <Button size="xs">
+    <Button size="xs" disabled={isAdding || isDeleting}>
       {buttonType === "add" ? (
         <PlusIcon className="size-5 stroke-[4]" onClick={handleClick} />
       ) : (
-        <MinusIcon className="size-5 stroke-[4]" />
+        <MinusIcon className="size-5 stroke-[4]" onClick={handleDelete} />
       )}
     </Button>
   );
