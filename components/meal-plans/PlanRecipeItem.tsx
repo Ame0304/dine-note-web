@@ -73,14 +73,16 @@ export default function PlanRecipeItem({
             variant="mealPlan"
             disabled={isDeleting}
             onClick={handleDelete}
-            className="bg-primary-950"
+            className="bg-primary-950 text-primary-100"
           >
             <MinusIcon className="size-5 stroke-[4]" />
           </Button>
 
           <button
-            className={`px-0.5 py-0.5 text-sm hover:bg-accent-200 hover:text-accent-500 rounded-xl shadow-lg font-medium border-2 border-accent-200 ${
-              isCompleted ? "bg-accent-200 text-accent-500" : "bg-primary-950"
+            className={`px-0.5 py-0.5 text-sm rounded-xl shadow-lg font-medium border-2 border-accent-200  ${
+              isCompleted
+                ? "bg-accent-500 text-primary-950"
+                : "bg-primary-950 hover:bg-accent-200 hover:text-accent-500"
             }`}
             onClick={handleToggleCompleted}
             disabled={isUpdating}
@@ -95,7 +97,7 @@ export default function PlanRecipeItem({
   return (
     <BaseRecipeItem
       className={`px-2 py-1 rounded-xl ${
-        isCompleted ? "bg-accent-200/20" : ""
+        isCompleted ? "bg-accent-200 text-primary-950" : ""
       } `}
       recipe={recipe}
       rightElement={actionButtons}

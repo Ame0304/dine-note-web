@@ -1,5 +1,6 @@
 import PlanBox from "./PlanBox";
 import { PlanRecipe } from "@/lib/services/mealPlanService";
+import { getMealsByMealType } from "@/lib/helpers";
 
 interface TodayPlanProps {
   mealPlan: {
@@ -24,32 +25,11 @@ export default function TodayPlan({
 }: TodayPlanProps) {
   const meals = mealPlan?.meals;
 
-  // Get meals for each meal type
-  const getMealsByMealType = (mealType: string) => {
-    const mealsOfThisType = meals?.filter(
-      (meal) => meal.meal_type === mealType
-    );
-    const filteredMeals = mealsOfThisType?.map((meal) => {
-      return {
-        id: meal.id,
-        completed: meal.completed,
-        recipe: {
-          id: meal.recipe.id,
-          title: meal.recipe.title,
-          imageUrl: meal.recipe.imageUrl,
-          categories: meal.recipe.categories,
-        },
-      };
-    });
-
-    return filteredMeals;
-  };
-
   // Get recipes for each meal type
-  const lunchMeals = getMealsByMealType("lunch") || [];
-  const breakfastMeals = getMealsByMealType("breakfast") || [];
-  const dinnerMeals = getMealsByMealType("dinner") || [];
-  const snackMeals = getMealsByMealType("snack") || [];
+  const lunchMeals = getMealsByMealType(meals, "lunch") || [];
+  const breakfastMeals = getMealsByMealType(meals, "breakfast") || [];
+  const dinnerMeals = getMealsByMealType(meals, "dinner") || [];
+  const snackMeals = getMealsByMealType(meals, "snack") || [];
 
   const planBoxes = [
     {

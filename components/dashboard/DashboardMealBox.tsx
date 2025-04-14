@@ -1,8 +1,9 @@
 import React from "react";
-import { PlanRecipe } from "@/lib/services/mealPlanService";
-import BaseRecipeItem from "@/components/BaseRecipeItem";
 import Link from "next/link";
+import { PlanRecipe } from "@/lib/services/mealPlanService";
+import { getMealsByMealType } from "@/lib/helpers";
 import { ChevronRightIcon } from "@heroicons/react/24/outline";
+import BaseRecipeItem from "@/components/BaseRecipeItem";
 
 interface DashboardMealBoxProps {
   todayMeals: {
@@ -21,23 +22,12 @@ export default function DashboardMealBox({
 }: DashboardMealBoxProps) {
   const meals = todayMeals?.meals || [];
 
-  // Helper function to filter meals by type
-  const getMealsByMealType = (mealType: string) => {
-    return meals
-      .filter((meal) => meal.meal_type === mealType)
-      .map((meal) => ({
-        id: meal.id,
-        completed: meal.completed,
-        recipe: meal.recipe,
-      }));
-  };
-
   // Get meals for each type
   const mealsByType = {
-    breakfast: getMealsByMealType("breakfast"),
-    lunch: getMealsByMealType("lunch"),
-    dinner: getMealsByMealType("dinner"),
-    snack: getMealsByMealType("snack"),
+    breakfast: getMealsByMealType(meals, "breakfast"),
+    lunch: getMealsByMealType(meals, "lunch"),
+    dinner: getMealsByMealType(meals, "dinner"),
+    snack: getMealsByMealType(meals, "snack"),
   };
 
   // Meal type display config

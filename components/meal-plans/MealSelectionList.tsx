@@ -28,7 +28,7 @@ export default function MealSelectionList({
   }
 
   return (
-    <div className="flex flex-col gap-4 overflow-y-auto flex-grow scrollbar-hide">
+    <div className="flex flex-col overflow-y-auto flex-grow scrollbar-hide">
       {error && <Error message="Error loading recipes" />}
 
       {recipes.map((recipe: PlanRecipe) => (

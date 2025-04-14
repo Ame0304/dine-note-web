@@ -19,7 +19,7 @@ export default function MealSelectionBox({
   handleAddMealToPlan,
 }: MealSelectionBoxProps) {
   return (
-    <div className="flex flex-col gap-4 col-span-9 lg:col-span-3 shadow-lg shadow-primary-900 rounded-xl bg-white/50 p-4 h-1/3 lg:h-[calc(100vh-150px)]">
+    <div className="flex flex-col gap-3 col-span-9 lg:col-span-3 shadow-lg shadow-primary-900 rounded-xl bg-white/50 p-4 h-1/3 lg:h-[calc(100vh-150px)]">
       <div className="flex flex-col items-center gap-3">
         <Heading level="h3" className="my-2">
           Select a meal for
