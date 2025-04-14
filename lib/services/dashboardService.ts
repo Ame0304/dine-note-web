@@ -1,4 +1,5 @@
 import { SupabaseClient } from "@supabase/supabase-js";
+import { calculateStreaks } from "@/lib/helpers";
 
 export interface AnalyticsData {
   totalRecipes: string;
@@ -38,7 +39,7 @@ interface FetchedRecipe {
   created_at: string;
 }
 
-export async function fetchDashboardData(
+export async function fetchDashboardRecipeDate(
   userId: string,
   supabase: SupabaseClient
 ): Promise<AnalyticsData> {
@@ -143,4 +144,30 @@ export async function fetchDashboardData(
     console.error("Error fetching dashboard data:", error);
     throw new Error("Failed to load dashboard data");
   }
+}
+
+export async function getStreaks(userId: string, supabase: SupabaseClient) {
+  // 1. Get cooked dates
+  const { data, error } = await supabase
+    .from("meal_plans")
+    .select(
+      `
+    date,
+    meal_plan_items!inner(completed)
+  `
+    )
+    .eq("user_id", userId)
+    .eq("meal_plan_items.completed", true);
+
+  if (error) {
+    console.error("Error fetching cooked dates:", error);
+  }
+
+  const cookedDates = Array.from(
+    new Set(data?.map((entry) => entry.date))
+  ).sort();
+
+  const { longest, current } = calculateStreaks(cookedDates);
+
+  return { longest, current };
 }

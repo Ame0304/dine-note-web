@@ -1,7 +1,8 @@
 import { createClient } from "@/lib/supabase/server-props";
 import {
-  fetchDashboardData,
+  fetchDashboardRecipeDate,
   RecentRecipe,
+  getStreaks,
 } from "@/lib/services/dashboardService";
 import { AnalyticsData } from "@/lib/services/dashboardService";
 import { GetServerSidePropsContext } from "next";
@@ -13,7 +14,7 @@ import { PlanRecipe } from "@/lib/services/mealPlanService";
 import {
   FireIcon,
   LightBulbIcon,
-  PuzzlePieceIcon,
+  TrophyIcon,
 } from "@heroicons/react/24/outline";
 import Heading from "@/components/Heading";
 import Widget from "@/components/dashboard/Widget";
@@ -27,6 +28,7 @@ export default function DashboardPage({
   userName,
   initalAnalytics,
   todayMeals,
+  streaks,
 }: {
   userName: string;
   userId: string;
@@ -40,6 +42,7 @@ export default function DashboardPage({
       completed: boolean;
     }[];
   };
+  streaks: { longest: number; current: number };
 }) {
   const {
     totalRecipes,
@@ -69,15 +72,19 @@ export default function DashboardPage({
           </Widget>
           <Widget size="small">
             <Stat
-              title="Recipes Tried"
-              value={`${triedRecipesPercentage}%`}
+              title="Longest Streak"
+              value={`${streaks.longest} days`}
               color="yellow"
             >
-              <PuzzlePieceIcon className="w-8 h-8 text-yellow-500" />
+              <TrophyIcon className="w-8 h-8 text-yellow-500" />
             </Stat>
           </Widget>
           <Widget size="small">
-            <Stat title="Streak" value="5 days" color="red">
+            <Stat
+              title="Current Streak"
+              value={`${streaks.current} days`}
+              color="red"
+            >
               <FireIcon className="w-8 h-8 text-red-500" />
             </Stat>
           </Widget>
@@ -100,6 +107,10 @@ export default function DashboardPage({
               Recipe Progress
             </Heading>
             <TriedChart data={triedVsUntriedData} />
+            <Heading level="h5">
+              Tried:{" "}
+              <span className="text-accent-500">{triedRecipesPercentage}%</span>
+            </Heading>
           </Widget>
 
           {/* Category Chart */}
@@ -188,9 +199,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const formattedDate = format(new Date(today), "yyyy-MM-dd");
 
   try {
-    const [initalAnalytics, todayMeals] = await Promise.all([
-      fetchDashboardData(userId, supabase),
+    const [initalAnalytics, todayMeals, streaks] = await Promise.all([
+      fetchDashboardRecipeDate(userId, supabase),
       getMealPlans(userId, formattedDate, supabase),
+      getStreaks(userId, supabase),
     ]);
 
     return {
@@ -198,6 +210,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         userName,
         initalAnalytics,
         todayMeals,
+        streaks,
       },
     };
   } catch (error) {
@@ -207,6 +220,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         userName,
         initalAnalytics: null,
         todayMeals: null,
+        streaks: null,
         error: "Failed to fetch dashboard data",
       },
     };

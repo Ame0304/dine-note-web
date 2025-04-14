@@ -1,4 +1,5 @@
 import { PlanRecipe } from "@/lib/services/mealPlanService";
+import { differenceInCalendarDays, parseISO, isToday } from "date-fns";
 
 export interface MealItem {
   id: string;
@@ -44,3 +45,52 @@ export const mealTypes = [
   { id: "dinner", label: "Dinner", emoji: "🍲" },
   { id: "snack", label: "Snack", emoji: "🍇" },
 ];
+
+/*
+ * Calculates the longest and current streak of cooked meals
+ * @param cookedDateStrings Array of date strings representing cooked dates
+ * @returns Object containing the longest and current streaks
+ */
+
+export function calculateStreaks(cookedDateStrings: string[]) {
+  // 1. Sort the dates
+  const dates = cookedDateStrings
+    .map((d) => parseISO(d))
+    .sort((a, b) => a.getTime() - b.getTime());
+
+  // 2. Calculate longest streak
+  let longest = 0;
+  let current = 0;
+  let tempStreak = 1;
+
+  for (let i = 1; i < dates.length; i++) {
+    const diff = differenceInCalendarDays(dates[i], dates[i - 1]);
+    if (diff === 1) {
+      tempStreak++;
+    } else if (diff > 1) {
+      // Reset streak if there's a gap
+      longest = Math.max(longest, tempStreak);
+      tempStreak = 1;
+    }
+  }
+
+  longest = Math.max(longest, tempStreak);
+
+  // Current streak: the number of consecutive past days up to today where the user has cooked without skipping a day.
+
+  for (let i = dates.length - 1; i >= 0; i--) {
+    //If latestCookedDate is today, we check streak ending today.
+    // If not, we still check how many consecutive past days up to that day were cooked.
+    const latestCookedDate = isToday(dates[dates.length - 1])
+      ? new Date()
+      : dates[dates.length - 1];
+    const currentDate = dates[i];
+
+    const diff = differenceInCalendarDays(latestCookedDate, currentDate);
+    if (diff === current) {
+      current++;
+    } else break;
+  }
+
+  return { longest, current };
+}
