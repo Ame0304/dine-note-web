@@ -6,6 +6,7 @@ interface TodayPlanProps {
     mealPlanId: string;
     meals: {
       id: string;
+      completed: boolean;
       recipe: PlanRecipe;
       meal_type: string;
     }[];
@@ -31,6 +32,7 @@ export default function TodayPlan({
     const filteredMeals = mealsOfThisType?.map((meal) => {
       return {
         id: meal.id,
+        completed: meal.completed,
         recipe: {
           id: meal.recipe.id,
           title: meal.recipe.title,
@@ -73,7 +75,7 @@ export default function TodayPlan({
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       {planBoxes.map((box) => (
         <PlanBox
           key={box.type}

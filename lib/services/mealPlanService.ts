@@ -22,6 +22,7 @@ export interface PlanRecipe {
 export interface MealPlanItem {
   id: string;
   meal_type: string;
+  completed: boolean;
   recipe: PlanRecipe;
 }
 
@@ -96,6 +97,7 @@ export async function getMealPlans(userId: string, date: string) {
       `
       id,
       meal_type,
+      completed,
       recipe:recipes(id, title, imageUrl, recipe_categories(category:categories(id, name, color)))
     `
     )
@@ -116,6 +118,7 @@ export async function getMealPlans(userId: string, date: string) {
     return {
       id: item.id,
       meal_type: item.meal_type,
+      completed: item.completed,
       recipe: {
         id: recipe.id,
         title: recipe.title,
@@ -170,6 +173,18 @@ export async function removeMealFromPlan(mealPlanItemId: string) {
   const { error } = await supabase
     .from("meal_plan_items")
     .delete()
+    .eq("id", mealPlanItemId);
+
+  if (error) throw new Error(error.message);
+}
+
+export async function toggleMealCompleted(
+  mealPlanItemId: string,
+  completed: boolean
+) {
+  const { error } = await supabase
+    .from("meal_plan_items")
+    .update({ completed })
     .eq("id", mealPlanItemId);
 
   if (error) throw new Error(error.message);

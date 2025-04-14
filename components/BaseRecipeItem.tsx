@@ -30,7 +30,7 @@ export default function BaseRecipeItem({
   maxTagWidth = "max-w-[190px]",
 }: BaseRecipeItemProps) {
   return (
-    <div className={`flex items-center gap-3 ${className}`}>
+    <div className={`flex items-center gap-2 ${className}`}>
       <Image
         src={recipe.imageUrl || "/default-recipe.png"}
         alt={`recipe image of ${recipe.title}`}

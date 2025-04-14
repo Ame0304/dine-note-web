@@ -4,7 +4,7 @@ import { PlanRecipe } from "@/lib/services/mealPlanService";
 
 interface PlanBoxProps {
   typeTitle: string;
-  meals?: { id: string; recipe: PlanRecipe }[];
+  meals?: { id: string; completed: boolean; recipe: PlanRecipe }[];
   selected?: boolean;
   onAdd?: (mealType: string) => void;
   isAdding?: boolean;
@@ -43,18 +43,20 @@ export default function PlanBox({
               key={meal.id}
               mealItemId={meal.id}
               recipe={meal.recipe}
-              buttonType="remove"
-              maxTagWidth="max-w-[210px]"
+              buttonType="multiple"
+              maxTagWidth="max-w-[170px]"
+              isCompleted={meal.completed}
             />
           ))}
         </div>
       ) : (
         <div
-          className={`bg-accent-200/20 border-4 rounded-xl p-4 text-center border-dashed border-accent-200/50 transition-transform duration-300 ease-in-out  ${
+          className={`bg-accent-200/20 border-4 rounded-xl p-4 text-center border-dashed border-accent-200/50 transition-transform duration-300 ease-in-out cursor-pointer  ${
             selected ? "shadow-[0px_0px_60px_16px_#fcdab8] scale-105" : ""
           }`}
+          onClick={handleOnClick}
         >
-          <span>No meals planned for {typeTitle}</span>
+          <span>Add meals for {typeTitle}</span>
         </div>
       )}
 
