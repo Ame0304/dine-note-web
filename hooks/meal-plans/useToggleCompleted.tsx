@@ -20,6 +20,16 @@ export default function useToggleCompleted() {
       queryClient.invalidateQueries({
         queryKey: ["mealPlans"],
       });
+
+      if (data.recipeStatusChanged) {
+        queryClient.invalidateQueries({
+          queryKey: ["recipes"],
+        });
+
+        queryClient.invalidateQueries({
+          queryKey: ["recipe", data.recipeId],
+        });
+      }
     },
     onError: (error) => {
       toast.error("Failed to update this meal plan");

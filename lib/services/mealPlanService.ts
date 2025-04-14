@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/component";
 import { FetchedRecipeCategoryLink } from "./dashboardService";
 import { SupabaseClient } from "@supabase/supabase-js";
+import { toggleTried } from "./recipeService";
 
 interface FetchedRecipe {
   id: string;
@@ -190,10 +191,36 @@ export async function toggleMealCompleted(
   mealPlanItemId: string,
   completed: boolean
 ) {
-  const { error } = await supabase
+  // 1. Update the meal plan item to mark it as completed or not
+  const { data: updatedMeal, error } = await supabase
     .from("meal_plan_items")
     .update({ completed })
-    .eq("id", mealPlanItemId);
+    .eq("id", mealPlanItemId)
+    .select("recipe_id, completed")
+    .single();
 
   if (error) throw new Error(error.message);
+
+  let recipeStatusChanged = false;
+  const recipeId = updatedMeal.recipe_id;
+
+  // 2.If marking as completed, check if the recipe is not already marked as tried
+
+  if (completed) {
+    const { data: recipe, error: recipeError } = await supabase
+      .from("recipes")
+      .select("tried")
+      .eq("id", updatedMeal.recipe_id)
+      .single();
+
+    if (recipeError) throw new Error(recipeError.message);
+
+    // Only update if the recipe is not already marked as tried
+    if (recipe && !recipe.tried) {
+      await toggleTried({ tried: true, id: recipeId });
+      recipeStatusChanged = true;
+    }
+  }
+
+  return { mealData: updatedMeal, recipeStatusChanged, recipeId };
 }

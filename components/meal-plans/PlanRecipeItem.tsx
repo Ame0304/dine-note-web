@@ -26,6 +26,7 @@ export default function PlanRecipeItem({
   isAlreadyPlanned = false,
   isCompleted = false,
 }: PlanRecipeItemProps) {
+  console.log(recipe);
   const { deleteMeal, isDeleting } = useDeleteMeal();
   const { toggleCompleted, isUpdating } = useToggleCompleted();
   const handleClick = () => {
