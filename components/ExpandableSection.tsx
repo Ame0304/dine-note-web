@@ -19,7 +19,7 @@ export default function ExpandableSection({
   const [isExpanded, setIsExpanded] = useState(true);
 
   return (
-    <div className="mt-4 p-4 rounded-2xl border-4 border-accent-200 bg-white/80">
+    <div className="mt-4 p-4 rounded-2xl border-4 border-accent-200 bg-white/50">
       <div
         className="flex items-center justify-between cursor-pointer"
         onClick={() => setIsExpanded(!isExpanded)}

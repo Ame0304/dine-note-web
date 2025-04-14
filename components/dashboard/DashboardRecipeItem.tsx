@@ -21,7 +21,6 @@ export default function DashboardRecipeItem({
     <li className="border-b py-2">
       <BaseRecipeItem
         recipe={{ ...recipe, imageUrl: recipe.imageUrl ?? "" }}
-        imageSize="lg"
         rightElement={viewLink}
         maxTagWidth="max-w-[200px]"
       />

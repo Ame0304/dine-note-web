@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/component";
 import { FetchedRecipeCategoryLink } from "./dashboardService";
+import { SupabaseClient } from "@supabase/supabase-js";
 
 interface FetchedRecipe {
   id: string;
@@ -75,7 +76,14 @@ export async function getPlanRecipes(userId: string) {
   return mealPlanRecipes;
 }
 
-export async function getMealPlans(userId: string, date: string) {
+export async function getMealPlans(
+  userId: string,
+  date: string,
+  supabase?: SupabaseClient
+) {
+  if (!supabase) {
+    supabase = createClient();
+  }
   // 1. Fetch the meal plan ID for the given date
   const { data: mealPlan, error: planError } = await supabase
     .from("meal_plans")

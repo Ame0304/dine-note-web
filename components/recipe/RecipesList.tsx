@@ -19,7 +19,7 @@ export default function RecipesList({ recipes }: { recipes: Recipe[] }) {
         ))
       ) : (
         <div className="col-span-full text-center py-10">
-          <Heading styled={true} level="h3">
+          <Heading styled={"bg-accent-500"} level="h3">
             No recipes found.
           </Heading>
         </div>

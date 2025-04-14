@@ -1,9 +1,10 @@
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   size?: "xs" | "small" | "regular" | "large" | "full";
-  variant?: "primary" | "alert" | "link" | "outline";
+  variant?: "primary" | "alert" | "link" | "outline" | "mealPlan";
   isLoading?: boolean;
   icon?: React.ReactNode;
+  className?: string;
 }
 
 export default function Button({
@@ -12,10 +13,11 @@ export default function Button({
   variant = "primary",
   isLoading,
   icon,
+  className,
   ...props
 }: ButtonProps) {
   const sizeClasses = {
-    xs: "px-1 py-1 text-sm",
+    xs: "px-0.5 py-0.5 text-sm",
     small: "px-2 py-1 text-sm",
     regular: "px-3 py-2 text-base",
     large: "px-4 py-3 text-lg",
@@ -29,6 +31,8 @@ export default function Button({
     link: "text-accent-200 transition-colors bg-transparent shadow-none",
     outline:
       "border-2 border-accent-200 text-accent-200 hover:text-accent-500 hover:border-accent-500",
+    mealPlan:
+      "border-accent-200 border-2 hover:bg-accent-200 hover:text-accent-500",
   };
 
   // Link variant with icon has different styling
@@ -38,7 +42,7 @@ export default function Button({
         {...props}
         className={`flex items-center gap-2 text-sm disabled:opacity-60 disabled:cursor-not-allowed ${
           variantClasses[variant]
-        } ${props.className || ""}  `}
+        } ${className || ""}  `}
       >
         <>
           <span>{children}</span>
@@ -50,8 +54,12 @@ export default function Button({
 
   return (
     <button
+      className={`rounded-xl shadow-lg ${sizeClasses[size]} ${
+        variantClasses[variant]
+      } disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-medium ${
+        className || ""
+      }`}
       {...props}
-      className={`rounded-xl shadow-lg ${sizeClasses[size]} ${variantClasses[variant]} disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-medium`}
     >
       {isLoading ? (
         <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-accent-500 border-r-transparent" />

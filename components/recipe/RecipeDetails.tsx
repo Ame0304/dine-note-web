@@ -7,10 +7,10 @@ import StepRow from "./StepRow";
 
 export default function RecipeDetails({ recipe }: { recipe: Recipe }) {
   return (
-    <div className="bg-white/30 rounded-2xl md:w-2/3 shadow-lg py-6 px-8 mx-auto w-full border-4 border-accent-200/50">
+    <div className="bg-white/50 rounded-2xl md:w-2/3 shadow-lg py-6 px-8 mx-auto w-full border-4 border-accent-200">
       <TriedBadge tried={recipe.tried} id={recipe.id} />
       <div className="text-center">
-        <Heading level="h3" styled={true} className="text-accent-200">
+        <Heading level="h3" styled="bg-accent-500" className="text-accent-200">
           Recipe Details
         </Heading>
       </div>

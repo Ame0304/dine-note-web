@@ -5,6 +5,10 @@ import {
 } from "@/lib/services/dashboardService";
 import { AnalyticsData } from "@/lib/services/dashboardService";
 import { GetServerSidePropsContext } from "next";
+import Link from "next/link";
+import { format } from "date-fns";
+import { getMealPlans } from "@/lib/services/mealPlanService";
+import { PlanRecipe } from "@/lib/services/mealPlanService";
 
 import {
   FireIcon,
@@ -17,14 +21,25 @@ import Stat from "@/components/dashboard/Stat";
 import DashboardRecipeItem from "@/components/dashboard/DashboardRecipeItem";
 import TriedChart from "@/components/dashboard/TriedChart";
 import CategoryChart from "@/components/dashboard/CategoryChart";
+import DashboardMealBox from "@/components/dashboard/DashboardMealBox";
 
 export default function DashboardPage({
   userName,
   initalAnalytics,
+  todayMeals,
 }: {
   userName: string;
   userId: string;
   initalAnalytics: AnalyticsData;
+  todayMeals: {
+    mealPlanId: string;
+    meals: {
+      id: string;
+      recipe: PlanRecipe;
+      meal_type: string;
+      completed: boolean;
+    }[];
+  };
 }) {
   const {
     totalRecipes,
@@ -33,6 +48,8 @@ export default function DashboardPage({
     recentRecipes,
     categoryChart,
   } = initalAnalytics;
+
+  console.log(todayMeals);
 
   return (
     <>
@@ -105,11 +122,31 @@ export default function DashboardPage({
         {/* Right Container: Meal Plan (1/3 width) */}
         <div className="flex flex-col gap-4 col-span-3">
           <Widget size="medium">
-            <p>Today&apos;s Meals:</p>
-            <ul className="mt-2 space-y-2">
-              <li className="border-b py-2">🍲 Miso Soup</li>
-              <li className="border-b py-2">🥗 Avocado Salad</li>
-            </ul>
+            <div className="flex justify-between items-center mb-2">
+              <Heading level="h4" styled="bg-accent-500">
+                Today&apos;s Meals
+              </Heading>
+              <Link
+                href="/meal-plans"
+                className="text-sm hover:text-accent-500"
+              >
+                View all →
+              </Link>
+            </div>
+
+            {todayMeals ? (
+              <DashboardMealBox todayMeals={todayMeals} />
+            ) : (
+              <div className="text-center py-4 text-primary-50">
+                <p>No meals planned for today</p>
+                <Link
+                  href="/meal-plans"
+                  className="mt-2 inline-block text-accent-500 text-md"
+                >
+                  Plan your meals →
+                </Link>
+              </div>
+            )}
           </Widget>
 
           <Widget size="medium">
@@ -121,10 +158,8 @@ export default function DashboardPage({
           </Widget>
 
           <p>
-            1. Today’s Meals 🍽️ (List of today’s planned meals) Meal Plan 2.
-            Completion Rate ✅ (How many planned meals were completed this week)
-            3. Most Planned Recipe 🏆 (The most frequently added recipe to meal
-            plans)
+            2. Completion Rate ✅ (How many planned meals were completed this
+            week)
           </p>
         </div>
       </div>
@@ -149,14 +184,20 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   const userName = data?.user.user_metadata.full_name;
   const userId = data?.user.id;
+  const today = new Date();
+  const formattedDate = format(new Date(today), "yyyy-MM-dd");
 
   try {
-    const initalAnalytics = await fetchDashboardData(userId, supabase);
+    const [initalAnalytics, todayMeals] = await Promise.all([
+      fetchDashboardData(userId, supabase),
+      getMealPlans(userId, formattedDate, supabase),
+    ]);
 
     return {
       props: {
         userName,
         initalAnalytics,
+        todayMeals,
       },
     };
   } catch (error) {
@@ -165,6 +206,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       props: {
         userName,
         initalAnalytics: null,
+        todayMeals: null,
         error: "Failed to fetch dashboard data",
       },
     };

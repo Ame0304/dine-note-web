@@ -46,12 +46,19 @@ export default function PlanRecipeItem({
     }
   };
 
-  // TODO: add recipe detail link to plan recipe item
-
   const actionButtons = (
     <>
       {buttonType === "add" && (
-        <Button size="xs" disabled={isAdding}>
+        <Button
+          size="xs"
+          disabled={isAdding}
+          variant="mealPlan"
+          className={`${
+            isAlreadyPlanned
+              ? "bg-accent-200 text-accent-500"
+              : "bg-primary-950"
+          }`}
+        >
           {isAlreadyPlanned ? (
             <CheckIcon className="size-5 stroke-[4]" />
           ) : (
@@ -61,13 +68,19 @@ export default function PlanRecipeItem({
       )}
       {buttonType === "multiple" && (
         <div className="flex gap-1">
-          <Button size="xs" disabled={isDeleting} onClick={handleDelete}>
+          <Button
+            size="xs"
+            variant="mealPlan"
+            disabled={isDeleting}
+            onClick={handleDelete}
+            className="bg-primary-950"
+          >
             <MinusIcon className="size-5 stroke-[4]" />
           </Button>
 
           <button
-            className={`px-1 py-1 text-sm   text-primary-950 hover:bg-accent-400 rounded-xl shadow-lg font-medium ${
-              isCompleted ? "bg-accent-400" : "bg-accent-500"
+            className={`px-0.5 py-0.5 text-sm hover:bg-accent-200 hover:text-accent-500 rounded-xl shadow-lg font-medium border-2 border-accent-200 ${
+              isCompleted ? "bg-accent-200 text-accent-500" : "bg-primary-950"
             }`}
             onClick={handleToggleCompleted}
             disabled={isUpdating}
@@ -81,9 +94,9 @@ export default function PlanRecipeItem({
 
   return (
     <BaseRecipeItem
-      className={`px-2 py-1 ${
-        isCompleted ? "bg-accent-500/20  rounded-xl" : ""
-      }`}
+      className={`px-2 py-1 rounded-xl ${
+        isCompleted ? "bg-accent-200/20" : ""
+      } `}
       recipe={recipe}
       rightElement={actionButtons}
       maxTagWidth={maxTagWidth}

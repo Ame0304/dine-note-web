@@ -10,6 +10,7 @@ interface DailyPlanBoxProps {
       id: string;
       recipe: PlanRecipe;
       meal_type: string;
+      completed: boolean;
     }[];
   };
   selectedMealType: string;

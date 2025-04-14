@@ -21,7 +21,7 @@ function RecipeDetail() {
   if (!recipe) return <div>Recipe not found</div>;
 
   return (
-    <div className="container mx-auto sm:max-w-6xl">
+    <div className="container px-4 mx-auto sm:max-w-6xl">
       {/* Back button */}
       <Button onClick={() => router.push("/recipes")}>Back</Button>
       <div className="mt-6 flex flex-col md:flex-row gap-6 justify-center">
