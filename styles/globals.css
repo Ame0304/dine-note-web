@@ -9,3 +9,46 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none; /* Chrome, Safari and Opera */
 }
+
+.react-calendar-heatmap .color-empty {
+  fill: rgb(60 35 23 / 0.2) !important;
+}
+.react-calendar-heatmap .color-scale-1 {
+  fill: #cceaf5;
+}
+.react-calendar-heatmap .color-scale-2 {
+  fill: #a1e6ff;
+}
+.react-calendar-heatmap .color-scale-3 {
+  fill: #55d2ff;
+}
+.react-calendar-heatmap .color-scale-4 {
+  fill: #16c1ff;
+}
+
+.react-calendar-heatmap .react-calendar-heatmap-month-label {
+  font-size: 8px;
+  fill: #98d8ef;
+  font-weight: 500;
+}
+
+.react-calendar-heatmap rect {
+  width: 8px;
+  height: 8px;
+  rx: 2px; /* optional: round corners for a softer look */
+  ry: 2px;
+}
+
+.react-calendar-heatmap rect:focus {
+  outline: none;
+}
+
+#calendar-tooltip {
+  background-color: #fff4e5;
+  color: #3c2317;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 2px 8px #fcdab8;
+}

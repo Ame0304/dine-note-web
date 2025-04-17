@@ -1,8 +1,14 @@
 import { createClient } from "@/lib/supabase/server-props";
+import CalendarHeatmap from "react-calendar-heatmap";
+import { Tooltip } from "react-tooltip";
+import "react-calendar-heatmap/dist/styles.css";
+import { subMonths } from "date-fns";
 import {
-  fetchDashboardRecipeDate,
+  fetchDashboardRecipeData,
   RecentRecipe,
   getStreaks,
+  getMealPlanTrend,
+  MealPlanTrendData,
 } from "@/lib/services/dashboardService";
 import { AnalyticsData } from "@/lib/services/dashboardService";
 import { GetServerSidePropsContext } from "next";
@@ -12,6 +18,7 @@ import { getMealPlans } from "@/lib/services/mealPlanService";
 import { PlanRecipe } from "@/lib/services/mealPlanService";
 
 import {
+  ChevronDoubleRightIcon,
   FireIcon,
   LightBulbIcon,
   TrophyIcon,
@@ -24,12 +31,7 @@ import TriedChart from "@/components/dashboard/TriedChart";
 import CategoryChart from "@/components/dashboard/CategoryChart";
 import DashboardMealBox from "@/components/dashboard/DashboardMealBox";
 
-export default function DashboardPage({
-  userName,
-  initalAnalytics,
-  todayMeals,
-  streaks,
-}: {
+interface DashboardPageProps {
   userName: string;
   userId: string;
   initalAnalytics: AnalyticsData;
@@ -43,7 +45,16 @@ export default function DashboardPage({
     }[];
   };
   streaks: { longest: number; current: number };
-}) {
+  mealPlanTrend: MealPlanTrendData[];
+}
+
+export default function DashboardPage({
+  userName,
+  initalAnalytics,
+  todayMeals,
+  streaks,
+  mealPlanTrend,
+}: DashboardPageProps) {
   const {
     totalRecipes,
     triedRecipesPercentage,
@@ -52,7 +63,8 @@ export default function DashboardPage({
     categoryChart,
   } = initalAnalytics;
 
-  console.log(todayMeals);
+  const today = new Date();
+  const startDate = subMonths(today, 3);
 
   return (
     <>
@@ -120,18 +132,41 @@ export default function DashboardPage({
             </Heading>
             <CategoryChart data={categoryChart} />
           </Widget>
-
-          <Widget size="large">
-            {/* <ResponsiveContainer width="100%" height={200}> */}
-            <div className="h-40 bg-gray-100 flex items-center justify-center">
-              Cooking Trends
-            </div>
-            {/* </ResponsiveContainer> */}
-          </Widget>
         </div>
 
         {/* Right Container: Meal Plan (1/3 width) */}
         <div className="flex flex-col gap-4 col-span-3">
+          {/*Cooking HeatMap */}
+          <Widget size="medium">
+            <Heading level="h4" styled="bg-accent-500">
+              Cooking HeatMap
+            </Heading>
+
+            <CalendarHeatmap
+              startDate={startDate}
+              endDate={today}
+              values={mealPlanTrend}
+              classForValue={(value) => {
+                if (!value || value.count === 0) {
+                  return "color-empty";
+                }
+                if (value.count > 3) return "color-scale-4";
+                return `color-scale-${value.count}`;
+              }}
+              tooltipDataAttrs={(value) => {
+                return {
+                  "data-tooltip-id": "calendar-tooltip",
+                  "data-tooltip-content": value?.date
+                    ? `${value.date}: ${value.count ?? 0} meal${
+                        (value.count ?? 0) > 1 ? "s" : ""
+                      } planned`
+                    : "No meals planned",
+                } as React.HTMLAttributes<SVGElement>;
+              }}
+            />
+            <Tooltip id="calendar-tooltip" place="top" />
+          </Widget>
+
           <Widget size="medium">
             <div className="flex justify-between items-center mb-2">
               <Heading level="h4" styled="bg-accent-500">
@@ -141,7 +176,7 @@ export default function DashboardPage({
                 href="/meal-plans"
                 className="text-sm hover:text-accent-500"
               >
-                View all →
+                View all <ChevronDoubleRightIcon className="w-4 h-4 inline" />
               </Link>
             </div>
 
@@ -167,11 +202,6 @@ export default function DashboardPage({
               <li className="border-b py-2">🥑 Avocado </li>
             </ul>
           </Widget>
-
-          <p>
-            2. Completion Rate ✅ (How many planned meals were completed this
-            week)
-          </p>
         </div>
       </div>
     </>
@@ -199,11 +229,13 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const formattedDate = format(new Date(today), "yyyy-MM-dd");
 
   try {
-    const [initalAnalytics, todayMeals, streaks] = await Promise.all([
-      fetchDashboardRecipeDate(userId, supabase),
-      getMealPlans(userId, formattedDate, supabase),
-      getStreaks(userId, supabase),
-    ]);
+    const [initalAnalytics, todayMeals, streaks, mealPlanTrend] =
+      await Promise.all([
+        fetchDashboardRecipeData(userId, supabase),
+        getMealPlans(userId, formattedDate, supabase),
+        getStreaks(userId, supabase),
+        getMealPlanTrend(userId, supabase),
+      ]);
 
     return {
       props: {
@@ -211,6 +243,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         initalAnalytics,
         todayMeals,
         streaks,
+        mealPlanTrend,
       },
     };
   } catch (error) {
@@ -221,6 +254,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         initalAnalytics: null,
         todayMeals: null,
         streaks: null,
+        mealPlanTrend: null,
         error: "Failed to fetch dashboard data",
       },
     };

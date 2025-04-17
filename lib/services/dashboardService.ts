@@ -1,5 +1,6 @@
 import { SupabaseClient } from "@supabase/supabase-js";
 import { calculateStreaks } from "@/lib/helpers";
+import { subMonths, format, parseISO, eachDayOfInterval } from "date-fns";
 
 export interface AnalyticsData {
   totalRecipes: string;
@@ -39,7 +40,12 @@ interface FetchedRecipe {
   created_at: string;
 }
 
-export async function fetchDashboardRecipeDate(
+export interface MealPlanTrendData {
+  date: string; // Expecting 'YYYY-MM-DD' format
+  count: number;
+}
+
+export async function fetchDashboardRecipeData(
   userId: string,
   supabase: SupabaseClient
 ): Promise<AnalyticsData> {
@@ -170,4 +176,52 @@ export async function getStreaks(userId: string, supabase: SupabaseClient) {
   const { longest, current } = calculateStreaks(cookedDates);
 
   return { longest, current };
+}
+
+export async function getMealPlanTrend(
+  userId: string,
+  supabase: SupabaseClient,
+  monthsAgo: number = 3
+): Promise<MealPlanTrendData[]> {
+  const today = new Date();
+  const startDate = subMonths(today, monthsAgo);
+
+  // 1. Fetch existing meal plan data
+  const { data, error } = await supabase
+    .from("meal_plans")
+    .select(`date,meal_plan_items(count)`)
+    .eq("user_id", userId);
+
+  if (error) {
+    console.error("Error fetching meal plan trend:", error);
+    return [];
+  }
+
+  // 2. Create a lookup map from the fetched data
+  const countsMap = new Map<string, number>();
+  if (data) {
+    data.forEach((plan) => {
+      // Ensure date is in 'YYYY-MM-DD' format if it isn't already
+      const formattedDate = format(parseISO(plan.date), "yyyy-MM-dd");
+      const count = plan.meal_plan_items[0]?.count || 0;
+      if (count > 0) {
+        // Only store dates with actual counts
+        countsMap.set(formattedDate, count);
+      }
+    });
+  }
+
+  // 3. Generate all dates in the desired interval
+  const allDatesInRange = eachDayOfInterval({ start: startDate, end: today });
+
+  // 4. Map all dates to the required format, using the lookup map
+  const formattedData = allDatesInRange.map((date): MealPlanTrendData => {
+    const dateString = format(date, "yyyy-MM-dd");
+    return {
+      date: dateString,
+      count: countsMap.get(dateString) || 0, // Default to 0 if not found in map
+    };
+  });
+
+  return formattedData;
 }
