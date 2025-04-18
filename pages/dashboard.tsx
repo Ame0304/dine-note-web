@@ -30,6 +30,7 @@ import DashboardRecipeItem from "@/components/dashboard/DashboardRecipeItem";
 import TriedChart from "@/components/dashboard/TriedChart";
 import CategoryChart from "@/components/dashboard/CategoryChart";
 import DashboardMealBox from "@/components/dashboard/DashboardMealBox";
+import IngredientChecklist from "@/components/dashboard/IngredientChecklist";
 
 interface DashboardPageProps {
   userName: string;
@@ -75,7 +76,7 @@ export default function DashboardPage({
 
       <div className="grid grid-cols-1 lg:grid-cols-9 gap-6">
         {/* Left Container: Analytics (2/3 width) */}
-        <div className="col-span-9 lg:col-span-6 grid grid-cols-1 md:grid-cols-6 gap-6">
+        <div className="col-span-9 lg:col-span-6 grid grid-cols-1 md:grid-cols-6 gap-4">
           {/* Recipe Stats */}
           <Widget size="small">
             <Stat title="Total Recipes" value={totalRecipes} color="purple">
@@ -115,14 +116,15 @@ export default function DashboardPage({
 
           {/* Tried vs Untried Pie Chart */}
           <Widget size="medium">
-            <Heading level="h4" styled="bg-accent-300">
-              Recipe Progress
-            </Heading>
+            <div className="flex flex-wrap justify-between items-center">
+              <Heading level="h4" styled="bg-accent-300">
+                Tried vs Untried Recipes
+              </Heading>
+              <span className="text-3xl text-accent-300 font-semibold">
+                {triedRecipesPercentage}%
+              </span>
+            </div>
             <TriedChart data={triedVsUntriedData} />
-            <Heading level="h5">
-              Tried:{" "}
-              <span className="text-accent-500">{triedRecipesPercentage}%</span>
-            </Heading>
           </Widget>
 
           {/* Category Chart */}
@@ -135,7 +137,7 @@ export default function DashboardPage({
         </div>
 
         {/* Right Container: Meal Plan (1/3 width) */}
-        <div className="flex flex-col gap-4 col-span-3">
+        <div className="flex flex-col gap-4 grid-cols-1  col-span-9 lg:col-span-3 ">
           {/*Cooking HeatMap */}
           <Widget size="medium">
             <Heading level="h4" styled="bg-accent-500">
@@ -169,38 +171,40 @@ export default function DashboardPage({
 
           <Widget size="medium">
             <div className="flex justify-between items-center mb-2">
-              <Heading level="h4" styled="bg-accent-500">
+              <Heading level="h4" styled="bg-accent-300">
                 Today&apos;s Meals
               </Heading>
               <Link
                 href="/meal-plans"
-                className="text-sm hover:text-accent-500"
+                className="text-sm hover:text-accent-500 font-semibold"
               >
-                View all <ChevronDoubleRightIcon className="w-4 h-4 inline" />
+                {todayMeals.meals.length !== 0
+                  ? "View all meals"
+                  : "Plan your meals"}
+                <ChevronDoubleRightIcon className="w-4 h-4 inline stroke-2" />
               </Link>
             </div>
 
-            {todayMeals ? (
-              <DashboardMealBox todayMeals={todayMeals} />
-            ) : (
-              <div className="text-center py-4 text-primary-50">
-                <p>No meals planned for today</p>
-                <Link
-                  href="/meal-plans"
-                  className="mt-2 inline-block text-accent-500 text-md"
-                >
-                  Plan your meals →
-                </Link>
-              </div>
-            )}
+            {todayMeals.meals && <DashboardMealBox todayMeals={todayMeals} />}
           </Widget>
 
           <Widget size="medium">
-            <p>Today&apos;s Shopping list</p>
-            <ul className="mt-2 space-y-2">
-              <li className="border-b py-2">🥔 Potato</li>
-              <li className="border-b py-2">🥑 Avocado </li>
-            </ul>
+            <Heading level="h4" styled="bg-accent-400">
+              🛒 Week&apos;s Shopping list
+            </Heading>
+            <IngredientChecklist
+              ingredients={[
+                "Tofu",
+                "Ginger",
+                "Green Onion",
+                "Soy Sauce",
+                "Garlic",
+                "Rice",
+                "Broccoli",
+                "Carrot",
+                "Bell Pepper",
+              ]}
+            />
           </Widget>
         </div>
       </div>

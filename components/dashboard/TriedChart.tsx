@@ -13,7 +13,7 @@ interface TriedChartProps {
 
 export default function TriedChart({ data }: TriedChartProps) {
   return (
-    <ResponsiveContainer width="100%" height={250}>
+    <ResponsiveContainer width="100%" height={200}>
       <PieChart>
         <Pie
           data={data}

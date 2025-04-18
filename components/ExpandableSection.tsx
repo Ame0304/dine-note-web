@@ -10,11 +10,13 @@ export default function ExpandableSection({
   title,
   isEdit = false,
   children,
+  styledColor = "bg-accent-500",
 }: {
   icon: string;
   title: string;
   children: React.ReactNode;
   isEdit?: boolean;
+  styledColor?: string;
 }) {
   const [isExpanded, setIsExpanded] = useState(true);
 
@@ -26,7 +28,7 @@ export default function ExpandableSection({
       >
         <div className="flex items-center">
           <span className="mr-2 text-xl">{icon}</span>
-          <Heading level="h5" className="text-accent-200">
+          <Heading level="h5" styled={styledColor} className="text-accent-200">
             {title}
           </Heading>
         </div>

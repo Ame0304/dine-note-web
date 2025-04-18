@@ -11,7 +11,7 @@
 }
 
 .react-calendar-heatmap .color-empty {
-  fill: rgb(60 35 23 / 0.2) !important;
+  fill: #fff4e5 !important;
 }
 .react-calendar-heatmap .color-scale-1 {
   fill: #cceaf5;

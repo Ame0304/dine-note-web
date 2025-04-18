@@ -29,13 +29,15 @@ export default function Heading({
 
   if (styled) {
     return (
-      <div className="inline-block relative">
-        <h1 className={`relative z-10 text-primary-100 p-1 ${classes}`}>
-          {children}
-        </h1>
-        <div
-          className={`z-0 absolute left-0 right-0 top-1/2 h-2 rounded-full ${styled}`}
-        ></div>
+      <div>
+        <div className="inline-block relative">
+          <h1 className={`relative z-10 text-primary-100 p-1 ${classes}`}>
+            {children}
+          </h1>
+          <div
+            className={`z-0 absolute left-0 right-0 top-1/2 h-2 rounded-full ${styled}`}
+          ></div>
+        </div>
       </div>
     );
   }

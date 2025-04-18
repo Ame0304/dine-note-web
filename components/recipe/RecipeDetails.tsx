@@ -1,9 +1,9 @@
 import ExpandableSection from "../ExpandableSection";
-import IngredientRow from "./IngredientRow";
 import Heading from "@/components/Heading";
 import TriedBadge from "./TriedBadge";
 import { Recipe } from "@/lib/services/recipeService";
 import StepRow from "./StepRow";
+import IngredientChecklist from "../dashboard/IngredientChecklist";
 
 export default function RecipeDetails({ recipe }: { recipe: Recipe }) {
   return (
@@ -16,16 +16,12 @@ export default function RecipeDetails({ recipe }: { recipe: Recipe }) {
       </div>
 
       {/* Ingredients */}
-      <ExpandableSection icon="🥔" title="Ingredients">
-        <div className="flex flex-col gap-3 w-full ">
-          {recipe.ingredients.map((ingredient) => (
-            <IngredientRow
-              key={ingredient.name}
-              name={ingredient.name}
-              quantity={ingredient.quantity}
-            />
-          ))}
-        </div>
+      <ExpandableSection
+        icon="🥔"
+        title="Ingredients"
+        styledColor="bg-accent-400"
+      >
+        <IngredientChecklist ingredients={recipe.ingredients} />
       </ExpandableSection>
       {/* Steps */}
       <ExpandableSection icon="🥘" title="Steps">
@@ -36,7 +32,7 @@ export default function RecipeDetails({ recipe }: { recipe: Recipe }) {
           ))}
       </ExpandableSection>
       {/* Note */}
-      <ExpandableSection icon="✨" title="Note">
+      <ExpandableSection icon="✨" title="Note" styledColor="bg-accent-300">
         {recipe.note}
       </ExpandableSection>
     </div>

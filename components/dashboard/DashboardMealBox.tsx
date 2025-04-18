@@ -1,9 +1,8 @@
 import React from "react";
-import Link from "next/link";
 import { PlanRecipe } from "@/lib/services/mealPlanService";
 import { getMealsByMealType } from "@/lib/helpers";
-import { ChevronRightIcon } from "@heroicons/react/24/outline";
 import BaseRecipeItem from "@/components/BaseRecipeItem";
+import ViewLink from "../ViewLink";
 
 interface DashboardMealBoxProps {
   todayMeals: {
@@ -46,14 +45,8 @@ export default function DashboardMealBox({
   // If no meals for today
   if (activeMealTypes.length === 0) {
     return (
-      <div className="text-center py-4 text-gray-500">
+      <div className="text-center py-4 text-gray-500 font-semibold">
         <p>No meals planned for today</p>
-        <Link
-          href="/meal-plans"
-          className="mt-2 inline-block text-accent-600 hover:text-accent-800 text-sm"
-        >
-          Plan your meals →
-        </Link>
       </div>
     );
   }
@@ -66,31 +59,20 @@ export default function DashboardMealBox({
             {type.emoji} {type.label}
           </div>
           <ul className="space-y-2">
-            {mealsByType[type.id as keyof typeof mealsByType].map((meal) => {
-              const viewLink = (
-                <Link
-                  href={`/recipes/${meal.recipe.id}`}
-                  className="border-2 border-accent-500/80 text-accent-500 hover:bg-accent-500 hover:text-primary-950 rounded-xl p-0.5"
-                >
-                  <ChevronRightIcon className="size-5 stroke-[3]" />
-                </Link>
-              );
-
-              return (
-                <li key={meal.id}>
-                  <BaseRecipeItem
-                    recipe={{
-                      id: meal.recipe.id,
-                      title: meal.recipe.title,
-                      imageUrl: meal.recipe.imageUrl || "",
-                      categories: meal.recipe.categories,
-                    }}
-                    rightElement={viewLink}
-                    maxTagWidth="max-w-[150px]"
-                  />
-                </li>
-              );
-            })}
+            {mealsByType[type.id as keyof typeof mealsByType].map((meal) => (
+              <li key={meal.id}>
+                <BaseRecipeItem
+                  recipe={{
+                    id: meal.recipe.id,
+                    title: meal.recipe.title,
+                    imageUrl: meal.recipe.imageUrl || "",
+                    categories: meal.recipe.categories,
+                  }}
+                  rightElement={ViewLink(meal.recipe.id)}
+                  maxTagWidth="max-w-[150px]"
+                />
+              </li>
+            ))}
           </ul>
         </div>
       ))}
