@@ -94,3 +94,11 @@ export function calculateStreaks(cookedDateStrings: string[]) {
 
   return { longest, current };
 }
+
+// Get the start of the week (Monday)
+export function getStartOfWeek(date: Date): Date {
+  const result = new Date(date);
+  const day = result.getDay(); // 0 = Sunday, 1 = Monday, etc.
+  result.setDate(result.getDate() - day + 1); // Go back to Monday
+  return result;
+}

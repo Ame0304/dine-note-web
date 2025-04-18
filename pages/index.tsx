@@ -12,7 +12,7 @@ const features = [
     title: "🥗 Recipe Collection",
     description:
       "Easily save and categorize your favorite recipes. Add notes, track which dishes you’ve tried, and revisit them anytime.",
-    imageUrl: "/feature-1.png",
+    imageUrl: "/feature-4.jpg",
     reverse: false,
   },
   {

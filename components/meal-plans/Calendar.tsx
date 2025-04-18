@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Button from "@/components/Button";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
+import { getStartOfWeek } from "@/lib/helpers";
 
 interface CalendarProps {
   onSelect: (date: Date) => void;
@@ -9,14 +10,6 @@ interface CalendarProps {
 
 export default function Calendar({ onSelect, selectedDate }: CalendarProps) {
   const [startDate, setStartDate] = useState(getStartOfWeek(selectedDate));
-
-  // Get the start of the week (Monday)
-  function getStartOfWeek(date: Date): Date {
-    const result = new Date(date);
-    const day = result.getDay(); // 0 = Sunday, 1 = Monday, etc.
-    result.setDate(result.getDate() - day + 1); // Go back to Monday
-    return result;
-  }
 
   // Get dates for the week
   const getWeekDates = (start: Date) => {

@@ -9,6 +9,7 @@ import {
   getStreaks,
   getMealPlanTrend,
   MealPlanTrendData,
+  getWeekIngredients,
 } from "@/lib/services/dashboardService";
 import { AnalyticsData } from "@/lib/services/dashboardService";
 import { GetServerSidePropsContext } from "next";
@@ -47,6 +48,7 @@ interface DashboardPageProps {
   };
   streaks: { longest: number; current: number };
   mealPlanTrend: MealPlanTrendData[];
+  weekIngredients: string[];
 }
 
 export default function DashboardPage({
@@ -55,6 +57,7 @@ export default function DashboardPage({
   todayMeals,
   streaks,
   mealPlanTrend,
+  weekIngredients,
 }: DashboardPageProps) {
   const {
     totalRecipes,
@@ -105,7 +108,7 @@ export default function DashboardPage({
           {/* Recent Recipes */}
           <Widget size="medium">
             <Heading level="h4" styled="bg-accent-500">
-              Recent Recipes
+              ☀️ Recent Recipes
             </Heading>
             <ul className="space-y-2">
               {recentRecipes.map((recipe: RecentRecipe) => (
@@ -118,7 +121,7 @@ export default function DashboardPage({
           <Widget size="medium">
             <div className="flex flex-wrap justify-between items-center">
               <Heading level="h4" styled="bg-accent-300">
-                Tried vs Untried Recipes
+                👍 Tried vs Untried Recipes
               </Heading>
               <span className="text-3xl text-accent-300 font-semibold">
                 {triedRecipesPercentage}%
@@ -130,7 +133,7 @@ export default function DashboardPage({
           {/* Category Chart */}
           <Widget size="large">
             <Heading level="h4" styled="bg-accent-400">
-              Recipe Categories
+              📊 Recipe Categories
             </Heading>
             <CategoryChart data={categoryChart} />
           </Widget>
@@ -141,7 +144,7 @@ export default function DashboardPage({
           {/*Cooking HeatMap */}
           <Widget size="medium">
             <Heading level="h4" styled="bg-accent-500">
-              Cooking HeatMap
+              🗺️ Cooking HeatMap
             </Heading>
 
             <CalendarHeatmap
@@ -172,7 +175,7 @@ export default function DashboardPage({
           <Widget size="medium">
             <div className="flex justify-between items-center mb-2">
               <Heading level="h4" styled="bg-accent-300">
-                Today&apos;s Meals
+                🥘 Today&apos;s Meals
               </Heading>
               <Link
                 href="/meal-plans"
@@ -192,19 +195,13 @@ export default function DashboardPage({
             <Heading level="h4" styled="bg-accent-400">
               🛒 Week&apos;s Shopping list
             </Heading>
-            <IngredientChecklist
-              ingredients={[
-                "Tofu",
-                "Ginger",
-                "Green Onion",
-                "Soy Sauce",
-                "Garlic",
-                "Rice",
-                "Broccoli",
-                "Carrot",
-                "Bell Pepper",
-              ]}
-            />
+            {weekIngredients ? (
+              <IngredientChecklist ingredients={weekIngredients} />
+            ) : (
+              <div>
+                <p>No ingredients yet</p>
+              </div>
+            )}
           </Widget>
         </div>
       </div>
@@ -233,13 +230,19 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const formattedDate = format(new Date(today), "yyyy-MM-dd");
 
   try {
-    const [initalAnalytics, todayMeals, streaks, mealPlanTrend] =
-      await Promise.all([
-        fetchDashboardRecipeData(userId, supabase),
-        getMealPlans(userId, formattedDate, supabase),
-        getStreaks(userId, supabase),
-        getMealPlanTrend(userId, supabase),
-      ]);
+    const [
+      initalAnalytics,
+      todayMeals,
+      streaks,
+      mealPlanTrend,
+      weekIngredients,
+    ] = await Promise.all([
+      fetchDashboardRecipeData(userId, supabase),
+      getMealPlans(userId, formattedDate, supabase),
+      getStreaks(userId, supabase),
+      getMealPlanTrend(userId, supabase),
+      getWeekIngredients(userId, today, supabase),
+    ]);
 
     return {
       props: {
@@ -248,6 +251,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         todayMeals,
         streaks,
         mealPlanTrend,
+        weekIngredients,
       },
     };
   } catch (error) {
@@ -259,6 +263,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         todayMeals: null,
         streaks: null,
         mealPlanTrend: null,
+        weekIngredients: null,
         error: "Failed to fetch dashboard data",
       },
     };

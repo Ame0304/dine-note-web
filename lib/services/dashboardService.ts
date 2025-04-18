@@ -1,6 +1,12 @@
 import { SupabaseClient } from "@supabase/supabase-js";
-import { calculateStreaks } from "@/lib/helpers";
-import { subMonths, format, parseISO, eachDayOfInterval } from "date-fns";
+import { calculateStreaks, getStartOfWeek } from "@/lib/helpers";
+import {
+  subMonths,
+  format,
+  parseISO,
+  eachDayOfInterval,
+  addDays,
+} from "date-fns";
 
 export interface AnalyticsData {
   totalRecipes: string;
@@ -27,6 +33,7 @@ interface FetchedCategory {
   name: string;
   color: string;
 }
+
 export interface FetchedRecipeCategoryLink {
   category: FetchedCategory;
 }
@@ -43,6 +50,10 @@ interface FetchedRecipe {
 export interface MealPlanTrendData {
   date: string; // Expecting 'YYYY-MM-DD' format
   count: number;
+}
+
+interface RecipeIngredientWithName {
+  ingredients: { name: string } | null;
 }
 
 export async function fetchDashboardRecipeData(
@@ -224,4 +235,76 @@ export async function getMealPlanTrend(
   });
 
   return formattedData;
+}
+
+export async function getWeekIngredients(
+  userId: string,
+  today: Date,
+  supabase: SupabaseClient
+) {
+  // 1. Define the start and end dates for the week
+  const startOfWeekDate = format(getStartOfWeek(today), "yyyy-MM-dd");
+  const endOfWeekDate = format(addDays(startOfWeekDate, 6), "yyyy-MM-dd");
+
+  // 2. Fetch relevant recipe ids for the week
+  const { data: mealPlanItems, error: mealPlanError } = await supabase
+    .from("meal_plan_items")
+    .select(
+      `
+    recipe_id,
+    meal_plans!inner()
+  `
+    )
+    .eq("meal_plans.user_id", userId)
+    .gte("meal_plans.date", startOfWeekDate)
+    .lte("meal_plans.date", endOfWeekDate);
+
+  if (mealPlanError) {
+    console.error("Error fetching meal plan items for week:", mealPlanError);
+    throw new Error("Failed to fetch meal plan data for the week.");
+  }
+
+  if (!mealPlanItems || mealPlanItems.length === 0) {
+    return []; // No recipes planned for this week
+  }
+
+  // 3. Extract recipe IDs
+  const recipeIds = Array.from(
+    new Set(mealPlanItems.map((item) => item.recipe_id).filter(Boolean)) // Filter out potential nulls/undefined
+  );
+
+  if (recipeIds.length === 0) {
+    return []; // No valid recipe IDs found
+  }
+
+  // 4. Fetch ingredients for the recipes
+  const { data, error: ingredientsError } = await supabase
+    .from("recipe_ingredients")
+    .select(
+      `
+    ingredients(name)
+  `
+    )
+    .in("recipeId", recipeIds); // Filter by the recipe IDs for the week
+
+  const planIngredients = data as RecipeIngredientWithName[] | null;
+
+  if (ingredientsError) {
+    console.error("Error fetching ingredients:", ingredientsError);
+    throw new Error("Failed to fetch ingredients for plan recipes.");
+  }
+
+  if (!planIngredients) {
+    return []; // No ingredients found for these recipes
+  }
+
+  // 5. Extract and Deduplicate Ingredient Names
+  const ingredientSet = new Set<string>();
+  planIngredients.forEach((item) => {
+    if (item.ingredients?.name) {
+      ingredientSet.add(item.ingredients.name);
+    }
+  });
+
+  return Array.from(ingredientSet);
 }
