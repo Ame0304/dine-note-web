@@ -10,8 +10,7 @@ import {
 import { AnalyticsData } from "@/lib/services/dashboardService";
 import { GetServerSidePropsContext } from "next";
 import { format } from "date-fns";
-import { getMealPlans } from "@/lib/services/mealPlanService";
-import { PlanRecipe } from "@/lib/services/mealPlanService";
+import { getMealPlans, MealPlanItem } from "@/lib/services/mealPlanService";
 
 import Heading from "@/components/Heading";
 import Widget from "@/components/dashboard/Widget";
@@ -23,23 +22,20 @@ import TriedPieChart from "@/components/dashboard/TriedPieChart";
 import CookingHeatmap from "@/components/dashboard/CookingHeatmap";
 import TodayMeals from "@/components/dashboard/TodayMeals";
 import WeekShoppingList from "@/components/dashboard/WeekShoppingList";
+import Error from "@/components/Error";
 
 interface DashboardPageProps {
   userName: string;
   userId: string;
-  initalAnalytics: AnalyticsData;
+  initalAnalytics: AnalyticsData | null;
   todayMeals: {
     mealPlanId: string;
-    meals: {
-      id: string;
-      recipe: PlanRecipe;
-      meal_type: string;
-      completed: boolean;
-    }[];
-  };
+    meals: MealPlanItem[];
+  } | null;
   streaks: { longest: number; current: number };
   mealPlanTrend: MealPlanTrendData[];
   weekIngredients: string[];
+  error: string | null;
 }
 
 export default function DashboardPage({
@@ -49,14 +45,25 @@ export default function DashboardPage({
   streaks,
   mealPlanTrend,
   weekIngredients,
+  error,
 }: DashboardPageProps) {
+  if (error) {
+    return <Error message={error} />;
+  }
+
   const {
     totalRecipes,
     triedRecipesPercentage,
     triedVsUntriedData,
     recentRecipes,
     categoryChart,
-  } = initalAnalytics;
+  } = initalAnalytics || {
+    totalRecipes: "0",
+    triedRecipesPercentage: 0,
+    triedVsUntriedData: [],
+    recentRecipes: [],
+    categoryChart: [],
+  };
 
   return (
     <>
@@ -106,11 +113,11 @@ export default function DashboardPage({
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const supabase = createClient(context);
+  // Authentication check
+  const { data: userData, error: userError } = await supabase.auth.getUser();
 
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error) {
-    console.error("Error fetching user:", error);
+  if (userError || !userData?.user) {
+    console.error("Error fetching user:", userError);
     return {
       redirect: {
         destination: "/",
@@ -119,48 +126,78 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     };
   }
 
-  const userName = data?.user.user_metadata.full_name;
-  const userId = data?.user.id;
+  const userName = userData?.user.user_metadata.full_name;
+  const userId = userData?.user.id;
   const today = new Date();
   const formattedDate = format(new Date(today), "yyyy-MM-dd");
 
-  try {
-    const [
+  let initalAnalytics: AnalyticsData | null = null;
+  let todayMeals: {
+    mealPlanId: string;
+    meals: MealPlanItem[];
+  } | null = null;
+  let streaks: { longest: number; current: number } = {
+    longest: 0,
+    current: 0,
+  };
+  let mealPlanTrend: MealPlanTrendData[] = [];
+  let weekIngredients: string[] = [];
+  let pageError: string | null = null;
+
+  const [
+    analyticsResult,
+    mealsResult,
+    streaksResult,
+    trendResult,
+    ingredientsResult,
+  ] = await Promise.allSettled([
+    fetchDashboardRecipeData(userId, supabase),
+    getMealPlans(userId, formattedDate, supabase),
+    getStreaks(userId, supabase),
+    getMealPlanTrend(userId, supabase),
+    getWeekIngredients(userId, today, supabase),
+  ]);
+
+  // Handle critical analytics data
+  if (analyticsResult.status === "fulfilled") {
+    initalAnalytics = analyticsResult.value;
+  } else {
+    console.error(
+      "Failed to fetch dashboard recipe data:",
+      analyticsResult.reason
+    );
+    pageError = "Failed to load essential recipe data.";
+    // initalAnalytics remains null
+  }
+
+  // Assign values for others if fulfilled, otherwise rely on initialized defaults
+  if (mealsResult.status === "fulfilled") {
+    todayMeals = mealsResult.value;
+  } else {
+    console.error("Failed to fetch today's meals:", mealsResult.reason);
+  }
+
+  if (streaksResult.status === "fulfilled") {
+    streaks = streaksResult.value;
+  }
+
+  if (trendResult.status === "fulfilled") {
+    mealPlanTrend = trendResult.value;
+  }
+
+  if (ingredientsResult.status === "fulfilled") {
+    weekIngredients = ingredientsResult.value;
+  }
+
+  return {
+    props: {
+      userName,
       initalAnalytics,
       todayMeals,
       streaks,
       mealPlanTrend,
       weekIngredients,
-    ] = await Promise.all([
-      fetchDashboardRecipeData(userId, supabase),
-      getMealPlans(userId, formattedDate, supabase),
-      getStreaks(userId, supabase),
-      getMealPlanTrend(userId, supabase),
-      getWeekIngredients(userId, today, supabase),
-    ]);
-
-    return {
-      props: {
-        userName,
-        initalAnalytics,
-        todayMeals,
-        streaks,
-        mealPlanTrend,
-        weekIngredients,
-      },
-    };
-  } catch (error) {
-    console.error("Error fetching dashboard data:", error);
-    return {
-      props: {
-        userName,
-        initalAnalytics: null,
-        todayMeals: null,
-        streaks: null,
-        mealPlanTrend: null,
-        weekIngredients: null,
-        error: "Failed to fetch dashboard data",
-      },
-    };
-  }
+      error: pageError,
+    },
+  };
 }

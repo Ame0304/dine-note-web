@@ -158,8 +158,8 @@ export async function fetchDashboardRecipeData(
       categoryChart,
     };
   } catch (error) {
-    console.error("Error fetching dashboard data:", error);
-    throw new Error("Failed to load dashboard data");
+    console.error("Error fetching dashboard recipe data:", error);
+    throw new Error("Failed to load dashboard recipe data");
   }
 }
 
@@ -178,6 +178,7 @@ export async function getStreaks(userId: string, supabase: SupabaseClient) {
 
   if (error) {
     console.error("Error fetching cooked dates:", error);
+    return { longest: 0, current: 0 };
   }
 
   const cookedDates = Array.from(
@@ -261,7 +262,7 @@ export async function getWeekIngredients(
 
   if (mealPlanError) {
     console.error("Error fetching meal plan items for week:", mealPlanError);
-    throw new Error("Failed to fetch meal plan data for the week.");
+    return [];
   }
 
   if (!mealPlanItems || mealPlanItems.length === 0) {
@@ -291,7 +292,7 @@ export async function getWeekIngredients(
 
   if (ingredientsError) {
     console.error("Error fetching ingredients:", ingredientsError);
-    throw new Error("Failed to fetch ingredients for plan recipes.");
+    return [];
   }
 
   if (!planIngredients) {
