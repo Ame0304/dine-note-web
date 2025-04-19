@@ -1,7 +1,5 @@
 /*TODO:
-1. Show a small label next to each meal in the selection list to indicate if it's already planned for the day. 
-2. If a meal is already added, replace the + button with a different indicator (e.g., ✔️ or disable it).
-3. Consider a search/filter bar if the list gets long. */
+1. A search/filter bar if the list gets long. */
 import PlanRecipeItem from "@/components/meal-plans/PlanRecipeItem";
 import Loading from "@/components/Loading";
 import Error from "@/components/Error";
@@ -10,7 +8,7 @@ import { PlanRecipe } from "@/lib/services/mealPlanService";
 
 interface MealSelectionListProps {
   userId: string;
-  onAddMeal: (recipeId: string) => void;
+  onAddMeal: (recipeId: PlanRecipe) => void;
   isAdding: boolean;
   plannedMealIds?: string[];
 }
@@ -35,7 +33,7 @@ export default function MealSelectionList({
         <PlanRecipeItem
           key={recipe.id}
           recipe={recipe}
-          onAction={() => onAddMeal(recipe.id)}
+          onAction={() => onAddMeal(recipe)}
           isAdding={isAdding}
           isAlreadyPlanned={plannedMealIds.includes(recipe.id)}
         />

@@ -1,3 +1,4 @@
+import { PlanRecipe } from "@/lib/services/mealPlanService";
 import Heading from "../Heading";
 import MealSelectionList from "./MealSelectionList";
 
@@ -7,7 +8,7 @@ interface MealSelectionBoxProps {
   onSelect: (mealType: string) => void;
   isAdding: boolean;
   plannedMealIds: string[];
-  handleAddMealToPlan: (recipeId: string) => void;
+  handleAddMealToPlan: (recipe: PlanRecipe) => void;
 }
 
 export default function MealSelectionBox({

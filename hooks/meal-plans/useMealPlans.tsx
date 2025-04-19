@@ -3,10 +3,10 @@ import { getMealPlans } from "@/lib/services/mealPlanService";
 import { format } from "date-fns";
 
 export default function useMealPlans(userId: string, selectedDate: Date) {
-  const formattedDate = format(new Date(selectedDate), "yyyy-MM-dd");
+  const formattedDate = format(selectedDate, "yyyy-MM-dd");
 
   const { isLoading, data, error } = useQuery({
-    queryKey: ["mealPlans", userId, selectedDate],
+    queryKey: ["mealPlans", userId, formattedDate],
     enabled: !!userId,
     queryFn: () => getMealPlans(userId, formattedDate),
   });

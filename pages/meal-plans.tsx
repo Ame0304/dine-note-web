@@ -7,6 +7,7 @@ import useAddMealToPlan from "@/hooks/meal-plans/useAddMealToPlan";
 import useMealPlans from "@/hooks/meal-plans/useMealPlans";
 import MealSelectionBox from "@/components/meal-plans/MealSelectionBox";
 import DailyPlanBox from "@/components/meal-plans/DailyPlanBox";
+import { PlanRecipe } from "@/lib/services/mealPlanService";
 
 export default function MealPlansPage() {
   const { user } = useUser();
@@ -26,14 +27,15 @@ export default function MealPlansPage() {
     setSelectedMealType(mealType);
   }
 
-  function handleAddMealToPlan(recipeId: string) {
+  function handleAddMealToPlan(recipe: PlanRecipe) {
     if (!userId) return;
 
     const data = {
       userId,
       date: selectedDate.toISOString().split("T")[0],
       mealType: selectedMealType,
-      recipeId,
+      recipeId: recipe.id,
+      recipeData: recipe,
     };
 
     addMealToPlan(data);

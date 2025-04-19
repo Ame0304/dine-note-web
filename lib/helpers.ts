@@ -8,6 +8,8 @@ export interface MealItem {
   meal_type: string;
 }
 
+// Meal Plans
+
 /**
  * Filters meals by specified meal type
  * @param meals Array of meal items
@@ -45,6 +47,12 @@ export const mealTypes = [
   { id: "dinner", label: "Dinner", emoji: "🍲" },
   { id: "snack", label: "Snack", emoji: "🍇" },
 ];
+
+export function generateDateKey(date: Date): string {
+  return date.toISOString().split("T")[0];
+}
+
+// Dashboard
 
 /*
  * Calculates the longest and current streak of cooked meals
