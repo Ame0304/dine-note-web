@@ -3,6 +3,7 @@ import { PlanRecipe } from "@/lib/services/mealPlanService";
 import { getMealsByMealType } from "@/lib/helpers";
 import BaseRecipeItem from "@/components/BaseRecipeItem";
 import ViewLink from "../ViewLink";
+import Link from "next/link";
 
 interface DashboardMealBoxProps {
   todayMeals: {
@@ -52,30 +53,37 @@ export default function DashboardMealBox({
   }
 
   return (
-    <div className="space-y-2">
-      {activeMealTypes.map((type) => (
-        <div key={type.id}>
-          <div className="text-sm font-medium mb-1">
-            {type.emoji} {type.label}
+    <div className="space-y-2 h-[300px] overflow-y-auto scrollbar-hide flex flex-col justify-between">
+      <div>
+        {activeMealTypes.map((type) => (
+          <div key={type.id}>
+            <div className="text-sm font-medium mb-1">
+              {type.emoji} {type.label}
+            </div>
+            <ul className="space-y-2">
+              {mealsByType[type.id as keyof typeof mealsByType].map((meal) => (
+                <li key={meal.id}>
+                  <BaseRecipeItem
+                    recipe={{
+                      id: meal.recipe.id,
+                      title: meal.recipe.title,
+                      imageUrl: meal.recipe.imageUrl || "",
+                      categories: meal.recipe.categories,
+                    }}
+                    rightElement={ViewLink(meal.recipe.id)}
+                    maxTagWidth="max-w-[150px]"
+                  />
+                </li>
+              ))}
+            </ul>
           </div>
-          <ul className="space-y-2">
-            {mealsByType[type.id as keyof typeof mealsByType].map((meal) => (
-              <li key={meal.id}>
-                <BaseRecipeItem
-                  recipe={{
-                    id: meal.recipe.id,
-                    title: meal.recipe.title,
-                    imageUrl: meal.recipe.imageUrl || "",
-                    categories: meal.recipe.categories,
-                  }}
-                  rightElement={ViewLink(meal.recipe.id)}
-                  maxTagWidth="max-w-[150px]"
-                />
-              </li>
-            ))}
-          </ul>
+        ))}
+      </div>
+      <Link href={"/meal-plans"}>
+        <div className="bg-accent-200/20 border-4 rounded-xl p-5 text-center border-dashed border-accent-200/50 cursor-pointer hover:text-primary-950">
+          <span className="font-semibold ">Add more meals +</span>
         </div>
-      ))}
+      </Link>
     </div>
   );
 }

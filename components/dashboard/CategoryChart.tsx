@@ -33,9 +33,9 @@ export default function CategoryChart({ data }: CategoryChartProps) {
         data={data}
         margin={{
           top: 25,
-          right: 30,
-          left: 10,
-          bottom: 0,
+          right: 25,
+          left: 0,
+          bottom: -10,
         }}
         barCategoryGap={10}
       >

@@ -105,7 +105,7 @@ export async function fetchDashboardRecipeData(
     ];
 
     // Recent recipes transformation (top 3)
-    const recentRecipes: RecentRecipe[] = recipes.slice(0, 3).map((recipe) => {
+    const recentRecipes: RecentRecipe[] = recipes.slice(0, 4).map((recipe) => {
       const categories = recipe.recipe_categories.map((cat) => ({
         id: cat.category.id,
         name: cat.category.name,
