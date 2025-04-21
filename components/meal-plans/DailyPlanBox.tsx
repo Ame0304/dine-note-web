@@ -52,6 +52,7 @@ export default function DailyPlanBox({
         selectedMealType={selectedMealType}
         onAdd={onAdd}
         isAdding={isAdding}
+        selectedDate={selectedDate}
       />
     </div>
   );

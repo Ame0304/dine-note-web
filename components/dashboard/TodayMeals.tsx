@@ -20,15 +20,15 @@ export default function TodayMeals({ todayMeals }: TodayMealsProps) {
         <Heading level="h4" styled="bg-accent-300">
           🥘 Today&apos;s Meals
         </Heading>
-        <Link
-          href="/meal-plans"
-          className="text-sm text-primary-50 hover:text-accent-500 font-semibold"
-        >
-          {todayMeals && todayMeals.meals.length !== 0
-            ? "View all meals"
-            : "Plan your meals"}
-          <ChevronDoubleRightIcon className="w-4 h-4 inline stroke-2" />
-        </Link>
+        {todayMeals && todayMeals.meals.length !== 0 ? (
+          <Link
+            href="/meal-plans"
+            className="text-sm text-primary-50 hover:text-accent-300 font-semibold"
+          >
+            View all meals
+            <ChevronDoubleRightIcon className="w-4 h-4 inline stroke-2" />
+          </Link>
+        ) : null}
       </div>
 
       {todayMeals && <DashboardMealBox todayMeals={todayMeals} />}

@@ -4,39 +4,49 @@ import BaseRecipeItem from "@/components/BaseRecipeItem";
 import { PlanRecipe } from "@/lib/services/mealPlanService";
 import useDeleteMeal from "@/hooks/meal-plans/useDeleteMeal";
 import useToggleCompleted from "@/hooks/meal-plans/useToggleCompleted";
+import { useUser } from "@/context/UserContext";
 
 interface PlanRecipeItemProps {
   recipe: PlanRecipe;
   buttonType?: "add" | "multiple";
   maxTagWidth?: string;
-  onAction?: () => void;
+  onSelect?: () => void;
   isAdding?: boolean;
   mealItemId?: string;
   isAlreadyPlanned?: boolean;
   isCompleted?: boolean;
+  selectedDate?: Date;
 }
 
 export default function PlanRecipeItem({
   recipe,
   buttonType = "add",
   maxTagWidth = "max-w-[190px]",
-  onAction,
+  onSelect,
   isAdding = false,
   mealItemId,
   isAlreadyPlanned = false,
   isCompleted = false,
+  selectedDate,
 }: PlanRecipeItemProps) {
   const { deleteMeal, isDeleting } = useDeleteMeal();
   const { toggleCompleted, isUpdating } = useToggleCompleted();
+  const { user } = useUser();
+  const userId = user?.id || "";
+
   const handleClick = () => {
-    if (onAction && !isAdding) {
-      onAction();
+    if (onSelect && !isAdding) {
+      onSelect();
     }
   };
 
   const handleDelete = () => {
-    if (mealItemId) {
-      deleteMeal(mealItemId);
+    if (mealItemId && userId && selectedDate) {
+      deleteMeal({
+        mealPlanItemId: mealItemId,
+        userId: userId,
+        selectedDate: selectedDate,
+      });
     }
   };
 

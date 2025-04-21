@@ -12,7 +12,7 @@ export default function Stat({
   color = "sky",
 }: StatProps) {
   return (
-    <div className="grid grid-cols-3 gap-4 items-center h-12">
+    <div className="grid grid-cols-3 gap-4 items-center">
       <div className="col-span-1 flex items-center justify-center">
         <div className={`bg-${color}-100 p-2 rounded-full`}>{children}</div>
       </div>

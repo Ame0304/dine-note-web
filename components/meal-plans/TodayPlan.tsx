@@ -15,6 +15,7 @@ interface TodayPlanProps {
   selectedMealType: string;
   onAdd: (mealType: string) => void;
   isAdding?: boolean;
+  selectedDate: Date;
 }
 
 export default function TodayPlan({
@@ -22,6 +23,7 @@ export default function TodayPlan({
   selectedMealType,
   onAdd,
   isAdding,
+  selectedDate,
 }: TodayPlanProps) {
   const meals = mealPlan?.meals;
 
@@ -64,6 +66,7 @@ export default function TodayPlan({
           typeTitle={box.type}
           onAdd={onAdd}
           isAdding={isAdding}
+          selectedDate={selectedDate}
         />
       ))}
     </div>

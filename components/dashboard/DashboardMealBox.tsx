@@ -46,8 +46,15 @@ export default function DashboardMealBox({
   // If no meals for today
   if (activeMealTypes.length === 0) {
     return (
-      <div className="text-center py-4 text-gray-500 font-semibold">
+      <div className="text-center py-4 text-primary-50 font-semibold">
         <p>No meals planned for today</p>
+        <Link
+          href="/meal-plans"
+          className="text-primary-100 hover:text-accent-300 text-lg"
+        >
+          📆 Plan your meals
+        </Link>
+        <p>to get started!</p>
       </div>
     );
   }
@@ -80,7 +87,7 @@ export default function DashboardMealBox({
         ))}
       </div>
       <Link href={"/meal-plans"}>
-        <div className="bg-accent-200/20 border-4 rounded-xl p-5 text-center border-dashed border-accent-200/50 cursor-pointer hover:text-primary-950">
+        <div className="bg-accent-200/20 border-4 rounded-xl p-2 text-center border-dashed border-accent-200/50 cursor-pointer hover:text-primary-950">
           <span className="font-semibold ">Add more meals +</span>
         </div>
       </Link>

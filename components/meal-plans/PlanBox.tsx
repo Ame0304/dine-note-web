@@ -8,6 +8,7 @@ interface PlanBoxProps {
   selected?: boolean;
   onAdd?: (mealType: string) => void;
   isAdding?: boolean;
+  selectedDate: Date;
 }
 
 export default function PlanBox({
@@ -16,6 +17,7 @@ export default function PlanBox({
   selected,
   onAdd,
   isAdding,
+  selectedDate,
 }: PlanBoxProps) {
   const handleOnClick = () => {
     if (onAdd && !isAdding) {
@@ -46,6 +48,7 @@ export default function PlanBox({
               buttonType="multiple"
               maxTagWidth="max-w-[170px]"
               isCompleted={meal.completed}
+              selectedDate={selectedDate}
             />
           ))}
         </div>

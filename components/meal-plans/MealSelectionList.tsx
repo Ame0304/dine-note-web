@@ -33,7 +33,7 @@ export default function MealSelectionList({
         <PlanRecipeItem
           key={recipe.id}
           recipe={recipe}
-          onAction={() => onAddMeal(recipe)}
+          onSelect={() => onAddMeal(recipe)}
           isAdding={isAdding}
           isAlreadyPlanned={plannedMealIds.includes(recipe.id)}
         />
