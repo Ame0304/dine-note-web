@@ -7,10 +7,12 @@ import {
   BookOpenIcon,
 } from "@heroicons/react/24/outline";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-
 import Logo from "./Logo";
+import Button from "./Button";
 
 import { useUser } from "@/context/UserContext";
+import { createClient } from "@/lib/supabase/component";
+import toast from "react-hot-toast";
 
 const navigationItems = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon, requiresAuth: true },
@@ -33,6 +35,16 @@ const navigationItems = [
 
 export default function Navbar() {
   const { user } = useUser();
+  const supabase = createClient();
+
+  const handleSignout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      toast.error(error.message, { id: "logout" });
+    } else {
+      toast.success("Logged out successfully!", { id: "logout" });
+    }
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 border-b border-primary-900/50 backdrop-blur-lg backdrop-saturate-150 supports-[backdrop-filter]:bg-primary-950">
@@ -101,17 +113,35 @@ export default function Navbar() {
         {/* Desktop Menu */}
 
         <div className="hidden lg:flex lg:gap-8 items-center">
-          {navigationItems.map((item) =>
-            item.requiresAuth && user ? (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-accent-500 hover:text-accent-400 flex items-center gap-1.5"
-              >
-                <span className="font-medium">{item.name}</span>
-              </Link>
-            ) : null
-          )}
+          {user &&
+            navigationItems.map(
+              (item) =>
+                item.requiresAuth && (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="text-accent-500 hover:text-accent-400 flex items-center gap-1.5"
+                  >
+                    <span className="font-medium">{item.name}</span>
+                  </Link>
+                )
+            )}
+
+          {user && <Button onClick={handleSignout}>Log out</Button>}
+
+          {!user &&
+            navigationItems.map(
+              (item) =>
+                !item.requiresAuth && (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="text-accent-500 hover:text-accent-400 flex items-center gap-1.5"
+                  >
+                    <span className="font-medium">{item.name}</span>
+                  </Link>
+                )
+            )}
         </div>
       </nav>
     </header>

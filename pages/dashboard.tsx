@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server-props";
+import { GetServerSidePropsContext } from "next";
 import "react-calendar-heatmap/dist/styles.css";
 import {
   fetchDashboardRecipeData,
@@ -8,7 +9,6 @@ import {
   getWeekIngredients,
 } from "@/lib/services/dashboardService";
 import { AnalyticsData } from "@/lib/services/dashboardService";
-import { GetServerSidePropsContext } from "next";
 import { format } from "date-fns";
 import { getMealPlans, MealPlanItem } from "@/lib/services/mealPlanService";
 

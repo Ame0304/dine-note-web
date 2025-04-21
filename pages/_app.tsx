@@ -22,6 +22,8 @@ const PRIVATE_PAGES = [
   "/meal-plans",
 ];
 
+const PUBLIC_SHARE_RECIPE_PREFIX = "/share/recipes/";
+
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const getLayout = () => {
@@ -37,6 +39,14 @@ export default function App({ Component, pageProps }: AppProps) {
             <Component {...pageProps} />
           </PrivateLayout>
         </UserProvider>
+      );
+    }
+
+    if (router.pathname.startsWith(PUBLIC_SHARE_RECIPE_PREFIX)) {
+      return (
+        <Layout isSharePage={true}>
+          <Component {...pageProps} />
+        </Layout>
       );
     }
     // Public page layout

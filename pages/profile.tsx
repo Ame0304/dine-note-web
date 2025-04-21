@@ -18,7 +18,7 @@ export default function ProfilePage() {
 
   return (
     <div className="sm:mx-auto sm:w-full sm:max-w-5xl flex flex-col space-y-6">
-      <div className="bg-white/40 overflow-hidden backdrop-blur-md backdrop-saturate-150 rounded-xl shadow-xl">
+      <div className="bg-white/50 overflow-hidden backdrop-blur-md backdrop-saturate-150 rounded-xl shadow-xl">
         {/* Profile header with avatar */}
         <div className="relative h-72">
           <svg

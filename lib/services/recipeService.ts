@@ -3,6 +3,7 @@ import { PAGE_SIZE } from "../constants";
 import { format, parseISO } from "date-fns";
 import { Ingredient } from "@/components/recipe/IngredientsManager";
 import { RecipeAddFormValues } from "@/components/recipe/RecipeAddForm";
+import { SupabaseClient } from "@supabase/supabase-js";
 
 export interface Recipe {
   id: string;
@@ -139,7 +140,14 @@ export async function getRecipes({
   return { recipes, count };
 }
 
-export async function getRecipeById(recipeId: string) {
+export async function getRecipeById(
+  recipeId: string,
+  supabase?: SupabaseClient
+) {
+  if (!supabase) {
+    supabase = createClient();
+  }
+
   const { data, error } = await supabase
     .from("recipes")
     .select(
@@ -149,6 +157,10 @@ export async function getRecipeById(recipeId: string) {
 
   if (error) {
     throw new Error(error.message);
+  }
+
+  if (!data || data.length === 0) {
+    return null;
   }
 
   const formattedRecipe = {

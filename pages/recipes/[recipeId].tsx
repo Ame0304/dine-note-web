@@ -9,15 +9,12 @@ import { useRecipe } from "@/hooks/recipes/useRecipe";
 import { useRouter } from "next/router";
 import RecipeUpdateForm from "@/components/recipe/RecipeUpdateForm";
 
-function RecipeDetail() {
+export default function RecipeDetail() {
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const router = useRouter();
   const { recipe, isLoading } = useRecipe(router.query.recipeId as string);
 
   if (isLoading) return <Loading />;
-  {
-    /* TODO: If recipe is not found, show a message */
-  }
   if (!recipe) return <div>Recipe not found</div>;
 
   return (
@@ -38,5 +35,3 @@ function RecipeDetail() {
     </div>
   );
 }
-
-export default RecipeDetail;

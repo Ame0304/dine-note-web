@@ -5,10 +5,16 @@ import { createServerClient } from "@supabase/ssr";
 
 const publicRoutes = ["/auth/login", "/auth/signup", "/", "/auth/callback"];
 
+const publicRoutePrefixes = [
+  "/share/recipes/", // prefix for shared recipes
+];
+
 export async function middleware(request: NextRequest) {
   // Check if the path is public
   const path = request.nextUrl.pathname;
-  const isPublicRoute = publicRoutes.includes(path);
+  const isPublicRoute =
+    publicRoutes.includes(path) ||
+    publicRoutePrefixes.some((prefix) => path.startsWith(prefix));
   console.log(`Path: ${path}, isPublicRoute: ${isPublicRoute}`);
 
   const response = NextResponse.next();

@@ -8,9 +8,11 @@ import { Recipe } from "@/lib/services/recipeService";
 export default function RecipeOverview({
   recipe,
   onEdit,
+  isPublic = false,
 }: {
   recipe: Recipe;
-  onEdit: () => void;
+  onEdit?: () => void;
+  isPublic?: boolean;
 }) {
   return (
     <div className="mx-auto md:w-1/3 w-full">
@@ -65,20 +67,22 @@ export default function RecipeOverview({
               </div>
 
               {/* Recipe Actions */}
-              <div className="flex flex-col items-center gap-5 w-full">
-                <Button variant="primary">🍳 Cook this</Button>
-                <div className="flex gap-3">
-                  <Button variant="outline">Share</Button>
-                  <Button variant="outline" onClick={onEdit}>
-                    Edit
-                  </Button>
-                  <DeleteRecipe
-                    id={recipe.id}
-                    title={recipe.title}
-                    buttonVariant="outline"
-                  />
+              {!isPublic && (
+                <div className="flex flex-col items-center gap-5 w-full">
+                  <Button variant="primary">🍳 Cook this</Button>
+                  <div className="flex gap-3">
+                    <Button variant="outline">Share</Button>
+                    <Button variant="outline" onClick={onEdit}>
+                      Edit
+                    </Button>
+                    <DeleteRecipe
+                      id={recipe.id}
+                      title={recipe.title}
+                      buttonVariant="outline"
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
