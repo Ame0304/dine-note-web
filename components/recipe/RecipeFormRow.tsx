@@ -12,7 +12,7 @@ export default function RecipeFormRow({
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between gap-5 px-2">
-        <label htmlFor="title" className="text-lg font-semibold">
+        <label htmlFor="title" className="text-lg font-semibold shrink-0">
           {label}
         </label>
         {children}

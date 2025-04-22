@@ -23,7 +23,7 @@ export default function RecipeDetail() {
       <Button onClick={() => router.push("/recipes")}>Back</Button>
       <div className="mt-6 flex flex-col md:flex-row gap-6 justify-center">
         {/* Overview card*/}
-        <RecipeOverview recipe={recipe} onEdit={() => setIsOpenEdit(true)} />
+        <RecipeOverview recipe={recipe} onOpen={() => setIsOpenEdit(true)} />
         {/* Recipe detailt: Ingredients,steps & note */}
         <RecipeDetails recipe={recipe} />
       </div>

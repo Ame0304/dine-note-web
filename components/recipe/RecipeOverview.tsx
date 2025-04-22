@@ -7,12 +7,12 @@ import { Recipe } from "@/lib/services/recipeService";
 
 export default function RecipeOverview({
   recipe,
-  onEdit,
+  onOpen,
   isPublic = false,
   username,
 }: {
   recipe: Recipe;
-  onEdit?: () => void;
+  onOpen?: () => void;
   isPublic?: boolean;
   username?: string;
 }) {
@@ -83,7 +83,7 @@ export default function RecipeOverview({
                   <Button variant="primary">🍳 Cook this</Button>
                   <div className="flex gap-3">
                     <Button variant="outline">Share</Button>
-                    <Button variant="outline" onClick={onEdit}>
+                    <Button variant="outline" onClick={onOpen}>
                       Edit
                     </Button>
                     <DeleteRecipe
@@ -94,7 +94,9 @@ export default function RecipeOverview({
                   </div>
                 </div>
               ) : (
-                <Button variant="primary">🍱 Order from {username}</Button>
+                <Button variant="primary" onClick={onOpen}>
+                  🍱 Order from {username}
+                </Button>
               )}
             </div>
           </div>

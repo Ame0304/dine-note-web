@@ -13,12 +13,10 @@ export default function RecipeDetails({
   isPublic?: boolean;
 }) {
   return (
-    <div className="bg-white/50 rounded-2xl md:w-2/3 shadow-lg py-6 px-8 mx-auto w-full border-4 border-accent-200">
+    <div className="bg-white/50 rounded-2xl md:w-2/3 shadow-lg py-6 px-8 lg:px-12 mx-auto w-full border-4 border-accent-200">
       {!isPublic && <TriedBadge tried={recipe.tried} id={recipe.id} />}
       <div className="text-center">
-        <Heading level="h3" styled="bg-accent-500" className="text-accent-200">
-          Recipe Details
-        </Heading>
+        <Heading level="h3">Recipe Details</Heading>
       </div>
 
       {/* Ingredients */}
