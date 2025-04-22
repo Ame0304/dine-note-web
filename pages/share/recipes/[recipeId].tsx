@@ -4,21 +4,26 @@ import { createClient } from "@/lib/supabase/server-props";
 import { GetServerSidePropsContext } from "next";
 import { getRecipeById, Recipe } from "@/lib/services/recipeService";
 
-/*
-Show user’s kitchen name as “Published by [kitchen name]”
+interface RecipeWithUsername extends Recipe {
+  username: string;
+}
 
-Add a “Want to order this?” CTA at bottom (connects to guest order form later)
-
-*/
-
-export default function PublicRecipeDetail({ recipe }: { recipe: Recipe }) {
+export default function PublicRecipeDetail({
+  recipe,
+}: {
+  recipe: RecipeWithUsername;
+}) {
   if (!recipe) return <div>Recipe not found</div>;
 
   return (
     <div className="container px-4 mx-auto sm:max-w-6xl">
       <div className="mt-6 flex flex-col md:flex-row gap-6 justify-center">
         {/* Overview card*/}
-        <RecipeOverview recipe={recipe} isPublic={true} />
+        <RecipeOverview
+          recipe={recipe}
+          isPublic={true}
+          username={recipe.username}
+        />
         {/* Recipe detailt: Ingredients,steps & note */}
         <RecipeDetails recipe={recipe} isPublic={true} />
       </div>

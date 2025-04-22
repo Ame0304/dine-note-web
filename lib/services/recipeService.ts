@@ -163,9 +163,27 @@ export async function getRecipeById(
     return null;
   }
 
+  // Get username from profiles
+  const userId = data[0].userId;
+  let username = "Unknown chef";
+  if (userId) {
+    const { data: profileData, error: profileError } = await supabase
+      .from("profiles")
+      .select("full_name")
+      .eq("id", userId)
+      .single();
+
+    if (profileError) {
+      console.error("Error fetching profile:", profileError);
+    }
+
+    username = profileData?.full_name || "Unknown chef";
+  }
+
   const formattedRecipe = {
     id: data[0].id.toString(),
     userId: data[0].userId,
+    username: username,
     created_at: format(parseISO(data[0].created_at), "yyyy/MM/dd"),
     title: data[0].title,
     description: data[0].description,

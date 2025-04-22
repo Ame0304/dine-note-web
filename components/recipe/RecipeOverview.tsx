@@ -9,10 +9,12 @@ export default function RecipeOverview({
   recipe,
   onEdit,
   isPublic = false,
+  username,
 }: {
   recipe: Recipe;
   onEdit?: () => void;
   isPublic?: boolean;
+  username?: string;
 }) {
   return (
     <div className="mx-auto md:w-1/3 w-full">
@@ -46,9 +48,18 @@ export default function RecipeOverview({
           {/* Recipe Overview Content */}
           <div className="pt-24">
             <div className="flex flex-col justify-bwtween items-center gap-4">
-              <Heading level="h4" className="text-center">
+              <Heading level="h3" className="text-center">
                 {recipe.title}
               </Heading>
+
+              <div className="text-sm flex gap-2 items-center">
+                <span className="italic font-normal text-primary-50">
+                  {isPublic ? "Shared by" : "Chef: "}
+                </span>{" "}
+                <span className="border-2 border-accent-200 rounded-full px-2 py-0.5 text-accent-200 font-semibold">
+                  {username || "Unknown chef"}
+                </span>
+              </div>
 
               <div className="flex flex-wrap gap-2 justify-center">
                 {recipe.categories.map((category) => (
@@ -67,7 +78,7 @@ export default function RecipeOverview({
               </div>
 
               {/* Recipe Actions */}
-              {!isPublic && (
+              {!isPublic ? (
                 <div className="flex flex-col items-center gap-5 w-full">
                   <Button variant="primary">🍳 Cook this</Button>
                   <div className="flex gap-3">
@@ -82,6 +93,8 @@ export default function RecipeOverview({
                     />
                   </div>
                 </div>
+              ) : (
+                <Button variant="primary">🍱 Order from {username}</Button>
               )}
             </div>
           </div>
