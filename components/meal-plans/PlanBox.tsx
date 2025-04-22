@@ -55,7 +55,7 @@ export default function PlanBox({
       ) : (
         <div
           className={`bg-accent-200/20 border-4 rounded-xl p-5 text-center border-dashed border-accent-200/50 transition-transform duration-300 ease-in-out cursor-pointer  ${
-            selected ? "shadow-[0px_0px_60px_16px_#fcdab8] scale-105" : ""
+            selected ? "shadow-[0px_0px_30px_8px_#fcdab8] scale-105" : ""
           }`}
           onClick={handleOnClick}
         >

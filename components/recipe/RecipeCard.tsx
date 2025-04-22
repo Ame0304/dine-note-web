@@ -29,8 +29,8 @@ export default function RecipeCard({
 
   return (
     <div
-      className={`bg-white/50 border-4 rounded-xl shadow-lg transform transition-all hover:scale-105 hover:shadow-primary-900 flex flex-col h-full p-6 ${
-        tried ? "border-accent-200" : "border-accent-200/20"
+      className={`bg-white/70  rounded-xl shadow-lg transform transition-all hover:scale-105 hover:shadow-accent-500 flex flex-col h-full p-6 ${
+        tried ? "border-accent-200 border-4" : ""
       }`}
     >
       <div className="flex flex-col h-full">
@@ -40,7 +40,7 @@ export default function RecipeCard({
             src={imageUrl || "/default-recipe.png"}
             alt={title}
             fill
-            className="object-cover rounded-xl"
+            className="object-cover rounded-xl mt-1"
             sizes="(min-width: 1280px) 20vw, (min-width: 768px) 25vw, 40vw"
           />
 
@@ -49,7 +49,7 @@ export default function RecipeCard({
         </div>
 
         {/* Recipe Info */}
-        <div className="flex flex-col flex-1 w-full px-0.5">
+        <div className="flex flex-col flex-1 w-full px-0.5 mt-1">
           <div className="w-full">
             <Heading
               level="h5"

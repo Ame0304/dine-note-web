@@ -14,10 +14,12 @@ export default function StepRow({
   };
 
   return (
-    <div className="flex justify-start items-center mb-6 last:mb-0">
+    <div
+      className="flex justify-start items-center mb-6 last:mb-0 cursor-pointer"
+      onClick={toggleChecked}
+    >
       {/* Circle marker */}
       <button
-        onClick={toggleChecked}
         className="focus:outline-none"
         aria-label={isChecked ? "Mark as undone" : "Mark as done"}
       >

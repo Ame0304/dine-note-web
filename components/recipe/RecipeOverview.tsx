@@ -3,18 +3,16 @@ import Button from "@/components/Button";
 import Heading from "@/components/Heading";
 import Tag from "@/components/Tag";
 import DeleteRecipe from "./DeleteRecipe";
-import { Recipe } from "@/lib/services/recipeService";
+import { RecipeWithUsername } from "@/pages/share/recipes/[recipeId]";
 
 export default function RecipeOverview({
   recipe,
   onOpen,
   isPublic = false,
-  username,
 }: {
-  recipe: Recipe;
+  recipe: RecipeWithUsername;
   onOpen?: () => void;
   isPublic?: boolean;
-  username?: string;
 }) {
   return (
     <div className="mx-auto md:w-1/3 w-full">
@@ -31,7 +29,7 @@ export default function RecipeOverview({
         </div>
 
         {/* Recipe Overview Card */}
-        <div className="bg-white shadow-lg p-6 relative -mt-12 border-4 border-accent-200 rounded-2xl">
+        <div className="bg-gradient-to-b from-white from-20% to-white/50 shadow-lg p-6 relative -mt-12 border-4 border-accent-200 rounded-2xl">
           {/* Round Recipe Image */}
           <div className="absolute -top-24 left-1/2 transform -translate-x-1/2">
             <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-accent-200 shadow-xl shadow-primary-900">
@@ -51,26 +49,25 @@ export default function RecipeOverview({
               <Heading level="h3" className="text-center">
                 {recipe.title}
               </Heading>
+              <div className="flex flex-wrap gap-2 items-center justify-center">
+                <div className="text-xs flex gap-2 items-center border-2 border-accent-200 rounded-full pr-2">
+                  <span className="bg-accent-200 rounded-full px-2.5 py-0.5 text-accent-500 font-semibold">
+                    {isPublic ? "Shared by" : "🧑‍🍳 Chef "}
+                  </span>
+                  {recipe.username || "Unknown chef"}
+                </div>
 
-              <div className="text-sm flex gap-2 items-center">
-                <span className="italic font-normal text-primary-50">
-                  {isPublic ? "Shared by" : "Chef: "}
-                </span>{" "}
-                <span className="border-2 border-accent-200 rounded-full px-2 py-0.5 text-accent-200 font-semibold">
-                  {username || "Unknown chef"}
-                </span>
-              </div>
-
-              <div className="flex flex-wrap gap-2 justify-center">
-                {recipe.categories.map((category) => (
-                  <Tag key={category.name} color={category.color}>
-                    {category.name}
-                  </Tag>
-                ))}
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {recipe.categories.map((category) => (
+                    <Tag key={category.name} color={category.color}>
+                      {category.name}
+                    </Tag>
+                  ))}
+                </div>
               </div>
 
               {/* Description */}
-              <div className="bg-primary-950 p-4 rounded-xl w-full">
+              <div className="bg-primary-950 p-4 rounded-xl w-full shadow-lg">
                 <Heading level="h5" className="text-accent-200">
                   📝 Description
                 </Heading>
@@ -95,7 +92,7 @@ export default function RecipeOverview({
                 </div>
               ) : (
                 <Button variant="primary" onClick={onOpen}>
-                  🍱 Order from {username}
+                  🍱 Order from {recipe.username}
                 </Button>
               )}
             </div>

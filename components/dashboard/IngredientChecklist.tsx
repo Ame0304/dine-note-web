@@ -36,15 +36,15 @@ export default function IngredientChecklist({
   );
 
   return (
-    <ul className="space-y-2 mt-3 max-h-[200px] overflow-y-auto scrollbar-hide font-semibold">
+    <ul className="space-y-3 mt-3 max-h-[200px] overflow-y-auto scrollbar-hide font-semibold">
       {normalizedIngredients.map((ingredient) => {
         const isChecked = checkedItems.includes(ingredient.name);
 
         return (
           <li
             key={ingredient.name} // Use name as the key
-            className={`flex items-center justify-between cursor-pointer rounded-xl px-5 py-0.5 ${
-              isChecked ? "bg-accent-200" : "bg-primary-950"
+            className={`flex items-center justify-between cursor-pointer rounded-xl px-5 py-0.5 border-2 border-accent-200 ${
+              isChecked ? "bg-accent-200" : "border-dashed"
             }`}
             onClick={() => toggleItem(ingredient.name)} // Toggle using the name
           >

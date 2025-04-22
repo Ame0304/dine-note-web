@@ -20,7 +20,7 @@ export default function PrivateLayout({ children }: { children: ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen bg-primary-950">
+      <div className="min-h-screen">
         <div className="flex h-screen overflow-hidden flex-1">
           <Sidebar
             expanded={showSidebar}

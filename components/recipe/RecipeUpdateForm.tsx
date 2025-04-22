@@ -91,7 +91,7 @@ export default function RecipeUpdateForm({
     >
       {/* Basic info form */}
       <form onSubmit={handleSubmit(onSubmit)} id="recipe-basic">
-        <div className="mt-4 px-4 py-5 rounded-2xl border-4 border-accent-200 bg-white/80 flex flex-col gap-3">
+        <div className="mt-4 px-4 py-5 rounded-2xl bg-white/80 flex flex-col gap-3 shadow-lg">
           {/* Image */}
           <ImageUploadField
             imageUrl={imageUrl}

@@ -17,7 +17,7 @@ export default {
           950: "#fff4e5", // Page background
         },
         accent: {
-          200: "#3C2317", // Dark accent
+          200: "#5e4c44", // Dark accent
           300: "#BAD8B6", // Color accent 2
           400: "#ffb3c0", // Color accent 3
           500: "#98D8EF", // Main accent color

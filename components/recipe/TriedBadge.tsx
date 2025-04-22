@@ -21,7 +21,7 @@ export default function TriedBadge({ tried, id }: TriedBadgeParams) {
             className={`size-10 cursor-pointer ${
               tried
                 ? "stroke-accent-200 fill-accent-500"
-                : "stroke-accent-200/20 fill-primary-950 "
+                : "stroke-accent-200/20 fill-primary-950 hover:stroke-accent-200"
             }`}
             onClick={() => toggleRecipeTried({ tried: !tried, id })}
           />

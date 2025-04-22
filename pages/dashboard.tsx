@@ -69,7 +69,7 @@ export default function DashboardPage({
     <>
       {/* Welcome Message */}
       <Heading level="h1" className="mb-4">
-        Welcome back, {userName}👏
+        Welcome back, {userName} 👏
       </Heading>
 
       <div className="grid grid-cols-1 lg:grid-cols-9 gap-6">

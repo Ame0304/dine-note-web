@@ -19,7 +19,7 @@ export default function AuthLayout({
   footerLinkHref,
 }: AuthLayoutProps) {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6 py-3 lg:px-8 bg-primary-950">
+    <div className="min-h-screen flex flex-col items-center justify-center px-6 py-3 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm flex flex-col items-center -mt-12">
         <Link href="/">
           <Image
@@ -38,7 +38,7 @@ export default function AuthLayout({
       </div>
 
       <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
-        <div className="bg-white/90 backdrop-blur-md backdrop-saturate-150 p-6 rounded-xl shadow-xl shadow-primary-900/50">
+        <div className="bg-white/70 backdrop-blur-md backdrop-saturate-150 p-6 rounded-xl shadow-xl shadow-primary-900/50">
           {children}
         </div>
 

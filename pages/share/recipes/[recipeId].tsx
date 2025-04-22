@@ -7,7 +7,7 @@ import RecipeDetails from "@/components/recipe/RecipeDetails";
 import { getRecipeById, Recipe } from "@/lib/services/recipeService";
 import GuestOrderForm from "@/components/order/GuestOrderForm";
 
-interface RecipeWithUsername extends Recipe {
+export interface RecipeWithUsername extends Recipe {
   username: string;
 }
 
@@ -27,7 +27,6 @@ export default function PublicRecipeDetail({
         <RecipeOverview
           recipe={recipe}
           isPublic={true}
-          username={recipe.username}
           onOpen={() => setIsOpenForm(true)}
         />
         {/* Recipe detailt: Ingredients,steps & note */}

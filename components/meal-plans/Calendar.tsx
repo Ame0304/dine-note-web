@@ -36,7 +36,7 @@ export default function Calendar({ onSelect, selectedDate }: CalendarProps) {
   const today = new Date().toDateString();
 
   return (
-    <div className="flex items-center justify-center gap-4 py-6 px-4 border-4 border-accent-200/50 rounded-3xl bg-white/50 shadow-lg shadow-primary-900">
+    <div className="flex items-center justify-center gap-4 py-6 px-4 border-4 border-accent-200/50 rounded-3xl bg-white/70 shadow-lg shadow-primary-900">
       <Button onClick={handlePrevWeek} size="xs">
         <ChevronLeftIcon className="size-6 stroke-[4.5]" />
       </Button>
@@ -52,7 +52,7 @@ export default function Calendar({ onSelect, selectedDate }: CalendarProps) {
               : "bg-white/80"
           } ${
               date.toDateString() === today
-                ? "bg-accent-200/50 text-accent-500"
+                ? "border-accent-500 border-2 text-accent-500"
                 : ""
             }`}
           >

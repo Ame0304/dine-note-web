@@ -91,7 +91,7 @@ export default function RecipeAddForm({
         </div>
       }
     >
-      <div className="mt-4 px-4 py-5 rounded-2xl border-4 border-accent-200 bg-white/50 flex flex-col gap-3">
+      <div className="mt-4 px-4 py-5 rounded-2xl bg-white/80 shadow-lg flex flex-col gap-3">
         <input hidden {...register("userId")} value={userId} />
         {/* Image */}
         <ImageUploadField

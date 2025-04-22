@@ -55,14 +55,16 @@ export default function Home() {
         </p>
         <div className="flex lg:justify-center items-center gap-2 mt-6">
           <Image src={awardLeft} alt="award left icon" />
-          <span className="text-sm text-accent-400 font-semibold lg:text-md">
+          <span className="text-sm text-accent-500 font-semibold lg:text-md">
             Best App Gonna Be
           </span>
           <Image src={awardRight} alt="award right icon" />
         </div>
         <div className="mt-6">
           <Link href="/auth/signup" className="flex justify-center">
-            <Button size="large">Get started for free</Button>
+            <Button size="large" variant="outline">
+              Get started for free
+            </Button>
           </Link>
         </div>
         <div className="mt-6">

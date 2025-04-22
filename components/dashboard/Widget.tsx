@@ -13,7 +13,7 @@ export default function Widget({
 
   return (
     <div
-      className={`${sizeClasses[size]} bg-white/50 border-4 border-accent-200/50 rounded-xl py-2 px-4 flex flex-col`}
+      className={`${sizeClasses[size]} bg-white/70 rounded-xl py-2 px-4 flex flex-col`}
     >
       {children}
     </div>

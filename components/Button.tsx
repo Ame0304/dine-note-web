@@ -26,11 +26,10 @@ export default function Button({
 
   const variantClasses = {
     primary: "bg-accent-500 text-primary-950 hover:bg-accent-400",
-    alert:
-      "border-2 border-accent-400 text-accent-400 hover:bg-accent-400 hover:text-white",
+    alert: "bg-accent-400 text-primary-950 hover:bg-accent-400/80 ",
     link: "text-accent-200 transition-colors bg-transparent shadow-none",
     outline:
-      "border-2 border-accent-200 text-accent-200 hover:text-accent-500 hover:border-accent-500",
+      "border-2 border-accent-200 text-accent-200 hover:text-accent-500 hover:bg-accent-200",
     mealPlan:
       "border-accent-200 border-2 hover:bg-accent-200 hover:text-accent-500",
   };

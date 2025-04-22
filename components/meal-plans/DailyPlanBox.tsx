@@ -37,7 +37,7 @@ export default function DailyPlanBox({
 
   const today = new Date();
   return (
-    <div className="bg-white/50 shadow-lg shadow-primary-900 rounded-xl p-4 flex flex-col gap-4 h-full">
+    <div className="bg-white/70 shadow-lg shadow-primary-900 rounded-xl p-4 flex flex-col gap-4 h-full">
       <div className="flex flex-col items-start justify-between">
         <Heading level="h2" styled="bg-accent-400">
           {selectedDate.toDateString() === today.toDateString()
