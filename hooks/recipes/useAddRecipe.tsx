@@ -12,7 +12,7 @@ export default function useAddRecipe() {
       queryClient.invalidateQueries({ queryKey: ["recipes"] });
     },
     onError: (error) => {
-      toast.error("Failed to delete recipe");
+      toast.error("Failed to add recipe");
       console.error("Add recipe error:", error);
     },
   });
