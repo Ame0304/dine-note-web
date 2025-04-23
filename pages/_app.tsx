@@ -20,6 +20,7 @@ const PRIVATE_PAGES = [
   "/profile",
   "/recipes/[recipeId]",
   "/meal-plans",
+  "/orders",
 ];
 
 const PUBLIC_SHARE_RECIPE_PREFIX = "/share/recipes/";

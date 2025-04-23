@@ -24,6 +24,12 @@ const navigationItems = [
     icon: BookOpenIcon,
     requiresAuth: true,
   },
+  {
+    name: "Orders",
+    href: "/orders",
+    icon: BookOpenIcon,
+    requiresAuth: true,
+  },
   { name: "Log in", href: "/auth/login", icon: UserIcon, requiresAuth: false },
   {
     name: "Sign up",
@@ -120,7 +126,7 @@ export default function Navbar() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="text-accent-500 hover:text-accent-400 flex items-center gap-1.5"
+                    className="text-accent-200 hover:text-accent-500 flex items-center gap-1.5"
                   >
                     <span className="font-medium">{item.name}</span>
                   </Link>

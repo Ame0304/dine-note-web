@@ -5,6 +5,7 @@ import {
   BookOpenIcon,
   UserIcon,
   CalendarDateRangeIcon,
+  ClipboardIcon,
 } from "@heroicons/react/24/outline";
 
 import Button from "./Button";
@@ -18,6 +19,7 @@ const navigation = [
   { name: "Recipes", href: "/recipes", icon: BookOpenIcon },
   { name: "Profile", href: "/profile", icon: UserIcon },
   { name: "Meal Plans", href: "/meal-plans", icon: CalendarDateRangeIcon },
+  { name: "Orders", href: "/orders", icon: ClipboardIcon },
 ];
 
 interface SidebarProps {
@@ -82,12 +84,12 @@ export default function Sidebar({ expanded, onToggle }: SidebarProps) {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className={`flex items-center gap-3 rounded-xl text-md font-medium text-accent-500 
+                    className={`flex items-center gap-3 rounded-xl text-md font-medium text-accent-200 
                       ${expanded ? "px-4 py-3" : "justify-center p-2"}
                       ${
                         isActive
-                          ? "bg-accent-500 text-primary-950 "
-                          : "hover:bg-accent-500 hover:text-primary-950"
+                          ? "bg-accent-200 text-primary-950 "
+                          : "hover:bg-accent-200 hover:text-primary-950"
                       }`}
                   >
                     <item.icon className="size-6 stroke-2" aria-hidden="true" />

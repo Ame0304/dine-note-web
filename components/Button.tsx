@@ -25,11 +25,12 @@ export default function Button({
   };
 
   const variantClasses = {
-    primary: "bg-accent-500 text-primary-950 hover:bg-accent-400",
+    primary:
+      "hover:text-primary-950 bg-gradient-to-br from-accent-500 to-primary-900",
     alert: "bg-accent-400 text-primary-950 hover:bg-accent-400/80 ",
     link: "text-accent-200 transition-colors bg-transparent shadow-none",
     outline:
-      "border-2 border-accent-200 text-accent-200 hover:text-accent-500 hover:bg-accent-200",
+      "border-2 border-accent-200/50 text-accent-200/50 hover:text-accent-200 hover:border-accent-200",
     mealPlan:
       "border-accent-200 border-2 hover:bg-accent-200 hover:text-accent-500",
   };

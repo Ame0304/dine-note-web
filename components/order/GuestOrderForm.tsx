@@ -10,20 +10,6 @@ import RecipeFormTextarea from "../recipe/RecipeFormTextarea";
 
 import { OrderFormValues, createOrder } from "@/lib/services/orderService";
 
-/*Nest steps:
-
-1.Form submits to orders table
-2. Confirmation toast
-3. Order display in orders page
-- Orders have statuses: "pending" → "accepted" → "added_to_meal_plan" (or "declined")
-- Buttons: “Accept and Add to Meal Plan” / “Decline”
-4. Once accepted:
-- Kitchen owner selects the meal plan date
-- Recipe auto-added to that day
-- Order marked as “added”
-
-*/
-
 interface GuestOrderFormProps {
   isOpen: boolean;
   onClose: () => void;
