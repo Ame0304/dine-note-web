@@ -11,6 +11,21 @@ export type OrderFormValues = {
   mealType?: "lunch" | "dinner" | "breakfast" | "snack";
 };
 
+export interface Order {
+  id: string;
+  guest_name: string;
+  servings: number;
+  date: string;
+  meal_type: string;
+  note?: string;
+  status: string;
+  recipe: {
+    id: string;
+    title: string;
+    imageUrl: string;
+  };
+}
+
 const supabase = createClient();
 
 export async function createOrder(orderData: OrderFormValues) {
@@ -29,4 +44,31 @@ export async function createOrder(orderData: OrderFormValues) {
     console.error("Error creating order:", error);
     throw new Error("Failed to create order");
   }
+}
+
+export async function getOrders(userId: string): Promise<Order[]> {
+  const { data, error } = await supabase
+    .from("orders")
+    .select("*,recipes(id,title,imageUrl)")
+    .eq("user_id", userId);
+
+  console.log("Fetched orders:", data);
+
+  if (error) {
+    console.error("Error fetching orders:", error);
+    throw new Error("Failed to fetch orders");
+  }
+
+  const orders = data.map((order) => ({
+    ...order,
+    servings: order.servings || 0,
+    date: order.date || "",
+    recipe: {
+      id: order.recipes.id,
+      title: order.recipes.title,
+      imageUrl: order.recipes.imageUrl,
+    },
+  }));
+
+  return orders;
 }

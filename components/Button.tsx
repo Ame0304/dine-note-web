@@ -26,7 +26,7 @@ export default function Button({
 
   const variantClasses = {
     primary:
-      "hover:text-primary-950 bg-gradient-to-br from-accent-500 to-primary-900",
+      "text-primary-950 bg-gradient-to-r from-accent-200 to-primary-900 hover:bg-gradient-to-l",
     alert: "bg-accent-400 text-primary-950 hover:bg-accent-400/80 ",
     link: "text-accent-200 transition-colors bg-transparent shadow-none",
     outline:
