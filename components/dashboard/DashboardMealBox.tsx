@@ -77,7 +77,7 @@ export default function DashboardMealBox({
                       imageUrl: meal.recipe.imageUrl || "",
                       categories: meal.recipe.categories,
                     }}
-                    rightElement={ViewLink(meal.recipe.id)}
+                    rightElement={<ViewLink recipeId={meal.recipe.id} />}
                     maxTagWidth="max-w-[150px]"
                   />
                 </li>

@@ -4,6 +4,7 @@ import Heading from "@/components/Heading";
 import Tag from "@/components/Tag";
 import DeleteRecipe from "./DeleteRecipe";
 import { RecipeWithUsername } from "@/pages/share/recipes/[recipeId]";
+import toast from "react-hot-toast";
 
 export default function RecipeOverview({
   recipe,
@@ -14,6 +15,20 @@ export default function RecipeOverview({
   onOpen?: () => void;
   isPublic?: boolean;
 }) {
+  const handleShare = async () => {
+    // Create the share URL
+    const shareUrl = `${window.location.origin}/share/recipes/${recipe.id}`;
+
+    try {
+      // Copy to clipboard
+      await navigator.clipboard.writeText(shareUrl);
+      toast.success("Link copied!", { duration: 5000 });
+    } catch (error) {
+      console.error("Failed to copy link:", error);
+      toast("Failed to copy link", { duration: 2000 });
+    }
+  };
+
   return (
     <div className="mx-auto md:w-1/3 w-full">
       <div className="relative">
@@ -44,7 +59,7 @@ export default function RecipeOverview({
           </div>
 
           {/* Recipe Overview Content */}
-          <div className="pt-24">
+          <div className="pt-20">
             <div className="flex flex-col justify-bwtween items-center gap-4">
               <Heading level="h3" className="text-center">
                 {recipe.title}
@@ -67,10 +82,8 @@ export default function RecipeOverview({
               </div>
 
               {/* Description */}
-              <div className="bg-primary-950 p-4 rounded-xl w-full shadow-lg">
-                <Heading level="h5" className="text-accent-200">
-                  📝 Description
-                </Heading>
+              <div className="bg-accent-200 p-4 rounded-xl w-full text-primary-950">
+                <Heading level="h5">📝 Description</Heading>
                 <p className="mt-2 text-sm">{recipe.description}</p>
               </div>
 
@@ -79,7 +92,9 @@ export default function RecipeOverview({
                 <div className="flex flex-col items-center gap-5 w-full">
                   <Button variant="primary">🍳 Cook this</Button>
                   <div className="flex gap-3">
-                    <Button variant="outline">Share</Button>
+                    <Button variant="outline" onClick={handleShare}>
+                      Share
+                    </Button>
                     <Button variant="outline" onClick={onOpen}>
                       Edit
                     </Button>

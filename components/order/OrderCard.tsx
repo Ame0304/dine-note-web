@@ -54,31 +54,31 @@ export default function OrderCard({
   return (
     <div
       key={order.id}
-      className="bg-white/70 rounded-2xl shadow-md shadow-primary-900 space-y-2"
+      className="bg-white/70 rounded-2xl shadow-md shadow-primary-900"
     >
-      <div className="bg-accent-200 text-primary-950 rounded-t-2xl px-4 py-1.5 flex items-center justify-between">
-        <Heading level="h3">{order.recipe.title}</Heading>
+      <div className="bg-accent-200 text-primary-950 rounded-t-2xl px-4 py-1 flex items-center justify-between">
+        <Heading level="h4">{order.recipe.title}</Heading>
         <span className="inline-flex items-center text-xs">
           <CalendarDateRangeIcon className="size-5 stroke-[2px]  mr-1" />{" "}
           {format(new Date(order.date), "PPP")}
         </span>
       </div>
-      <div className="flex items-center justify-between px-4 pb-4">
+      <div className="flex items-center justify-between px-2 pb-3">
         {/*Order Info*/}
-        <div className="flex flex-col items-start justify-between w-2/3  gap-1 sm:gap-3">
+        <div className="flex flex-col items-start justify-between w-2/3 gap-3">
           {/* Order Details */}
-          <div className="mt-2 flex flex-col sm:flex-row items-center text-sm space-y-1 sm:space-x-3">
+          <div className="mt-2 flex flex-row items-center text-xs gap-1">
             <span className="inline-flex items-center border-2 border-accent-200 rounded-full px-2 py-0.5">
               <UserIcon className="size-4 stroke-[2px] mr-1" />
               {order.guest_name}
             </span>
-            <div className="flex gap-3">
-              <span className="inline-flex items-center text-accent-200">
-                <SunIcon className="size-5 stroke-[2px] mr-1 " />
+            <div className="flex gap-1">
+              <span className="inline-flex items-center text-accent-200 shrink-0">
+                <SunIcon className="size-5 stroke-[2px] mr-1" />
                 {order.servings} serving{order.servings > 1 && "s"}
               </span>
               <span className="inline-flex items-center text-accent-200">
-                <TagIcon className="size-5 stroke-[2px]  mr-1 " />
+                <TagIcon className="size-5 stroke-[2px]  mr-1" />
                 {order.meal_type}
               </span>
             </div>
@@ -86,7 +86,7 @@ export default function OrderCard({
           {/* Order Note */}
           {order.note && (
             <div className="relative w-full">
-              <p className="text-sm italic bg-accent-200 px-3 py-2 mb-2 rounded-2xl text-primary-950 relative after:content-[''] after:absolute after:left-4 after:-bottom-2 after:w-0 after:h-0 after:border-l-[8px] after:border-l-transparent after:border-r-[8px] after:border-r-transparent after:border-t-[8px] after:border-t-accent-200">
+              <p className="text-xs italic bg-accent-200 px-3 py-1.5 mb-2 rounded-2xl text-primary-950 relative after:content-[''] after:absolute after:left-4 after:-bottom-2 after:w-0 after:h-0 after:border-l-[8px] after:border-l-transparent after:border-r-[8px] after:border-r-transparent after:border-t-[8px] after:border-t-accent-200">
                 {order.note}
               </p>
             </div>
@@ -118,7 +118,7 @@ export default function OrderCard({
           alt={order.recipe.title}
           width={80}
           height={80}
-          className="w-24 h-24 sm:w-32 sm:h-32 rounded-xl object-cover shadow-md shadow-primary-900"
+          className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover shadow-md shadow-primary-900"
         />
       </div>
       <AcceptOrderModal

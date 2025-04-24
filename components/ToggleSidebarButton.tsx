@@ -15,7 +15,7 @@ export default function ToggleSidebarButton({
     <button
       type="button"
       onClick={onClick}
-      className={`inline-flex items-center justify-center rounded-xl p-2 text-accent-500 hover:bg-accent-500 hover:text-primary-950 hover:text-primary-950"
+      className={`inline-flex items-center justify-center rounded-xl p-2 text-accent-200 hover:bg-accent-500 hover:text-primary-950 hover:text-primary-950"
       aria-label="Open sidebar ${className}`}
       aria-label={isOpen ? "Close sidebar" : "Open sidebar"}
     >

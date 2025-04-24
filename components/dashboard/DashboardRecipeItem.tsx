@@ -11,7 +11,7 @@ export default function DashboardRecipeItem({
     <li className="py-1">
       <BaseRecipeItem
         recipe={{ ...recipe, imageUrl: recipe.imageUrl ?? "" }}
-        rightElement={ViewLink(recipe.id)}
+        rightElement={<ViewLink recipeId={recipe.id} />}
         maxTagWidth="max-w-[200px]"
       />
     </li>

@@ -36,35 +36,19 @@ export default function IngredientChecklist({
   );
 
   return (
-    <ul className="space-y-3 mt-3 max-h-[200px] overflow-y-auto scrollbar-hide font-semibold">
+    <ul className="space-y-2 mt-3 max-h-[200px] overflow-y-auto scrollbar-hide font-semibold">
       {normalizedIngredients.map((ingredient) => {
         const isChecked = checkedItems.includes(ingredient.name);
 
         return (
           <li
             key={ingredient.name} // Use name as the key
-            className={`flex items-center justify-between cursor-pointer rounded-xl px-5 py-0.5 border-2 border-accent-200 ${
-              isChecked ? "bg-accent-200" : "border-dashed"
+            className={`flex items-center justify-between cursor-pointer rounded-2xl px-2 py-0.5 border-accent-200 ${
+              isChecked ? "bg-accent-200" : ""
             }`}
             onClick={() => toggleItem(ingredient.name)} // Toggle using the name
           >
-            <span
-              className={`${isChecked ? "line-through text-primary-50" : ""}`}
-            >
-              {ingredient.name}
-            </span>
-
             <div className="flex items-center justify-between gap-3">
-              {/* Conditionally display quantity if it exists */}
-              {ingredient.quantity && (
-                <span
-                  className={`text-sm text-primary-50 ${
-                    isChecked ? "line-through" : ""
-                  }`}
-                >
-                  {ingredient.quantity}
-                </span>
-              )}
               <button
                 aria-label={
                   isChecked ? "Mark as unavailable" : "Mark as available"
@@ -77,7 +61,23 @@ export default function IngredientChecklist({
                   <CheckCircleIcon className="size-6 lg:size-8 text-primary-50 hover:text-accent-400 transition-colors" />
                 )}
               </button>
+              <span
+                className={`${isChecked ? "line-through text-primary-50" : ""}`}
+              >
+                {ingredient.name}
+              </span>
             </div>
+
+            {/* Conditionally display quantity if it exists */}
+            {ingredient.quantity && (
+              <span
+                className={`text-sm text-primary-50 ${
+                  isChecked ? "line-through" : ""
+                }`}
+              >
+                {ingredient.quantity}
+              </span>
+            )}
           </li>
         );
       })}

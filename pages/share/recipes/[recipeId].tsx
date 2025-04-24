@@ -6,6 +6,7 @@ import RecipeOverview from "@/components/recipe/RecipeOverview";
 import RecipeDetails from "@/components/recipe/RecipeDetails";
 import { getRecipeById, Recipe } from "@/lib/services/recipeService";
 import GuestOrderForm from "@/components/order/GuestOrderForm";
+import Heading from "@/components/Heading";
 
 export interface RecipeWithUsername extends Recipe {
   username: string;
@@ -21,7 +22,11 @@ export default function PublicRecipeDetail({
   if (!recipe) return <div>Recipe not found</div>;
 
   return (
-    <div className="container px-4 mx-auto sm:max-w-6xl">
+    <div className="container -my-8 px-4 mx-auto sm:max-w-6xl">
+      <Heading level="h2" className="text-center mb-8">
+        Hi there! <span className="text-accent-500">{recipe.username} </span>is
+        sharing this recipe with you, Enjoy! 🥰
+      </Heading>
       <div className="flex flex-col md:flex-row gap-6 justify-center">
         {/* Overview card*/}
         <RecipeOverview
