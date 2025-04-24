@@ -1,4 +1,3 @@
-// import { useState } from "react";
 import { useUser } from "@/context/UserContext";
 import useOrders from "@/hooks/orders/useOrders";
 
@@ -8,11 +7,9 @@ import Loading from "@/components/Loading";
 
 export default function OrdersPage() {
   const { user } = useUser();
-  const userId = user?.id;
+  const userId = user?.id as string;
 
-  //   const [selectedOrder, setSelectedOrder] = useState(null);
-
-  const { orders, isLoading } = useOrders(userId as string);
+  const { orders, isLoading } = useOrders(userId);
 
   if (isLoading) return <Loading />;
 
@@ -27,7 +24,7 @@ export default function OrdersPage() {
           <span className="font-semibold ">🍽️ No orders yet</span>
         </div>
       ) : (
-        <OrderList orders={orders} />
+        <OrderList orders={orders} userId={userId} />
       )}
     </div>
   );

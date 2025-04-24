@@ -52,8 +52,6 @@ export async function getOrders(userId: string): Promise<Order[]> {
     .select("*,recipes(id,title,imageUrl)")
     .eq("user_id", userId);
 
-  console.log("Fetched orders:", data);
-
   if (error) {
     console.error("Error fetching orders:", error);
     throw new Error("Failed to fetch orders");
@@ -71,4 +69,19 @@ export async function getOrders(userId: string): Promise<Order[]> {
   }));
 
   return orders;
+}
+
+export async function updateOrderStatus(
+  orderId: string,
+  status: "accepted" | "declined"
+) {
+  const { error } = await supabase
+    .from("orders")
+    .update({ status })
+    .eq("id", orderId);
+
+  if (error) {
+    console.error("Error updating order status:", error);
+    throw new Error("Failed to update order status");
+  }
 }
