@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import { Order } from "@/lib/services/orderService";
 import useUpdateOrder from "@/hooks/orders/useUpdateOrder";
+import useAddMealToPlan from "@/hooks/meal-plans/useAddMealToPlan";
 
 import Button from "@/components/Button";
 import Heading from "@/components/Heading";
@@ -24,6 +25,7 @@ export default function OrderCard({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const { updateOrder, isUpdating } = useUpdateOrder();
+  const { addMealToPlan } = useAddMealToPlan();
   const handleAccept = (selectedDate: string) => {
     // 1. Update the order status to "accepted"
     updateOrder({
@@ -37,7 +39,9 @@ export default function OrderCard({
       mealType: order.meal_type,
       recipeId: order.recipe.id,
     };
-    console.log(addToPlanData);
+
+    addMealToPlan(addToPlanData);
+
     setIsOpen(false);
   };
   const handleDecline = () => {

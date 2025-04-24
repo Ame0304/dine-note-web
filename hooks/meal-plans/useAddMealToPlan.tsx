@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import { generateDateKey } from "@/lib/helpers";
 
 interface AddMealOptimisticParams extends AddMealToPlanParams {
-  recipeData: PlanRecipe; // Include the full recipe data
+  recipeData?: PlanRecipe; // Include the full recipe data
 }
 
 interface CachedMealPlan {
@@ -39,6 +39,8 @@ export default function useAddMealToPlan() {
       // 2. Snapshot the previous value
       const previousMealPlan =
         queryClient.getQueryData<CachedMealPlan>(queryKey);
+
+      if (!recipeData) return; // When this hook is used in orders page
 
       // 3. Optimistically update to the new value
       queryClient.setQueryData<CachedMealPlan>(queryKey, (old) => {

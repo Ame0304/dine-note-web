@@ -14,30 +14,36 @@ export default function OrderList({
   const declinedOrders = orders.filter((order) => order.status === "declined");
 
   return (
-    <div className="space-y-3">
-      <Heading level="h3" styled="bg-accent-500">
-        Pending
-      </Heading>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {pendingOrders.map((order) => (
-          <OrderCard key={order.id} order={order} userId={userId} />
-        ))}
+    <div className="space-y-6">
+      <div>
+        <Heading level="h3" styled="bg-accent-500">
+          Pending
+        </Heading>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {pendingOrders.map((order) => (
+            <OrderCard key={order.id} order={order} userId={userId} />
+          ))}
+        </div>
       </div>
-      <Heading level="h3" styled="bg-accent-300">
-        Accepted
-      </Heading>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {acceptedOrders.map((order) => (
-          <OrderCard key={order.id} order={order} userId={userId} />
-        ))}
+      <div>
+        <Heading level="h3" styled="bg-accent-300">
+          Accepted
+        </Heading>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {acceptedOrders.map((order) => (
+            <OrderCard key={order.id} order={order} userId={userId} />
+          ))}
+        </div>
       </div>
-      <Heading level="h3" styled="bg-accent-400">
-        Declined
-      </Heading>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {declinedOrders.map((order) => (
-          <OrderCard key={order.id} order={order} userId={userId} />
-        ))}
+      <div>
+        <Heading level="h3" styled="bg-accent-400">
+          Declined
+        </Heading>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {declinedOrders.map((order) => (
+            <OrderCard key={order.id} order={order} userId={userId} />
+          ))}
+        </div>
       </div>
     </div>
   );
