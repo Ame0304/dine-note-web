@@ -4,11 +4,12 @@ import Pagination from "@/components/recipe/Pagination";
 import RecipeControls from "@/components/recipe/RecipeControls";
 import RecipesList from "@/components/recipe/RecipesList";
 import Button from "@/components/Button";
-import RecipeAddForm from "@/components/recipe/RecipeAddForm";
-import { useState } from "react";
+import { useState, lazy } from "react";
 import { useUser } from "@/context/UserContext";
 import { useRecipes } from "@/hooks/recipes/useRecipes";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
+
+const RecipeAddForm = lazy(() => import("@/components/recipe/RecipeAddForm"));
 
 export default function RecipesPage() {
   const [isOpenAdd, setIsOpenAdd] = useState(false);
@@ -17,7 +18,6 @@ export default function RecipesPage() {
   const userId = user?.id;
 
   const { isLoading, recipes, count } = useRecipes(userId);
-  console.log(recipes);
 
   if (isLoading) {
     return <Loading message="Loading Recipes..." size="large" />;
@@ -42,11 +42,13 @@ export default function RecipesPage() {
         <RecipeControls userId={userId} />
       </div>
 
-      <RecipeAddForm
-        isOpen={isOpenAdd}
-        onClose={() => setIsOpenAdd(false)}
-        userId={String(userId)}
-      />
+      {isOpenAdd && (
+        <RecipeAddForm
+          isOpen={isOpenAdd}
+          onClose={() => setIsOpenAdd(false)}
+          userId={String(userId)}
+        />
+      )}
 
       {/* Recipe Grid View */}
       <RecipesList recipes={recipes} />

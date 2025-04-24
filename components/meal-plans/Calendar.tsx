@@ -1,4 +1,5 @@
-import { useState } from "react";
+import React from "react";
+import { useState, useMemo, useCallback } from "react";
 import Button from "@/components/Button";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { getStartOfWeek } from "@/lib/helpers";
@@ -8,32 +9,36 @@ interface CalendarProps {
   selectedDate: Date;
 }
 
-export default function Calendar({ onSelect, selectedDate }: CalendarProps) {
+const Calendar = React.memo(function Calendar({
+  onSelect,
+  selectedDate,
+}: CalendarProps) {
   const [startDate, setStartDate] = useState(getStartOfWeek(selectedDate));
 
-  // Get dates for the week
-  const getWeekDates = (start: Date) => {
+  const weekDates = useMemo(() => {
     return Array.from({ length: 7 }, (_, i) => {
-      const date = new Date(start);
-      date.setDate(start.getDate() + i);
+      const date = new Date(startDate);
+      date.setDate(startDate.getDate() + i);
       return date;
     });
-  };
-
-  const handlePrevWeek = () => {
-    const newStartDate = new Date(startDate);
-    newStartDate.setDate(startDate.getDate() - 7);
-    setStartDate(newStartDate);
-  };
-
-  const handleNextWeek = () => {
-    const newStartDate = new Date(startDate);
-    newStartDate.setDate(startDate.getDate() + 7);
-    setStartDate(newStartDate);
-  };
-
-  const weekDates = getWeekDates(startDate);
+  }, [startDate]);
   const today = new Date().toDateString();
+
+  const handlePrevWeek = useCallback(() => {
+    setStartDate((prevDate) => {
+      const newStartDate = new Date(prevDate);
+      newStartDate.setDate(prevDate.getDate() - 7);
+      return newStartDate;
+    });
+  }, []);
+
+  const handleNextWeek = useCallback(() => {
+    setStartDate((prevDate) => {
+      const newStartDate = new Date(prevDate);
+      newStartDate.setDate(prevDate.getDate() + 7);
+      return newStartDate;
+    });
+  }, []);
 
   return (
     <div className="flex items-center justify-center gap-4 py-6 px-4 border-4 border-accent-200/50 rounded-3xl bg-white/70 shadow-lg shadow-primary-900">
@@ -74,4 +79,6 @@ export default function Calendar({ onSelect, selectedDate }: CalendarProps) {
       </Button>
     </div>
   );
-}
+});
+
+export default Calendar;

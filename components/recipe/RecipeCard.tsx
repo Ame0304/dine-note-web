@@ -34,7 +34,7 @@ export default function RecipeCard({
       }`}
     >
       <div className="flex flex-col h-full">
-        {/* Feathered Recipe Image  */}
+        {/* Recipe Image  */}
         <div className="relative aspect-square w-full mb-2 shadow-lg rounded-xl">
           <Image
             src={imageUrl || "/default-recipe.png"}
@@ -42,6 +42,8 @@ export default function RecipeCard({
             fill
             className="object-cover rounded-xl mt-1"
             sizes="(min-width: 1280px) 20vw, (min-width: 768px) 25vw, 40vw"
+            loading="lazy"
+            quality={80}
           />
 
           {/* Tried badge */}
