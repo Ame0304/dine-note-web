@@ -2,6 +2,8 @@ import { ReactNode, useState } from "react";
 
 import Sidebar from "./Sidebar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ErrorBoundary } from "react-error-boundary";
+import Error from "./Error";
 
 export default function PrivateLayout({ children }: { children: ReactNode }) {
   const [queryClient] = useState(
@@ -40,7 +42,11 @@ export default function PrivateLayout({ children }: { children: ReactNode }) {
               />
             )}
             {/* Main content */}
-            <div className="mx-auto max-w-7xl">{children}</div>
+            <div className="mx-auto max-w-7xl">
+              <ErrorBoundary FallbackComponent={Error}>
+                {children}
+              </ErrorBoundary>
+            </div>
           </main>
         </div>
       </div>

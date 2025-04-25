@@ -27,6 +27,13 @@ const tailwindColorMap = {
 };
 
 export default function CategoryChart({ data }: CategoryChartProps) {
+  if (!data || data.length === 0) {
+    return (
+      <div className="h-64 flex items-center justify-center">
+        <p>No category data available</p>
+      </div>
+    );
+  }
   return (
     <ResponsiveContainer width="100%" height={250}>
       <BarChart

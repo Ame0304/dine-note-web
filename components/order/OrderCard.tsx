@@ -108,7 +108,7 @@ export default function OrderCard({
             </div>
           ) : (
             <Button disabled size="small">
-              ✅ Accepted
+              {order.status === "accepted" ? "✅ Accepted" : " ❌ Declined"}
             </Button>
           )}
         </div>

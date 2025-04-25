@@ -44,6 +44,14 @@ const CookingHeatmap = React.memo(function CookingHeatMap({
     []
   );
 
+  if (!mealPlanTrend || mealPlanTrend.length === 0) {
+    return (
+      <div className="h-64 flex items-center justify-center">
+        <p className="text-gray-400">No cooking trend data available</p>
+      </div>
+    );
+  }
+
   return (
     <Widget size="medium">
       <Heading level="h4" styled="bg-accent-500">

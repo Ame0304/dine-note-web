@@ -1,3 +1,6 @@
+import { ErrorBoundary } from "react-error-boundary";
+import Error from "../Error";
+
 export default function Widget({
   size = "medium",
   children,
@@ -12,10 +15,12 @@ export default function Widget({
   };
 
   return (
-    <div
-      className={`${sizeClasses[size]} bg-white/70 rounded-xl py-2 px-4 flex flex-col`}
-    >
-      {children}
-    </div>
+    <ErrorBoundary FallbackComponent={Error}>
+      <div
+        className={`${sizeClasses[size]} bg-white/70 rounded-xl py-2 px-4 flex flex-col`}
+      >
+        {children}
+      </div>
+    </ErrorBoundary>
   );
 }

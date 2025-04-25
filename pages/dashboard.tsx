@@ -48,7 +48,12 @@ export default function DashboardPage({
   error,
 }: DashboardPageProps) {
   if (error) {
-    return <Error message={error} />;
+    return (
+      <Error
+        error={new globalThis.Error(error)}
+        resetErrorBoundary={() => window.location.reload()}
+      />
+    );
   }
 
   const {
@@ -167,7 +172,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       analyticsResult.reason
     );
     pageError = "Failed to load essential recipe data.";
-    // initalAnalytics remains null
   }
 
   // Assign values for others if fulfilled, otherwise rely on initialized defaults

@@ -14,6 +14,14 @@ export default function TriedPieChart({
   triedRecipesPercentage,
   triedVsUntriedData,
 }: TriedPieChartProps) {
+  if (!triedVsUntriedData || triedVsUntriedData.length === 0) {
+    return (
+      <div className="h-64 flex items-center justify-center">
+        <p className="text-gray-400">No tried recipes data available</p>
+      </div>
+    );
+  }
+
   return (
     <Widget size="medium">
       <div className="flex flex-wrap justify-between items-center">

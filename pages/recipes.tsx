@@ -1,10 +1,12 @@
+import { useState, lazy } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import Error from "@/components/Error";
 import Heading from "@/components/Heading";
 import Loading from "@/components/Loading";
 import Pagination from "@/components/recipe/Pagination";
 import RecipeControls from "@/components/recipe/RecipeControls";
 import RecipesList from "@/components/recipe/RecipesList";
 import Button from "@/components/Button";
-import { useState, lazy } from "react";
 import { useUser } from "@/context/UserContext";
 import { useRecipes } from "@/hooks/recipes/useRecipes";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
@@ -51,7 +53,9 @@ export default function RecipesPage() {
       )}
 
       {/* Recipe Grid View */}
-      <RecipesList recipes={recipes} />
+      <ErrorBoundary FallbackComponent={Error}>
+        <RecipesList recipes={recipes} />
+      </ErrorBoundary>
 
       {/* Pagination */}
       {count > 0 && <Pagination totalItems={count} />}
