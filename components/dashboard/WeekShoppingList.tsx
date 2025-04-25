@@ -13,7 +13,7 @@ export default function WeekShoppingList({
       <Heading level="h4" styled="bg-accent-400">
         🛒 Week&apos;s Shopping list
       </Heading>
-      <div className="px-2">
+      <div>
         {weekIngredients && weekIngredients.length !== 0 ? (
           <IngredientChecklist ingredients={weekIngredients} />
         ) : (

@@ -3,6 +3,7 @@ import { PAGE_SIZE } from "../constants";
 import { format, parseISO } from "date-fns";
 import { Ingredient } from "@/components/recipe/IngredientsManager";
 import { RecipeAddFormValues } from "@/components/recipe/RecipeAddForm";
+import { compressImage } from "@/lib/helpers";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 export interface Recipe {
@@ -443,13 +444,15 @@ export async function uploadRecipeImage(
     return "/default-recipe.png";
   }
 
+  const compressedImage = await compressImage(imageFile);
+
   // Generate a unique filename
   const fileName = `recipe-${userId}-${Date.now()}`;
 
   // Upload the image to Supabase storage
   const { error: storageError } = await supabase.storage
     .from("recipe_images")
-    .upload(fileName, imageFile);
+    .upload(fileName, compressedImage);
 
   if (storageError) throw new Error(storageError.message);
 

@@ -42,7 +42,7 @@ export default function ConfirmDeleteDialog({
         aria-hidden="true"
       />
       <div className="fixed inset-0 flex w-screen items-center justify-center text-primary-100">
-        <DialogPanel className="max-w-lg space-y-5 px-10 py-8 bg-primary-950 rounded-2xl shadow-lg transform transition-all">
+        <DialogPanel className="max-w-lg space-y-5 px-10 py-8 bg-white rounded-2xl shadow-lg transform transition-all">
           <div className="flex items-center gap-4">
             <div className="bg-accent-400/30 rounded-full p-2">
               <TrashIcon className="size-6 stroke-accent-400" />

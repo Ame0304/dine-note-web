@@ -36,7 +36,7 @@ export default function IngredientChecklist({
   );
 
   return (
-    <ul className="space-y-2 mt-3 max-h-[200px] overflow-y-auto scrollbar-hide font-semibold">
+    <ul className="space-y-2 max-h-[200px] overflow-y-auto scrollbar-hide font-semibold">
       {normalizedIngredients.map((ingredient) => {
         const isChecked = checkedItems.includes(ingredient.name);
 

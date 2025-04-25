@@ -110,3 +110,66 @@ export function getStartOfWeek(date: Date): Date {
   result.setDate(result.getDate() - day + 1); // Go back to Monday
   return result;
 }
+
+// Compress images
+export async function compressImage(file: File): Promise<File> {
+  // Use browser's canvas for image compression
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target?.result as string;
+      img.onload = () => {
+        // Target dimensions - adjust as needed
+        const MAX_WIDTH = 410;
+        const MAX_HEIGHT = 410;
+
+        let width = img.width;
+        let height = img.height;
+
+        // Calculate new dimensions while maintaining aspect ratio
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height = Math.round((height * MAX_WIDTH) / width);
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width = Math.round((width * MAX_HEIGHT) / height);
+            height = MAX_HEIGHT;
+          }
+        }
+
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext("2d");
+        ctx?.drawImage(img, 0, 0, width, height);
+
+        // Convert to blob with reduced quality
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) {
+              reject(new Error("Canvas to Blob conversion failed"));
+              return;
+            }
+
+            // Create a new file from the blob
+            const compressedFile = new File([blob], file.name, {
+              type: "image/jpeg",
+              lastModified: Date.now(),
+            });
+
+            resolve(compressedFile);
+          },
+          "image/jpeg",
+          0.7 // Quality: 0.7 (70%)
+        );
+      };
+      img.onerror = () => reject(new Error("Image loading error"));
+    };
+    reader.onerror = () => reject(new Error("File reading error"));
+  });
+}
