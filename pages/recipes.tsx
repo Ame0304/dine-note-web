@@ -7,14 +7,16 @@ import Pagination from "@/components/recipe/Pagination";
 import RecipeControls from "@/components/recipe/RecipeControls";
 import RecipesList from "@/components/recipe/RecipesList";
 import Button from "@/components/Button";
+import AIRecipeForm from "@/components/recipe/AIRecipeForm";
 import { useUser } from "@/context/UserContext";
 import { useRecipes } from "@/hooks/recipes/useRecipes";
-import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import { PlusCircleIcon, SparklesIcon } from "@heroicons/react/24/outline";
 
 const RecipeAddForm = lazy(() => import("@/components/recipe/RecipeAddForm"));
 
 export default function RecipesPage() {
   const [isOpenAdd, setIsOpenAdd] = useState(false);
+  const [isOpenAIForm, setIsOpenAIForm] = useState(false);
 
   const { user } = useUser();
   const userId = user?.id;
@@ -33,10 +35,13 @@ export default function RecipesPage() {
           <Heading level="h2" styled="bg-accent-500">
             Recipes
           </Heading>
-
-          <Button onClick={() => setIsOpenAdd(true)}>
+          <Button variant="outline" onClick={() => setIsOpenAdd(true)}>
             Add
             <PlusCircleIcon className="size-6 stroke-[3]" />
+          </Button>
+          <Button onClick={() => setIsOpenAIForm(true)}>
+            Generate AI Recipe
+            <SparklesIcon className="size-6 stroke-[3]" />
           </Button>
         </div>
 
@@ -49,6 +54,13 @@ export default function RecipesPage() {
           isOpen={isOpenAdd}
           onClose={() => setIsOpenAdd(false)}
           userId={String(userId)}
+        />
+      )}
+
+      {isOpenAIForm && (
+        <AIRecipeForm
+          isOpen={isOpenAIForm}
+          onClose={() => setIsOpenAIForm(false)}
         />
       )}
 

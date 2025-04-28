@@ -30,7 +30,7 @@ export default function Button({
     alert: "bg-accent-400 text-primary-950 hover:bg-accent-400/80 ",
     link: "text-accent-200 transition-colors bg-transparent shadow-none",
     outline:
-      "border-2 border-accent-200/50 text-accent-200/50 hover:text-accent-200 hover:border-accent-200",
+      "border-2 border-accent-200 text-accent-200 hover:text-primary-950 hover:bg-accent-200",
     mealPlan:
       "border-accent-200 border-2 hover:bg-accent-200 hover:text-accent-500",
   };

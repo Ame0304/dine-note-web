@@ -46,6 +46,7 @@ export default function ResetPasswordForm() {
       <FormRowHorizontal label="New Password" error={errors.password?.message}>
         <Input
           placeholder="Reset password"
+          className="max-w-80"
           id="password"
           type="password"
           {...register("password", {
@@ -69,6 +70,7 @@ export default function ResetPasswordForm() {
       >
         <Input
           placeholder="Confirm Password"
+          className="max-w-80"
           id="confirmPassword"
           type="password"
           {...register("confirmPassword", {

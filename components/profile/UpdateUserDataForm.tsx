@@ -45,6 +45,7 @@ export default function UpdateUserDataForm({
       <form onSubmit={handleSubmit}>
         <FormRowHorizontal label="Full Name">
           <Input
+            className="max-w-80"
             value={fullName}
             id="fullName"
             onChange={(e) => setFullName(e.target.value)}
@@ -52,7 +53,7 @@ export default function UpdateUserDataForm({
           />
         </FormRowHorizontal>
         <FormRowHorizontal label="Email" error="Full name cannot be changed">
-          <Input placeholder={email} id="email" disabled />
+          <Input placeholder={email} id="email" className="max-w-80" disabled />
         </FormRowHorizontal>
 
         <FormRowHorizontal label="Avatar" error="">

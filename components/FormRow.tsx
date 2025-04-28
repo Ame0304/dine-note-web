@@ -15,7 +15,7 @@ export default function FormRow({
       <label htmlFor={props.id} className="block text-sm/6 font-medium">
         {label}
       </label>
-      <div className="mt-2">{children}</div>
+      <div className="mt-2 font-semibold">{children}</div>
       {error && <p className="mt-1 text-sm text-primary-500">{error}</p>}
     </div>
   );
