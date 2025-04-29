@@ -23,7 +23,7 @@ export default async function handler(
     {
       "title": "Recipe Title",
       "description": "Short description",
-      "ingredients": [{name: "Ingredient 1", quantity: "2 cups"}, {name: "Ingredient 2", quantity: "1 tbsp"}],
+      "ingredients": [{name: "Flour", quantity: "300g"}, {name: "Strawberry", quantity: "50g"}],
       "steps": ["Step 1", "Step 2"],
     }
     `;

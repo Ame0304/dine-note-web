@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { generateAIRecipe, AIRecipeFormValues } from "@/lib/services/aiService";
 import { useUser } from "@/context/UserContext";
@@ -26,57 +26,6 @@ interface GeneratedRecipe {
   ingredients: Array<{ name: string; quantity: string }>;
   steps: string[];
 }
-// const recipedefault = {
-//   title: "Stir-Fried Potatoes and Green Peppers",
-//   description:
-//     "A flavorful and quick vegetarian stir-fry featuring tender potatoes and crunchy green peppers, seasoned with traditional Chinese spices.",
-//   ingredients: [
-//     {
-//       name: "Potato",
-//       quantity: "2 cups, diced",
-//     },
-//     {
-//       name: "Green pepper",
-//       quantity: "1 cup, sliced",
-//     },
-//     {
-//       name: "Garlic",
-//       quantity: "2 cloves, minced",
-//     },
-//     {
-//       name: "Ginger",
-//       quantity: "1 inch, minced",
-//     },
-//     {
-//       name: "Soy sauce",
-//       quantity: "2 tbsp",
-//     },
-//     {
-//       name: "Sesame oil",
-//       quantity: "1 tbsp",
-//     },
-//     {
-//       name: "Salt",
-//       quantity: "to taste",
-//     },
-//     {
-//       name: "Pepper",
-//       quantity: "to taste",
-//     },
-//     {
-//       name: "Green onions",
-//       quantity: "2, chopped for garnish",
-//     },
-//   ],
-//   steps: [
-//     "Heat sesame oil in a wok or large skillet over medium heat.",
-//     "Add minced garlic and ginger, sauté for 1 minute until fragrant.",
-//     "Add diced potatoes and stir-fry for about 5-7 minutes until they start to soften.",
-//     "Add sliced green peppers and continue to stir-fry for another 3-5 minutes until both vegetables are tender but still crisp.",
-//     "Pour in soy sauce and season with salt and pepper to taste, stir well to combine.",
-//     "Remove from heat and garnish with chopped green onions before serving.",
-//   ],
-// };
 
 export default function AIRecipeForm({ isOpen, onClose }: AIRecipeFormProps) {
   const { user } = useUser();
@@ -85,6 +34,17 @@ export default function AIRecipeForm({ isOpen, onClose }: AIRecipeFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [generatedRecipe, setGeneratedRecipe] =
     useState<GeneratedRecipe | null>(null);
+  const [showRecipe, setShowRecipe] = useState(false);
+
+  // Handle animation when recipe is generated
+  useEffect(() => {
+    if (generatedRecipe) {
+      const timer = setTimeout(() => {
+        setShowRecipe(true);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [generatedRecipe, isGenerating]);
 
   const {
     handleSubmit,
@@ -102,6 +62,8 @@ export default function AIRecipeForm({ isOpen, onClose }: AIRecipeFormProps) {
 
   const onSubmit: SubmitHandler<AIRecipeFormValues> = async (data) => {
     setIsGenerating(true);
+    setShowRecipe(true);
+    setError(null);
 
     try {
       const recipe = await generateAIRecipe(data);
@@ -118,18 +80,22 @@ export default function AIRecipeForm({ isOpen, onClose }: AIRecipeFormProps) {
   const handleRegenerate = () => {
     const newData = getValues(); // Get current form values
     setIsGenerating(true);
+    setShowRecipe(true);
 
-    generateAIRecipe(newData)
-      .then((recipe) => {
-        setGeneratedRecipe(recipe);
-      })
-      .catch((error) => {
-        console.error("Error regenerating recipe:", error);
-        setError("Opps! Something went wrong. Please try again.");
-      })
-      .finally(() => {
-        setIsGenerating(false);
-      });
+    setTimeout(() => {
+      generateAIRecipe(newData)
+        .then((recipe) => {
+          setGeneratedRecipe(recipe);
+        })
+        .catch((error) => {
+          console.error("Error regenerating recipe:", error);
+          setError("Opps! Something went wrong. Please try again.");
+          setIsGenerating(false);
+        })
+        .finally(() => {
+          setIsGenerating(false);
+        });
+    }, 300);
   };
 
   const handleAddToRecipes = () => {
@@ -159,7 +125,9 @@ export default function AIRecipeForm({ isOpen, onClose }: AIRecipeFormProps) {
       isOpen={isOpen}
       onClose={onClose}
       title="Generate AI Recipe ✨"
-      width={`${generatedRecipe ? "lg:w-2/3" : "lg:w-1/3"} `}
+      width={`${
+        generatedRecipe || isGenerating ? "lg:w-2/3" : "lg:w-1/3"
+      } transition-all duration-300 ease-in-out`}
       footerContent={
         <div className="flex flex-end gap-2">
           <Button onClick={onClose} variant="outline" disabled={isGenerating}>
@@ -184,11 +152,15 @@ export default function AIRecipeForm({ isOpen, onClose }: AIRecipeFormProps) {
     >
       <div
         className={`grid grid-cols-1 gap-4 ${
-          generatedRecipe ? "md:grid-cols-3" : ""
-        }`}
+          generatedRecipe || isGenerating ? "md:grid-cols-3" : ""
+        } transition-all duration-300 ease-in-out`}
       >
         {/* Left side: Form inputs */}
-        <div className="mt-4 p-4 rounded-2xl bg-white/80 shadow-lg flex flex-col justify-between">
+        <div
+          className={`mt-4 p-4 rounded-2xl bg-white/80 shadow-lg flex flex-col justify-between ${
+            showRecipe ? "md:transform md:scale-95 md:opacity-90" : ""
+          } transition-all duration-300`}
+        >
           <div>
             {/* Ingredients */}
             <FormRow
@@ -266,32 +238,57 @@ export default function AIRecipeForm({ isOpen, onClose }: AIRecipeFormProps) {
           )}
         </div>
         {/* Right side: Generated recipe */}
-        {generatedRecipe && (
-          <div className="mt-4 p-4 rounded-2xl bg-white/80 shadow-lg flex flex-col md:col-span-2">
-            {isGenerating && (
-              <div className="flex flex-col items-center justify-center h-full">
-                <Loading
-                  size="large"
-                  message="Our chef is cooking up a recipe..."
-                />
-              </div>
-            )}
-            {error && <p className="mt-4 text-primary-100">{error}</p>}
-            {!error && !isGenerating && (
-              <div>
+        <div
+          className={`max-h-[500px] overflow-y-auto scrollbar-hide mt-4 p-4 rounded-2xl bg-white/80 shadow-lg flex flex-col md:col-span-2 
+    transition-all duration-500 ease-in-out
+    ${
+      showRecipe
+        ? "opacity-100 transform translate-x-0"
+        : "opacity-0 transform translate-x-10 absolute -right-full"
+    }
+  `}
+        >
+          {isGenerating ? (
+            <div className="flex flex-col items-center justify-center h-full min-h-[300px]">
+              <Loading
+                size="large"
+                message="Our chef is cooking up a recipe..."
+              />
+            </div>
+          ) : error ? (
+            <div className="flex flex-col items-center justify-center h-full min-h-[300px]">
+              <p className="text-red-500 font-medium">{error}</p>
+              <Button
+                className="mt-4"
+                variant="outline"
+                onClick={handleSubmit(onSubmit)}
+              >
+                Try Again
+              </Button>
+            </div>
+          ) : (
+            generatedRecipe && (
+              <div className="animate-fadeIn">
                 <h3 className="text-lg font-bold mb-2">
                   🍜 {generatedRecipe.title}
                 </h3>
-                <p className="text-gray-700 mb-4">
-                  {generatedRecipe.description}
-                </p>
+                <p className="mb-4">{generatedRecipe.description}</p>
 
                 <div className="mb-4">
                   <h4 className="text-md font-semibold mb-2">🥔 Ingredients</h4>
                   <ul className="list-disc pl-5 text-sm">
                     {generatedRecipe.ingredients.map((ingredient, index) => (
-                      <li key={index}>
-                        {ingredient.name} - {ingredient.quantity}
+                      <li
+                        key={index}
+                        className="opacity-0" // Start with opacity 0
+                        style={{
+                          animation: `fadeSlideIn 0.5s ease-out forwards ${
+                            index * 100
+                          }ms`,
+                        }}
+                      >
+                        <span className="font-medium">{ingredient.name}</span> -{" "}
+                        {ingredient.quantity}
                       </li>
                     ))}
                   </ul>
@@ -301,16 +298,24 @@ export default function AIRecipeForm({ isOpen, onClose }: AIRecipeFormProps) {
                   <h4 className="text-md font-semibold mb-2">🥘 Steps</h4>
                   <ol className="list-decimal pl-5 text-sm">
                     {generatedRecipe.steps.map((step, index) => (
-                      <li key={index} className="mb-1">
+                      <li
+                        key={index}
+                        className="mb-1 opacity-0" // Start with opacity 0
+                        style={{
+                          animation: `fadeSlideIn 0.5s ease-out forwards ${
+                            (index + generatedRecipe.ingredients.length) * 100
+                          }ms`,
+                        }}
+                      >
                         {step}
                       </li>
                     ))}
                   </ol>
                 </div>
               </div>
-            )}
-          </div>
-        )}
+            )
+          )}
+        </div>
       </div>
     </RecipeFormLayout>
   );
