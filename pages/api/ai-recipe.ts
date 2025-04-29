@@ -18,7 +18,7 @@ export default async function handler(
 
     const prompt = `
     You are a professional chef. Based on the user's preferences: "${preferences}", generate a new recipe.
-    Return it in JSON format exactly like this without any markdown formatting or code blocks:
+    Return ONLY valid JSON with this structure, without any markdown formatting or code blocks:
     
     {
       "title": "Recipe Title",

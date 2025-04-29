@@ -14,7 +14,7 @@ export default function RecipeDetail() {
   const router = useRouter();
   const { recipe, isLoading } = useRecipe(router.query.recipeId as string);
 
-  if (isLoading) return <Loading />;
+  if (isLoading) return <Loading size="large" />;
   if (!recipe) return <div>Recipe not found</div>;
 
   return (

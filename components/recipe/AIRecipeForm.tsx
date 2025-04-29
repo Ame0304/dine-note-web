@@ -13,6 +13,7 @@ import {
 import FormRow from "../FormRow";
 import Input from "../Input";
 import useAddRecipe from "@/hooks/recipes/useAddRecipe";
+import Loading from "../Loading";
 
 interface AIRecipeFormProps {
   isOpen: boolean;
@@ -25,11 +26,63 @@ interface GeneratedRecipe {
   ingredients: Array<{ name: string; quantity: string }>;
   steps: string[];
 }
+// const recipedefault = {
+//   title: "Stir-Fried Potatoes and Green Peppers",
+//   description:
+//     "A flavorful and quick vegetarian stir-fry featuring tender potatoes and crunchy green peppers, seasoned with traditional Chinese spices.",
+//   ingredients: [
+//     {
+//       name: "Potato",
+//       quantity: "2 cups, diced",
+//     },
+//     {
+//       name: "Green pepper",
+//       quantity: "1 cup, sliced",
+//     },
+//     {
+//       name: "Garlic",
+//       quantity: "2 cloves, minced",
+//     },
+//     {
+//       name: "Ginger",
+//       quantity: "1 inch, minced",
+//     },
+//     {
+//       name: "Soy sauce",
+//       quantity: "2 tbsp",
+//     },
+//     {
+//       name: "Sesame oil",
+//       quantity: "1 tbsp",
+//     },
+//     {
+//       name: "Salt",
+//       quantity: "to taste",
+//     },
+//     {
+//       name: "Pepper",
+//       quantity: "to taste",
+//     },
+//     {
+//       name: "Green onions",
+//       quantity: "2, chopped for garnish",
+//     },
+//   ],
+//   steps: [
+//     "Heat sesame oil in a wok or large skillet over medium heat.",
+//     "Add minced garlic and ginger, sauté for 1 minute until fragrant.",
+//     "Add diced potatoes and stir-fry for about 5-7 minutes until they start to soften.",
+//     "Add sliced green peppers and continue to stir-fry for another 3-5 minutes until both vegetables are tender but still crisp.",
+//     "Pour in soy sauce and season with salt and pepper to taste, stir well to combine.",
+//     "Remove from heat and garnish with chopped green onions before serving.",
+//   ],
+// };
 
 export default function AIRecipeForm({ isOpen, onClose }: AIRecipeFormProps) {
   const { user } = useUser();
   const { addRecipe, isAdding } = useAddRecipe();
   const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [generatedRecipe, setGeneratedRecipe] =
     useState<GeneratedRecipe | null>(null);
 
@@ -56,13 +109,12 @@ export default function AIRecipeForm({ isOpen, onClose }: AIRecipeFormProps) {
       setGeneratedRecipe(recipe);
     } catch (error) {
       console.error("Error generating recipe:", error);
-      // TODO:add some error handling UI here
+      setError("Opps! Something went wrong. Please try again.");
     } finally {
       setIsGenerating(false);
     }
   };
 
-  // TODO: Test this function
   const handleRegenerate = () => {
     const newData = getValues(); // Get current form values
     setIsGenerating(true);
@@ -73,6 +125,7 @@ export default function AIRecipeForm({ isOpen, onClose }: AIRecipeFormProps) {
       })
       .catch((error) => {
         console.error("Error regenerating recipe:", error);
+        setError("Opps! Something went wrong. Please try again.");
       })
       .finally(() => {
         setIsGenerating(false);
@@ -99,7 +152,7 @@ export default function AIRecipeForm({ isOpen, onClose }: AIRecipeFormProps) {
     onClose();
   };
 
-  console.log("Generated Recipe:", generatedRecipe);
+  console.log("Generated Recipe:", generatedRecipe); // TODO:Delete
 
   return (
     <RecipeFormLayout
@@ -135,64 +188,70 @@ export default function AIRecipeForm({ isOpen, onClose }: AIRecipeFormProps) {
         }`}
       >
         {/* Left side: Form inputs */}
-        <div className="mt-4 p-4 rounded-2xl bg-white/80 shadow-lg flex flex-col">
-          {/* Ingredients */}
-          <FormRow
-            label="Ingredients you'd like to use"
-            error={errors.ingredients?.message}
-            id="ingredients"
-          >
-            <Input
-              type="text"
+        <div className="mt-4 p-4 rounded-2xl bg-white/80 shadow-lg flex flex-col justify-between">
+          <div>
+            {/* Ingredients */}
+            <FormRow
+              label="Ingredients you'd like to use"
+              error={errors.ingredients?.message}
               id="ingredients"
-              placeholder="e.g. chicken, rice, bell peppers"
-              {...register("ingredients", {
-                required: "Please specify some ingredients",
-              })}
-              disabled={isGenerating}
-            />
-          </FormRow>
+            >
+              <Input
+                type="text"
+                id="ingredients"
+                placeholder="e.g. chicken, rice, bell peppers"
+                {...register("ingredients", {
+                  required: "Please specify some ingredients",
+                })}
+                disabled={isGenerating}
+              />
+            </FormRow>
 
-          {/* Cuisine */}
-          <FormRow
-            label="Preferred Cuisine"
-            error={errors.cuisine?.message}
-            id="cuisine"
-          >
-            <Input
-              type="text"
+            {/* Cuisine */}
+            <FormRow
+              label="Preferred Cuisine"
+              error={errors.cuisine?.message}
               id="cuisine"
-              placeholder="e.g. Italian, Chinese, Mexican"
-              {...register("cuisine")}
-              disabled={isGenerating}
-            />
-          </FormRow>
+            >
+              <Input
+                type="text"
+                id="cuisine"
+                placeholder="e.g. Italian, Chinese, Mexican"
+                {...register("cuisine")}
+                disabled={isGenerating}
+              />
+            </FormRow>
 
-          {/* Dietary Needs */}
-          <FormRow
-            label="Dietary Needs"
-            error={errors.dietaryNeeds?.message}
-            id="dietaryNeeds"
-          >
-            <Input
-              type="text"
+            {/* Dietary Needs */}
+            <FormRow
+              label="Dietary Needs"
+              error={errors.dietaryNeeds?.message}
               id="dietaryNeeds"
-              placeholder="e.g. vegetarian, high-protein, low-carb"
-              {...register("dietaryNeeds")}
-              disabled={isGenerating}
-            />
-          </FormRow>
+            >
+              <Input
+                type="text"
+                id="dietaryNeeds"
+                placeholder="e.g. vegetarian, high-protein, low-carb"
+                {...register("dietaryNeeds")}
+                disabled={isGenerating}
+              />
+            </FormRow>
 
-          {/* Note */}
-          <FormRow label="Note" error={errors.dietaryNeeds?.message} id="note">
-            <Input
-              type="text"
+            {/* Note */}
+            <FormRow
+              label="Note"
+              error={errors.dietaryNeeds?.message}
               id="note"
-              placeholder="Anything else you'd like to add?"
-              {...register("note")}
-              disabled={isGenerating}
-            />
-          </FormRow>
+            >
+              <Input
+                type="text"
+                id="note"
+                placeholder="Anything else you'd like to add?"
+                {...register("note")}
+                disabled={isGenerating}
+              />
+            </FormRow>
+          </div>
 
           {generatedRecipe && (
             <Button
@@ -206,34 +265,50 @@ export default function AIRecipeForm({ isOpen, onClose }: AIRecipeFormProps) {
             </Button>
           )}
         </div>
+        {/* Right side: Generated recipe */}
         {generatedRecipe && (
           <div className="mt-4 p-4 rounded-2xl bg-white/80 shadow-lg flex flex-col md:col-span-2">
-            <h3 className="text-lg font-bold mb-2">
-              🍜 {generatedRecipe.title}
-            </h3>
-            <p className="text-gray-700 mb-4">{generatedRecipe.description}</p>
+            {isGenerating && (
+              <div className="flex flex-col items-center justify-center h-full">
+                <Loading
+                  size="large"
+                  message="Our chef is cooking up a recipe..."
+                />
+              </div>
+            )}
+            {error && <p className="mt-4 text-primary-100">{error}</p>}
+            {!error && !isGenerating && (
+              <div>
+                <h3 className="text-lg font-bold mb-2">
+                  🍜 {generatedRecipe.title}
+                </h3>
+                <p className="text-gray-700 mb-4">
+                  {generatedRecipe.description}
+                </p>
 
-            <div className="mb-4">
-              <h4 className="text-md font-semibold mb-2">🥔 Ingredients</h4>
-              <ul className="list-disc pl-5 text-sm">
-                {generatedRecipe.ingredients.map((ingredient, index) => (
-                  <li key={index}>
-                    {ingredient.name} - {ingredient.quantity}
-                  </li>
-                ))}
-              </ul>
-            </div>
+                <div className="mb-4">
+                  <h4 className="text-md font-semibold mb-2">🥔 Ingredients</h4>
+                  <ul className="list-disc pl-5 text-sm">
+                    {generatedRecipe.ingredients.map((ingredient, index) => (
+                      <li key={index}>
+                        {ingredient.name} - {ingredient.quantity}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
-            <div>
-              <h4 className="text-md font-semibold mb-2">🥘 Steps</h4>
-              <ol className="list-decimal pl-5 text-sm">
-                {generatedRecipe.steps.map((step, index) => (
-                  <li key={index} className="mb-1">
-                    {step}
-                  </li>
-                ))}
-              </ol>
-            </div>
+                <div>
+                  <h4 className="text-md font-semibold mb-2">🥘 Steps</h4>
+                  <ol className="list-decimal pl-5 text-sm">
+                    {generatedRecipe.steps.map((step, index) => (
+                      <li key={index} className="mb-1">
+                        {step}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
