@@ -7,7 +7,7 @@ import Pagination from "@/components/recipe/Pagination";
 import RecipeControls from "@/components/recipe/RecipeControls";
 import RecipesList from "@/components/recipe/RecipesList";
 import Button from "@/components/Button";
-import AIRecipeForm from "@/components/recipe/AIRecipeForm";
+import AIRecipeBox from "@/components/recipe/ai-recipe/AIRecipeBox";
 import { useUser } from "@/context/UserContext";
 import { useRecipes } from "@/hooks/recipes/useRecipes";
 import { PlusCircleIcon, SparklesIcon } from "@heroicons/react/24/outline";
@@ -58,7 +58,7 @@ export default function RecipesPage() {
       )}
 
       {isOpenAIForm && (
-        <AIRecipeForm
+        <AIRecipeBox
           isOpen={isOpenAIForm}
           onClose={() => setIsOpenAIForm(false)}
         />
