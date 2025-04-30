@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Button from "../components/Button";
 import Image from "next/image";
-import bg from "../public/bg.jpg";
 import awardLeft from "../public/award-left.svg";
 import awardRight from "../public/award-right.svg";
 import Feature from "@/components/Feature";
@@ -9,25 +8,36 @@ import Heading from "@/components/Heading";
 
 const features = [
   {
-    title: "🥗 Recipe Collection",
+    title: "✨ AI Recipe Generator",
     description:
-      "Easily save and categorize your favorite recipes. Add notes, track which dishes you’ve tried, and revisit them anytime.",
-    imageUrl: "/feature-4.jpg",
+      "Unleash your creativity with our AI-powered recipe generator. Just input your ingredients, and let the magic happen! ",
+    imageUrl: "/ai-recipe.png",
     reverse: false,
+    quote: "Get personalized recipes that suit your taste and needs.",
+  },
+  {
+    title: "📸 Recipe Gallery",
+    description:
+      "A curated collection of your masterpieces. Easily browse, search, and organize recipes with categories, tags, and images that spark joy.",
+    imageUrl: "/recipes.png",
+    reverse: true,
+    quote: "Because your recipes deserve more than a spreadsheet.",
   },
   {
     title: "📅 Meal Planning",
     description:
-      "Plan your meals for the week, organize ingredients, and stay on track with your diet effortlessly.",
-    imageUrl: "/feature-2.jpg",
-    reverse: true,
+      "Plan your week with ease. Select and add meals onto your calendar and stay consistent with your dietary goals. Whether it’s a busy week or a special occasion, we’ve got you covered.",
+    imageUrl: "/meal-plans.png",
+    reverse: false,
+    quote: "From spontaneous cravings to structured goals — plan it all.",
   },
   {
-    title: "👩‍🍳 Share with Friends",
+    title: "👩‍🍳 Share & Order",
     description:
-      "Invite friends to try your recipes, share meal ideas, and even take ‘orders’ for homemade meals.",
-    imageUrl: "/feature-3.png",
-    reverse: false,
+      "Let friends “place an order” from your personal menu. Whether it’s for a cozy dinner or weekend brunch, guests can request meals and you can accept with a click.",
+    imageUrl: "/orders.png",
+    reverse: true,
+    quote: "Turn your kitchen into a pop-up restaurant for friends.",
   },
 ];
 
@@ -77,20 +87,22 @@ export default function Home() {
             </span>
           </Link>
         </div>
-        <div className="mx-auto mt-14 sm:mt-12 lg:mt-18 lg:max-w-4xl outline outline-accent-500/50 outline-offset-4 rounded-xl">
+        <div className="mx-auto mt-14 sm:mt-12 lg:mt-18 lg:max-w-4xl rounded-xl">
           <Image
-            src={bg}
+            src="/landing-bg.png"
             alt="Product Overview"
             width={1280}
             height={720}
-            className="w-full rounded-xl ring-1 shadow-2xl ring-accent-300"
+            quality={100}
+            priority
+            className="rounded-2xl shadow-lg"
           />
         </div>
 
         <hr className="mx-auto mt-12 h-1 w-60 border-0 bg-accent-500" />
       </div>
       {/* Features section */}
-      <section className="mx-auto max-w-4xl lg:max-w-none space-y-16">
+      <section className="mx-auto max-w-4xl lg:max-w-6xl space-y-16">
         {features.map((feature, index) => (
           <Feature
             key={index}
@@ -98,6 +110,7 @@ export default function Home() {
             description={feature.description}
             imageUrl={feature.imageUrl}
             reverse={feature.reverse}
+            quote={feature.quote}
           />
         ))}
       </section>

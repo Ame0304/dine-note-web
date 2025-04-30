@@ -58,7 +58,7 @@ export default function OrderCard({
     >
       <div className="bg-accent-200 text-primary-950 rounded-t-2xl px-4 py-1 flex items-center justify-between">
         <Heading level="h4">{order.recipe.title}</Heading>
-        <span className="inline-flex items-center text-xs">
+        <span className="inline-flex items-center text-xs shrink-0">
           <CalendarDateRangeIcon className="size-5 stroke-[2px]  mr-1" />{" "}
           {format(new Date(order.date), "PPP")}
         </span>
