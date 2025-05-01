@@ -51,6 +51,34 @@ export async function getRecipes({
     return { recipes: [], count: 0 };
   }
 
+  // Filter
+  let filteredRecipeIds: string[] | null = null;
+
+  if (filter && filter !== "0") {
+    const filterId = parseInt(filter);
+    if (!isNaN(filterId)) {
+      // Get recipe IDs that have the specified category
+      const { data: categoryData } = await supabase
+        .from("recipe_categories")
+        .select("recipeId")
+        .eq("categoryId", filterId);
+
+      if (!categoryData || categoryData.length === 0) {
+        // No recipes with this category
+        return { recipes: [], count: 0 };
+      }
+
+      filteredRecipeIds = categoryData.map((item) => item.recipeId);
+    }
+  }
+
+  // if (filter && filter !== "0") {
+  //   const filterId = parseInt(filter);
+  //   if (!isNaN(filterId)) {
+  //     query = query.filter("recipe_categories.categoryId", "eq", filterId);
+  //   }
+  // }
+
   let query = supabase
     .from("recipes")
     .select(
@@ -59,18 +87,15 @@ export async function getRecipes({
     )
     .eq("userId", userId);
 
+  // Apply filter if provided
+  if (filteredRecipeIds) {
+    query = query.in("id", filteredRecipeIds);
+  }
+
   // Search
   if (searchTerm?.trim()) {
     const term = `%${searchTerm.trim().toLowerCase()}%`;
     query = query.or(`title.ilike.${term},description.ilike.${term}`);
-  }
-
-  // Filter
-  if (filter && filter !== "0") {
-    const filterId = parseInt(filter);
-    if (!isNaN(filterId)) {
-      query = query.filter("recipe_categories.categoryId", "eq", filterId);
-    }
   }
 
   // Sort
@@ -256,8 +281,6 @@ export async function addIngredientsToRecipe(
 
   if (searchError) throw new Error(searchError.message);
 
-  console.log("existingIngredients", existingIngredients);
-
   // Create a map of existing ingredients
   const existingIngredientsMap = new Map(
     existingIngredients?.map((ing) => [ing.name.toLowerCase(), ing.id]) ?? []
@@ -267,8 +290,6 @@ export async function addIngredientsToRecipe(
   const newIngredients = ingredients.filter(
     (ing) => !existingIngredientsMap.has(ing.name.toLowerCase().trim())
   );
-
-  console.log("newIngredients", newIngredients);
 
   // 3. Insert new ingredients
   let newIngredientsMap = new Map();
