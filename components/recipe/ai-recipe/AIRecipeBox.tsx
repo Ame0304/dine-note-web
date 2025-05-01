@@ -36,6 +36,11 @@ export default function AIRecipeBox({ isOpen, onClose }: AIRecipeBoxProps) {
     dietaryNeeds: "",
     note: "",
   });
+  const [usage, setUsage] = useState<{
+    used: number;
+    limit: number;
+    remaining: number;
+  } | null>(null);
 
   // Handle animation when recipe is generated
   useEffect(() => {
@@ -54,12 +59,22 @@ export default function AIRecipeBox({ isOpen, onClose }: AIRecipeBoxProps) {
     setFormValues(data);
 
     try {
-      const recipe = await generateAIRecipe(data);
+      const result = await generateAIRecipe(data);
       // Set the generated recipe in state
-      setGeneratedRecipe(recipe);
+      setGeneratedRecipe(result.recipe);
+
+      // Store usage data
+      if (result.usage) {
+        setUsage(result.usage);
+      }
     } catch (error) {
       console.error("Error generating recipe:", error);
-      setError("Opps! Something went wrong. Please try again.");
+
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Oops! Something went wrong. Please try again."
+      );
     } finally {
       setIsGenerating(false);
     }
@@ -138,6 +153,11 @@ export default function AIRecipeBox({ isOpen, onClose }: AIRecipeBoxProps) {
                     : "opacity-0 transform translate-x-10 absolute -right-full"
                 }`}
           />
+        )}
+        {usage && (
+          <div className="text-xs text-gray-400 mt-1">
+            Used {usage.used}/{usage.limit} generations this session
+          </div>
         )}
       </div>
     </RecipeFormLayout>

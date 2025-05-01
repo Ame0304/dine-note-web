@@ -5,12 +5,35 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+const userSessions: Record<string, number> = {};
+const MAX_USES_PER_SESSION = 3;
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
+  }
+
+  // Use IP address and user agent as a basic session identifier
+  const sessionId =
+    (req.headers["x-forwarded-for"] as string) ||
+    req.socket.remoteAddress ||
+    "unknown-ip";
+
+  // Initialize counter if needed
+  if (!userSessions[sessionId]) {
+    userSessions[sessionId] = 0;
+  }
+
+  // Check if user hit limit
+  if (userSessions[sessionId] >= MAX_USES_PER_SESSION) {
+    return res.status(429).json({
+      message: "You've reached the AI recipe generation limit (3 per session)",
+      limit: MAX_USES_PER_SESSION,
+      used: userSessions[sessionId],
+    });
   }
 
   try {
@@ -35,6 +58,9 @@ export default async function handler(
       temperature: 0.7,
     });
 
+    // Increment usage counter
+    userSessions[sessionId] += 1;
+
     const aiMessage = response.choices[0]?.message?.content;
     console.log("AI response:", aiMessage);
 
@@ -50,7 +76,14 @@ export default async function handler(
 
     try {
       const recipe = JSON.parse(cleanedMessage);
-      return res.status(200).json({ recipe });
+      return res.status(200).json({
+        recipe,
+        usage: {
+          used: userSessions[sessionId],
+          limit: MAX_USES_PER_SESSION,
+          remaining: MAX_USES_PER_SESSION - userSessions[sessionId],
+        },
+      });
     } catch (parseError) {
       console.error("Error parsing AI response:", parseError);
       console.log("Raw AI response:", aiMessage);
