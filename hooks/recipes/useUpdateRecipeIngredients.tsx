@@ -4,7 +4,7 @@ import {
   deleteIngredientsFromRecipe,
   updateIngredientQuantities,
 } from "@/lib/services/recipeService";
-import { Ingredient } from "@/components/IngredientsManager";
+import { Ingredient } from "@/components/recipe/IngredientsManager";
 import toast from "react-hot-toast";
 
 export function useUpdateRecipeIngredients(recipeId: string) {
