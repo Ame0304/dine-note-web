@@ -2,7 +2,6 @@
 1. A search/filter bar if the list gets long. */
 import PlanRecipeItem from "@/components/meal-plans/PlanRecipeItem";
 import Loading from "@/components/Loading";
-import Error from "@/components/Error";
 import usePlanRecipes from "@/hooks/meal-plans/usePlanRecipes";
 import { PlanRecipe } from "@/lib/services/mealPlanService";
 
@@ -19,7 +18,7 @@ export default function MealSelectionList({
   isAdding,
   plannedMealIds = [],
 }: MealSelectionListProps) {
-  const { recipes, isLoading, error } = usePlanRecipes(userId);
+  const { recipes, isLoading } = usePlanRecipes(userId);
 
   if (isLoading) {
     return <Loading />;
@@ -27,8 +26,6 @@ export default function MealSelectionList({
 
   return (
     <div className="flex flex-col overflow-y-auto flex-grow scrollbar-hide">
-      {error && <Error message="Error loading recipes" />}
-
       {recipes.map((recipe: PlanRecipe) => (
         <PlanRecipeItem
           key={recipe.id}
