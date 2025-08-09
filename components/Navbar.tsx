@@ -17,7 +17,6 @@ import toast from "react-hot-toast";
 const navigationItems = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon, requiresAuth: true },
   { name: "Recipes", href: "/recipes", icon: BookOpenIcon, requiresAuth: true },
-  { name: "Profile", href: "/profile", icon: UserIcon, requiresAuth: true },
   {
     name: "Meal Plans",
     href: "/meal-plans",
@@ -30,6 +29,7 @@ const navigationItems = [
     icon: BookOpenIcon,
     requiresAuth: true,
   },
+  { name: "Profile", href: "/profile", icon: UserIcon, requiresAuth: true },
   { name: "Log in", href: "/auth/login", icon: UserIcon, requiresAuth: false },
   {
     name: "Sign up",
@@ -53,7 +53,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 border-b border-primary-900/50 backdrop-blur-lg backdrop-saturate-150 supports-[backdrop-filter]:bg-white/50">
+    <header className="fixed top-0 left-0 right-0 z-50 border-b border-primary-900/50 backdrop-blur-lg backdrop-saturate-150 supports-[backdrop-filter]:bg-white/50">
       <nav
         aria-label="Global"
         className="flex justify-between items-center max-w-7xl mx-auto p-3 h-16"

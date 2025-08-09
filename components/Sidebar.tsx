@@ -17,9 +17,9 @@ import ToggleSidebarButton from "./ToggleSidebarButton";
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
   { name: "Recipes", href: "/recipes", icon: BookOpenIcon },
-  { name: "Profile", href: "/profile", icon: UserIcon },
   { name: "Meal Plans", href: "/meal-plans", icon: CalendarDateRangeIcon },
   { name: "Orders", href: "/orders", icon: ClipboardIcon },
+  { name: "Profile", href: "/profile", icon: UserIcon },
 ];
 
 interface SidebarProps {

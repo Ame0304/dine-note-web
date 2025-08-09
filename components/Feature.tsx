@@ -16,31 +16,56 @@ export default function Feature({
   reverse = false,
   quote,
 }: FeatureProps) {
-  const imageFirst = reverse ? "lg:order-last" : "";
+  // Extract emoji and text from title
+  const emojiMatch = title.match(/^(\p{Emoji}+)\s*(.*)$/u);
+  const emoji = emojiMatch ? emojiMatch[1] : "";
+  const textPart = emojiMatch ? emojiMatch[2] : title;
+
   return (
-    <div
-      className="grid grid-cols-1 gap-8 lg:gap-24 lg:grid-cols-2
-      "
-    >
-      <div className={`lg:max-w-lg ${imageFirst}`}>
-        <Heading level="h1" className="mt-2">
-          {title}
-        </Heading>
-        <blockquote className="mt-4 relative border-s-8 rounded-sm border-accent-200 ">
-          <p className="bg-white/70 w-fit rounded-md py-0.5 px-3 text-accent-400 italic text-md font-medium">
-            {quote}
+    <div className="group hover:-translate-y-1 transition-all duration-300 ease-out">
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center">
+        <div
+          className={`flex-1 space-y-6 ${
+            reverse ? "lg:order-2" : "lg:order-1"
+          }  `}
+        >
+          {/* Heading with emoji and quote */}
+          <Heading
+            level="h1"
+            className="text-2xl lg:text-3xl font-bold leading-tight"
+          >
+            {emoji && <span className="text-primary-100 mr-2">{emoji}</span>}
+            <span className="bg-gradient-to-r from-accent-500 to-primary-900 bg-clip-text text-transparent">
+              {textPart}
+            </span>
+          </Heading>
+          <div className="bg-gradient-to-r from-accent-200/20 to-primary-900/50 rounded-xl py-1 px-3 border-l-4 border-accent-200 w-fit">
+            <p className="text-accent-200 italic font-semibold text-base lg:text-lg">
+              {quote}
+            </p>
+          </div>
+          <p className="text-lg lg:text-xl leading-relaxed font-medium">
+            {description}
           </p>
-        </blockquote>
-        <p className="mt-6 text-lg">{description}</p>
+        </div>
+        <div
+          className={`flex-1 max-w-lg lg:max-w-xl ${
+            reverse ? "lg:order-1" : "lg:order-2"
+          }`}
+        >
+          <div className="relative overflow-hidden rounded-xl bg-primary-900/20">
+            <Image
+              alt={title}
+              src={imageUrl}
+              width={1280}
+              height={853}
+              className="w-full h-auto aspect-[3/2] object-cover transition-transform duration-500 group-hover:scale-105"
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+        </div>
       </div>
-      <Image
-        alt={title}
-        src={imageUrl}
-        width={1280}
-        height={853}
-        className="w-full h-auto aspect-[3/2] object-cover rounded-xl"
-        sizes="(max-width: 768px) 100vw, 50vw"
-      />
     </div>
   );
 }

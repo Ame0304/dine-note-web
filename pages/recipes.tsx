@@ -23,8 +23,6 @@ export default function RecipesPage() {
 
   const { isLoading, recipes, count } = useRecipes(userId);
 
-  console.log(recipes);
-
   if (isLoading) {
     return <Loading message="Loading Recipes..." size="large" />;
   }

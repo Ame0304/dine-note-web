@@ -67,7 +67,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.png" />
       </Head>
       <div
-        className={`${lexend.className}  bg-gradient-to-br from-[#FFF4E5] from-40% via-[#FCDAB8] via-70% to-[#bdecfc] to-100% text-primary-100 min-h-screen`}
+        className={`${lexend.className} bg-gradient-to-br from-primary-950 via-orange-100/30 to-blue-100/20 text-primary-100 min-h-screen`}
       >
         {getLayout()}
         <Toaster

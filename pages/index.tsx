@@ -10,34 +10,34 @@ const features = [
   {
     title: "✨ AI Recipe Generator",
     description:
-      "Unleash your creativity with our AI-powered recipe generator. Just input your ingredients, and let the magic happen! ",
+      "Transform ingredients into culinary magic in seconds. Our AI creates personalized recipes tailored to your taste and dietary preferences.",
     imageUrl: "/ai-recipe.png",
     reverse: false,
-    quote: "Get personalized recipes that suit your taste and needs.",
+    quote: "From ingredients to inspiration — instantly.",
   },
   {
     title: "📸 Recipe Gallery",
     description:
-      "A curated collection of your masterpieces. Easily browse, search, and organize recipes with categories, tags, and images that spark joy.",
+      "Organize, search, and showcase your recipe collection with beautiful visuals and smart categorization.",
     imageUrl: "/recipes.png",
     reverse: true,
-    quote: "Because your recipes deserve more than a spreadsheet.",
+    quote: "Your recipes deserve better than a notebook.",
   },
   {
     title: "📅 Meal Planning",
     description:
-      "Plan your week with ease. Select and add meals onto your calendar and stay consistent with your dietary goals. Whether it’s a busy week or a special occasion, we’ve got you covered.",
+      "Plan weekly meals with drag-and-drop simplicity. Stay consistent with your goals while adapting to life's surprises.",
     imageUrl: "/meal-plans.png",
     reverse: false,
-    quote: "From spontaneous cravings to structured goals — plan it all.",
+    quote: "Smart planning, effortless execution.",
   },
   {
-    title: "👩‍🍳 Share & Order",
+    title: "🍳 Share & Order",
     description:
-      "Let friends “place an order” from your personal menu. Whether it’s for a cozy dinner or weekend brunch, guests can request meals and you can accept with a click.",
+      "Turn your kitchen into a social dining experience. Friends can request their favorites, and you decide what to cook.",
     imageUrl: "/orders.png",
     reverse: true,
-    quote: "Turn your kitchen into a pop-up restaurant for friends.",
+    quote: "Your kitchen, their cravings — perfectly matched.",
   },
 ];
 
@@ -46,7 +46,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen pb-20 space-y-16">
       {/* Landing page header */}
       <div className="mx-auto max-w-4xl lg:text-center ">
-        <span className="text-md font-semibold text-accent-500">
+        <span className="text-md font-semibold bg-gradient-to-r from-accent-200 to-primary-900 bg-clip-text text-transparent">
           Make Every Meal Memorable
         </span>
         <Heading level="h0" className="tracking-tight text-pretty mt-6">
@@ -59,9 +59,9 @@ export default function Home() {
         <p className="mt-6 text-lg">
           DineNote is a cozy and intuitive app designed to help you document
           your favorite recipes, plan your meals effortlessly, and even let
-          friends “order” from your kitchen. Whether you&apos;re a passionate
-          home cook or just starting out, DineNote makes meal planning fun and
-          organized!
+          friends &quot;order&quot; from your kitchen. Whether you&apos;re a
+          passionate home cook or just starting out, DineNote makes meal
+          planning fun and organized!
         </p>
         <div className="flex lg:justify-center items-center gap-2 mt-6">
           <Image src={awardLeft} alt="award left icon" />
@@ -92,30 +92,32 @@ export default function Home() {
             src="/landing-bg.png"
             alt="Product Overview"
             width={1280}
-            height={720}
+            height={853}
             quality={100}
             priority
-            className="rounded-2xl shadow-lg"
+            className="rounded-2xl shadow-lg w-full h-auto"
           />
         </div>
 
-        <hr className="mx-auto mt-12 h-1 w-60 border-0 bg-accent-500" />
+        <hr className="mx-auto mt-12 h-1 w-60 border-0 bg-gradient-to-r from-accent-200 to-primary-900" />
       </div>
       {/* Features section */}
-      <section className="mx-auto max-w-4xl lg:max-w-6xl space-y-16">
-        {features.map((feature, index) => (
-          <Feature
-            key={index}
-            title={feature.title}
-            description={feature.description}
-            imageUrl={feature.imageUrl}
-            reverse={feature.reverse}
-            quote={feature.quote}
-          />
-        ))}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-12 lg:gap-16">
+          {features.map((feature, index) => (
+            <Feature
+              key={index}
+              title={feature.title}
+              description={feature.description}
+              imageUrl={feature.imageUrl}
+              reverse={feature.reverse}
+              quote={feature.quote}
+            />
+          ))}
+        </div>
       </section>
 
-      <hr className="mx-auto h-1 w-60 border-0 bg-accent-500" />
+      <hr className="mx-auto h-1 w-60 border-0 bg-gradient-to-r from-accent-200 to-primary-900" />
 
       <div className="mx-auto max-w-4xl mt-6">
         <Link href="/auth/signup">

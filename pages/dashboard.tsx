@@ -73,8 +73,11 @@ export default function DashboardPage({
   return (
     <>
       {/* Welcome Message */}
-      <Heading level="h1" className="mb-4">
-        Welcome back, {userName} 👏
+      <Heading level="h1" className="mb-4 ">
+        <span className="bg-gradient-to-r from-accent-200 to-primary-900 bg-clip-text text-transparent">
+          Welcome back, {userName}
+        </span>{" "}
+        👏
       </Heading>
 
       <div className="grid grid-cols-1 lg:grid-cols-9 gap-6">
